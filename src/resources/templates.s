@@ -45,7 +45,7 @@ t_bullet_timer_enemy = 120
 t_bullet_timer_enemy_f = 60
 
 ; tiempo hasta que la bala del player se destruye
-t_bullet_timer_player = 27
+t_bullet_timer_player = 10
 
 t_spawner_timer = 45
 
@@ -85,6 +85,13 @@ free_item = 0
 ;===================================================================================================================================================
 ; Templates
 ;===================================================================================================================================================
+
+; e_ai_aux_l 
+; 1 player tiene el axe
+; 2 axe se esta lanzando
+; 0 axe volviendoj
+
+; patrol_step para la direccion de su axe
 t_player:
    .db #e_type_player
    .db #0x37                                 ; cmp
@@ -124,7 +131,7 @@ t_enemy_basic_green:
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #enemy_no_move                                    ; ai_behaviour
+   .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #_man_anim_enemy_green                                  ; animator
    .db #0x01                                  ; anim. counter
@@ -148,7 +155,7 @@ t_enemy_basic_blue:
    .db #0x00                                 ; orientation   
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #enemy_no_move                                    ; ai_behaviour
+   .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #_man_anim_enemy_blue                                  ; animator
    .db #0x01                                  ; anim. counter
@@ -172,7 +179,7 @@ t_enemy_basic_purple:
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #enemy_no_move                                    ; ai_behaviour
+   .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #_man_anim_enemy_purple                                  ; animator
    .db #0x01                                  ; anim. counter
@@ -196,7 +203,7 @@ t_enemy_basic_red:
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #enemy_no_move                                    ; ai_behaviour
+   .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #_man_anim_enemy_red                                  ; animator
    .db #0x01                                  ; anim. counter
@@ -223,7 +230,7 @@ t_final_boss:
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #enemy_no_move                                    ; ai_behaviour
+   .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #0                                  ; animator
    .db #10                                  ; anim. counter
@@ -419,9 +426,33 @@ t_spawner_from_plist_01:
 ; BULLETS
 ;================================================================================
 
+t_axe_player:
+   .db #e_type_bullet                        ; type
+   .db #0x2B                                 ; cmp
+   .db #0x00                                 ; x
+   .db #0x00                                 ; y
+   .db #2                                 ; width
+   .db #6                                 ; heigth
+   .db #0x00                                 ; vx
+   .db #0x00                                 ; vy
+   .dw #_rotator_ingame_sprite               ; sprite
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #sys_ai_beh_axe_follow              ; ai_behaviour
+   .db #t_bullet_timer_player               ; ai_counter 
+   .dw #0x00                                 ; animator
+   .db #0x00                                 ; anim. counter
+   .dw #0x0000                               ; input_behaviour
+   .dw #0x0000                               ; ai_aim_position
+   .db #0x00                                 ; e_ai_aux_l
+   .db #0x00                                 ; e_ai_aux_h
+   .db #0x00                                 ; e_patrol_step_l
+   .db #0x00                                 ; e_patrol_step_h
+
 t_bullet_player:
    .db #e_type_bullet                                 ; type
-   .db #0x3B                                 ; cmp
+   .db #0x2B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #0x03                                 ; width
@@ -433,7 +464,7 @@ t_bullet_player:
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
    .dw #_sys_ai_behaviourBullet              ; ai_behaviour
-   .db #60                                ; ai_counter   ;; Contador de la bala
+   .db #t_bullet_timer_player               ; ai_counter   ;; Contador de la bala
    .dw #0x00                                 ; animator
    .db #0x00                                 ; anim. counter
    .dw #0x0000                               ; input_behaviour
@@ -973,7 +1004,7 @@ t_item_shield:
    .db #0x0A                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #i_id_shield                                 ; e_ai_aim_x
-   .db #23                                 ; e_ai_aim_y
+   .db #0                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
@@ -1069,7 +1100,7 @@ t_item_speed_bullet:
    .db #0x0A                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #i_id_speed_bullet                                 ; e_ai_aim_x
-   .db #15                                 ; e_ai_aim_y
+   .db #0                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
@@ -1093,7 +1124,7 @@ t_item_rotator:
    .db #0x0A                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #i_id_rotator                                 ; e_ai_aim_x
-   .db #12                                 ; e_ai_aim_y
+   .db #0                                ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
@@ -1117,7 +1148,7 @@ t_item_sharp_bullet:
    .db #0x0A                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #i_id_sharp_bullet                                 ; e_ai_aim_x
-   .db #25                                 ; e_ai_aim_y
+   .db #0                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
@@ -1174,4 +1205,4 @@ t_ingame_rotator:
    .db #0x00                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0                                    ; e_ai_aux_h
-   .dw #patrol_relative_around_02                                    ; patrol_step
+   .dw #patrol_relative_around_03            ; patrol_step

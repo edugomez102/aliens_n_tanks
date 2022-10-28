@@ -165,19 +165,44 @@
       call z, _call_on_succes
    ;; . + 9
 
+   ; ????
+   ; ld a, e_vx(ix)
+   ; or a
+   ; jr nz, . + 8
+   ; ld a, e_vy(ix)
+   ; or a
+   ; call z, _call_on_succes
+
 .endm
 
 .macro CHECK_VX_VY_ZERO_JR _jr_on_succes
    ld a, e_vx(ix)
    or a
-   jr z, . + 3
-   jr . + 9
-   ;; . + 3
-      ld a, e_vy(ix)
-      or a
-      jr z, _jr_on_succes
-   ;; . + 9
+   jr nz, . + 8
+   ld a, e_vy(ix)
+   or a
+   jr z, _jr_on_succes
+   ;; . + 8
+.endm
 
+.macro CHECK_DOUBLE_ZERO _call_type _jr_on_succes
+   ld a, e_vx(ix)
+   or a
+   jr nz, . + 8
+   ld a, e_vy(ix)
+   or a
+   _call_type z, _jr_on_succes
+   ;; . + 8
+.endm
+
+.macro CHECK_DOUBLE_ZERO_RET _v1 _v2
+   ld a, _v1
+   or a
+   jr nz, . + 6
+   ld a, _v2
+   or a
+   ret z
+   ;; . + 6
 .endm
 
 .macro CHECK_NO_AIM_XY _call_on_succes2

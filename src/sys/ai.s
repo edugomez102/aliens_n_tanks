@@ -673,6 +673,11 @@ _sys_ai_reset_shoot_aictr:
       ld e_aictr(ix), #t_shoot_timer_enemy
    ret
 
+_sys_ai_reset_aim:
+   ld e_ai_aim_x(ix), #0
+   ld e_ai_aim_y(ix), #0
+   ret
+
 _sys_ai_reset_bullet_aictr:
    ld e_aictr(ix), #t_bullet_timer_enemy
    ret

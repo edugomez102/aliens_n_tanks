@@ -35,12 +35,11 @@ _level1:
    ;================================================================================
    ; TEST LEVEL
    ;================================================================================
-
-   ; .dw #_tilemap_01            ;Tilemap
-   ; .db #level_new_entity
-   ; .dw #t_player
-   ; .db #4                   ;Entity X
-   ; .db #48                   ;Entity Y
+   .dw #_tilemap_01            ;Tilemap
+   .db #level_new_entity
+   .dw #t_player
+   .db #14                   ;Entity X
+   .db #48                   ;Entity Y
 
    ; .db #level_new_entity
    ; .dw #t_spawner_from_plist_01
@@ -68,7 +67,7 @@ _level1:
    ; .dw #t_enemy_basic_green
    ; .db #48
    ; .db #108
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #4                                 ; e_ai_aux_l
    ; .db #48                                 ; e_ai_aux_h
    ; .dw #patrol_all_game_zone_m0
@@ -84,16 +83,16 @@ _level1:
    ; .dw #patrol_boss
    ; .dw #_sys_ai_beh_boss_shoot
 
-   ; .db #level_new_entity
-   ; .dw #t_enemy_basic_green
-   ; .db #8
-   ; .db #156
-   ; .dw #enemy_no_move
-   ; .db #4                                 ; e_ai_aux_l
-   ; .db #48                                 ; e_ai_aux_h
-   ; .dw #patrol_all_game_zone_m0
-   ; .dw #_sys_ai_beh_shoot_y_f
-   ;
+   .db #level_new_entity
+   .dw #t_enemy_basic_green
+   .db #8
+   .db #156
+   .dw #ia_no_move
+   .db #4                                 ; e_ai_aux_l
+   .db #48                                 ; e_ai_aux_h
+   .dw #patrol_all_game_zone_m0
+   .dw #enemy_no_shoot
+
    ; .db #level_new_entity
    ; .dw #t_spawner_from_template_01
    ; .db #24
@@ -115,29 +114,29 @@ _level1:
    ; .db #56
    ; .db #124
    ; ITEM_LEVEL_ZEROS
-   ;
+
    ; .db #level_new_entity
    ; .dw #t_item_sharp_bullet
    ; .db #56
    ; .db #92
    ; ITEM_LEVEL_ZEROS
-   ;
+
    ; .db #level_new_entity
-   ; .dw #t_item_sharp_bullet
+   ; .dw #t_item_rotator
    ; .db #56
    ; .db #68
    ; ITEM_LEVEL_ZEROS
-   ;
+
    ; .db #level_new_entity
    ; .dw #t_enemy_basic_green
    ; .db #28
    ; .db #48
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #4                                 ; e_ai_aux_l
    ; .db #48                                 ; e_ai_aux_h
    ; .dw #0
    ; .dw #enemy_no_shoot
-
+   ;
    ; .db #level_new_entity
    ; .dw #t_enemy_basic_red
    ; .db #4
@@ -147,8 +146,8 @@ _level1:
    ; .db #25
    ; .dw #patrol_relative_around_01
    ; .dw #enemy_no_shoot
-   ;
-   ; .db #level_separator
+
+   .db #level_separator
    ;================================================================================
    ; LEVEL ALL SPRITES
    ;================================================================================
@@ -163,7 +162,7 @@ _level1:
    ; .dw #t_enemy_basic_green
    ; .db #24
    ; .db #156
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #4                                 ; e_ai_aux_l
    ; .db #48                                 ; e_ai_aux_h
    ; .dw #patrol_all_game_zone_m0
@@ -173,7 +172,7 @@ _level1:
    ; .dw #t_enemy_basic_purple
    ; .db #34
    ; .db #156
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #4                                 ; e_ai_aux_l
    ; .db #48                                 ; e_ai_aux_h
    ; .dw #patrol_all_game_zone_m0
@@ -183,7 +182,7 @@ _level1:
    ; .dw #t_enemy_basic_purple
    ; .db #44
    ; .db #156
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #4                                 ; e_ai_aux_l
    ; .db #48                                 ; e_ai_aux_h
    ; .dw #patrol_all_game_zone_m0
@@ -193,7 +192,7 @@ _level1:
    ; .dw #t_enemy_basic_red
    ; .db #54
    ; .db #156
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #4                                 ; e_ai_aux_l
    ; .db #48                                 ; e_ai_aux_h
    ; .dw #patrol_all_game_zone_m0
@@ -213,7 +212,7 @@ _level1:
    ; .dw #t_bullet_enemy_l
    ; .db #34
    ; .db #124
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #0                                 ; e_ai_aux_l
    ; .db #0                                 ; e_ai_aux_h
    ; .dw #patrol_none
@@ -234,7 +233,7 @@ _level1:
    ; ; .dw #t_enemy_basic_green
    ; ; .db #38
    ; ; .db #136
-   ; ; .dw #enemy_no_move
+   ; ; .dw #ia_no_move
    ; ; .db #0                                 ; e_ai_aux_l
    ; ; .db #0
    ; ; .dw #patrol_01
@@ -1310,7 +1309,7 @@ _level1:
    .dw #t_enemy_basic_blue
    .db #37
    .db #78
-   .dw #enemy_no_move
+   .dw #ia_no_move
    .db #00                                 ; e_ai_aux_l
    .db #00                                 ; e_ai_aux_h
    .dw #00
@@ -1320,7 +1319,7 @@ _level1:
    ; .dw #t_enemy_basic_blue
    ; .db #53
    ; .db #78
-   ; .dw #enemy_no_move
+   ; .dw #ia_no_move
    ; .db #00                                 ; e_ai_aux_l
    ; .db #00                                 ; e_ai_aux_h
    ; .dw #00

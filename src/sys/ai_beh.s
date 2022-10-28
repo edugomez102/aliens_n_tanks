@@ -17,6 +17,7 @@
 ;;  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;------------------------------------------------------------------------------
 
+.include "cpctelera.h.s"
 .include "sys/ai.h.s"
 
 .include "man/entity.h.s"
@@ -36,35 +37,86 @@
 ;; BULLET
 ;;--------------------------------------------------------------------------------
 
+; sets = ix: axe, iy: player dir
+sys_ai_beh_axe_common:
+   ld__ix_bc
+   ; dir del player que tiene la axe
+   ld l, e_patrol_step_l(ix)
+   ld h, e_patrol_step_h(ix)
+   ld__iy_hl
+   ret
+
+sys_ai_beh_axe_follow:
+   call sys_ai_beh_axe_common
+   ld__ix_bc
+   ; dir del player que tiene la axe
+   ld l, e_patrol_step_l(ix)
+   ld h, e_patrol_step_h(ix)
+   ld__iy_hl
+
+   ld a, e_xpos(iy)
+   ld e_xpos(ix), a
+
+   ld a, e_ypos(iy)
+   ld e_ypos(ix), a
+
+   ret
+
 ;===================================================================================================================================================
-; FUNCION _sys_ai_behaviourBullet
 ; Updatea el contador de existencia de la bala y la destruye si hace falta
-; BC : Entidad a updatear
+  ; ix: axe
+  ; iy: player
 ;===================================================================================================================================================
+
 _sys_ai_behaviourBullet:
-    ld h, b
-    ld l, c
-    push hl
-    pop ix
+   ret
 
-    ;; Se comprueba que el contador de mov. restantes de las
-    ;; balas sea 0. En ese caso se manda a destruir
-    ld a, e_aictr(ix)
-    dec a
-    jr z, destroyBullet ;; Si es 0 se destruye la bala
+sys_ai_beh_axe_throw:
+   call sys_ai_beh_axe_common
 
-    jp stopUpdateBullet
+   CHECK_DOUBLE_ZERO_RET e_vx(ix) e_vy(ix)
 
-    destroyBullet:
-        ;; Volvemos a indicar que no tiene balas y re-seteamos el contador
-        push hl
-        call _m_game_bulletDestroyed
-        pop hl
-        call _m_game_destroyEntity
+   dec e_aictr(ix)
+   jr z, stopBullet ;; Si es 0 se destruye la bala
+   jp stopUpdateBullet
 
+   stopBullet:
+      ld e_vx(ix), #0
+      ld e_vy(ix), #0
 
-    stopUpdateBullet:
-    ld e_aictr(ix), a
+      ld e_ai_aux_l(iy), #2
+      ld e_aictr(ix), #t_bullet_timer_player
+      ; ld hl, #ai_none
+      ; call _sys_ai_changeBevaviour
+
+   ; ld e_patrol_step_l(ix), l
+   ; ld e_patrol_step_h(ix), h
+   ; push hl
+   ; pop iy
+   ; ld e_ai_aux_l(iy), #1
+
+    ret 
+
+sys_ai_beh_axe_pickup:
+   call sys_ai_beh_axe_common
+
+   CHECK_NO_AIM_XY _sys_ai_aim_to_entity
+
+   ; TODO no va fluido
+   ; ld d, #4
+   ; call _sys_ai_seekCoords_y
+   ld d, #2
+   call _sys_ai_seekCoords_x
+
+   CHECK_VX_VY_ZERO sys_ai_axe_set_follow
+
+   ret
+
+sys_ai_axe_set_follow:
+   ld hl, #sys_ai_beh_axe_follow
+   call _sys_ai_changeBevaviour
+   ld e_ai_aux_l(iy), #1
+   call _sys_ai_reset_aim
    ret
 
 ;===============================================================================
@@ -126,7 +178,7 @@ _sys_ai_behaviourBulletSeektoPlayer:
 ;; AI MOVE BEHAVIOURS
 ;;--------------------------------------------------------------------------------
 
-enemy_no_move:
+ia_no_move:
    push bc
    pop ix
    ld e_vx(ix), #0

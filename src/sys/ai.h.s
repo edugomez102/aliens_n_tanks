@@ -49,6 +49,7 @@
 .globl _sys_ai_spawnEnemy_template
 .globl _sys_ai_spawnEnemy_plist
 
+.globl _sys_ai_reset_aim
 .globl _sys_ai_reset_shoot_aictr
 .globl _sys_ai_aim_to_entity
 

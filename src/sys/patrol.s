@@ -131,7 +131,7 @@ stop_spawning:
    ; push ix
    ; pop hl
    ; call _m_game_destroyEntity
-   ld de, #enemy_no_move
+   ld de, #ia_no_move
    ld e_aibeh1(ix), e
    ld e_aibeh2(ix), d
 

@@ -52,7 +52,7 @@ _sys_input_update:
     ld hl , #_m_signatureMatch 
     ld (hl), #0x04  ; e_type_input
     call _man_entityForAllMatching
-    ret
+ ret
 
 ;===================================================================================================================================================
 ; FUNCION _sys_input_updateOneEntity
@@ -104,9 +104,9 @@ _sys_input_updateOneEntity:
     call cpct_isKeyPressed_asm
     jp NZ, rightPressed
 
-    ; ld hl, #Key_N
-    ; call cpct_isKeyPressed_asm
-    ; jp NZ, NPressed
+    ld hl, #Key_N
+    call cpct_isKeyPressed_asm
+    jp NZ, NPressed
 
 
     ;EN caso de no pulsar nada se queda quieto
@@ -169,7 +169,7 @@ _sys_input_updateOneEntity:
         ld e_vx(ix), a
         ld a, #0x00
         ld e_vy(ix), a   
-        call _m_game_playerShot
+        call _m_game_playerFire
         jp stopCheckMovement
 
       .globl nextLevel

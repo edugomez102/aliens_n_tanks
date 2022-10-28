@@ -25,8 +25,12 @@
 .globl t_shoot_timer_enemy_r_h
 .globl t_shoot_timer_tile_collision
 
+.globl t_bullet_timer_player
+
 .globl t_bullet_timer_enemy
 .globl player_max_bullets
+
+.globl t_axe_player
 
 .globl t_bullet_player
 .globl t_bullet_enemy_sp
