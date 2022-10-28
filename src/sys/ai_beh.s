@@ -78,7 +78,7 @@ sys_ai_beh_axe_throw:
 
    dec e_aictr(ix)
    jr z, stopBullet ;; Si es 0 se destruye la bala
-   jp stopUpdateBullet
+   ret
 
    stopBullet:
       ld e_vx(ix), #0

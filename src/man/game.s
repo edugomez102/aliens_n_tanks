@@ -57,10 +57,6 @@
 _m_irCtr:
    .db 1
 
-; ;;Descripcion : Saber si el jugador ha disparado ya 
-_m_playerShot:
-   .db #0x01
-
 ;;Descripcion : Posición de memoria de la entidad del jugador
 _m_playerEntity:
    .dw #0x0000
@@ -310,14 +306,6 @@ _m_game_destroyEntity:
    call _man_setEntity4Destroy
    ret
 
-
-;===================================================================================================================================================
-; ; Funcion que indica al player que su bala ha sido destruida
-;===================================================================================================================================================
-_m_game_bulletDestroyed:
-   ; ld hl, #_m_playerShot
-   ; ld (hl), #0x00
-ret
 
 ; crear la axe 
 ; guardar dir de axe en patrol de player y viceversa

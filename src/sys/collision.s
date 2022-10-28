@@ -480,7 +480,6 @@ _sys_checkTilePosition:
          ; ld e_aictr(iy), #0
          call reset_player_aictr
 
-         call _m_game_bulletDestroyed
 
       ;; TODO[Edu]: mejorar !!
       is_type_rotator:
@@ -656,7 +655,6 @@ enemyCollisionBehaviour:
     call _sys_ai_prepare_ovni_die
 
     call reset_player_aictr
-    call _m_game_bulletDestroyed
 
     ret
 
@@ -702,7 +700,6 @@ enemySpawnerCollisionBehaviour:
     push iy
     pop hl
     call _m_game_destroyEntity
-    call _m_game_bulletDestroyed
     ; call reset_player_aictr
 
     ret
@@ -743,7 +740,6 @@ bulletCollisionBehaviour:
     push ix
     pop hl 
     call _m_game_destroyEntity
-    call _m_game_bulletDestroyed
     
     ret
     destroyEnity:
@@ -797,7 +793,6 @@ enemyBulletCollisionBehaviour:
     and e_type(iy)
     ret Z
 
-    call _m_game_bulletDestroyed
     ld bc, #0x0001
     call _m_HUD_addPoints
     ld a, #0x01
