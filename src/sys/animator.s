@@ -18,19 +18,19 @@
 ;;------------------------------------------------------------------------------
 
 .module Animator
-;===================================================================================================================================================
+;====================================================================
 ; includes
-;===================================================================================================================================================
+;====================================================================
 .include "resources/entityInfo.s"
 .include "man/entity.h.s"
 .include "resources/animations.h.s"
 .include "animator.h.s"
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_animator_update   
 ; Llama a la inversión de control para updatear las animaciones de cada entidad que coincida con e_type_animator
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_animator_update:
     ld hl, #_sys_animator_updateOneEntity
     ld (_m_functionMemory), hl
@@ -39,14 +39,14 @@ _sys_animator_update:
     call _man_entityForAllMatching
     ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_animator_updateOneEntity   
 ; Si toca cambiar el sprite de la animacion establece el siguiente sprite como el nuevo y,
 ; pone tambien el counter de la animacion con la duración del nuevo sprite.
 ; En caso de que no haya sprite y sea la dirección de memoria de la animacion, 
 ; resetea la animación y establece los datos como el paso descrito antes.
 ; HL : Entidad a updatear
-;===================================================================================================================================================
+;====================================================================
 _sys_animator_updateOneEntity:    
     ;/
     ;|Comprobamos comprobamos y decrementamos el valor de anim. counter
