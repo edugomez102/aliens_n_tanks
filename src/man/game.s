@@ -365,11 +365,6 @@ _m_game_playerThrow:
    ;; en cooldown (ha disparado)
    ld e_ai_aux_l(iy), #0
 
-   ; comprobar cooldown
-   ; ld a, e_aictr(iy)
-   ; sub #0
-   ; ret nz
-
    ld hl, #sys_ai_beh_axe_throw
    call _sys_ai_changeBevaviour
 
@@ -377,6 +372,7 @@ _m_game_playerThrow:
    ld c, e_ypos(iy)
 
    ; bala en pos de player
+   ; TODO: centrar
    ld e_xpos(ix), b
    ld e_ypos(ix), c
 
@@ -399,67 +395,32 @@ _m_game_playerThrow:
    sub d
    jr z, upOrientation ;; Si es 0 va a la arriba
 
-   jp stopCheckOrientation
+   ret
+
    righOrientation:
       ld a, (player_bullet_vel_x)
       ld e_vx(ix), a
-
-      ld e_orient(ix), #0x00
-      ld a, e_ypos(ix)
-      add a, #0x03
-      ld e_ypos(ix), a
-      jp stopCheckOrientation
+      ret
 
    downOrientation:
       ld a, (player_bullet_vel_y)
       ld e_vy(ix), a
-      ld e_orient(ix), #0x01
-
-      ld a, e_ypos(ix)
-      add a, #0x2
-      ld e_ypos(ix), a
-      ld a, e_xpos(ix)
-      add a, #0x01
-      ld e_xpos(ix), a
-
-      ld hl, #_hBullet_1
-      jp stopCheckOrientation
+      ret
 
    leftOrientation:
       ld a, (player_bullet_vel_x)
       ld d, a
       NEGATE_NUMBER d
       ld e_vx(ix), a
-      ld e_orient(ix), #0x02
-
-      ld a, e_ypos(ix)
-      add a, #0x03
-      ld e_ypos(ix), a
-      ld a, e_xpos(ix)
-      add a, #0x01
-      ld e_xpos(ix), a
-
-      ld hl, #_vBullet_0
-
-      jp stopCheckOrientation
+      ret
 
    upOrientation:
       ld a, (player_bullet_vel_y)
       ld d, a
       NEGATE_NUMBER d
       ld e_vy(ix), a
-      ld e_orient(ix), #0x03
+      ret
 
-      ld a, e_ypos(ix)
-      add a, #0x02
-      ld e_ypos(ix), a
-      ld a, e_xpos(ix)
-      add a, #0x01
-      ld e_xpos(ix), a
-      
-      ld hl, #_hBullet_0
-      jp stopCheckOrientation
-   stopCheckOrientation:
    ret
 
 ;====================================================================

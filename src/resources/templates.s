@@ -428,7 +428,7 @@ t_spawner_from_plist_01:
 
 t_axe_player:
    .db #e_type_bullet                        ; type
-   .db #0x2B                                 ; cmp
+   .db #0x0B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #2                                 ; width

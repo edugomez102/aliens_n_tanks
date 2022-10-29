@@ -86,29 +86,23 @@ sys_ai_beh_axe_throw:
 
       ld e_ai_aux_l(iy), #2
       ld e_aictr(ix), #t_bullet_timer_player
-      ; ld hl, #ai_none
-      ; call _sys_ai_changeBevaviour
-
-   ; ld e_patrol_step_l(ix), l
-   ; ld e_patrol_step_h(ix), h
-   ; push hl
-   ; pop iy
-   ; ld e_ai_aux_l(iy), #1
+      ; TODO mejorar
 
     ret 
 
 sys_ai_beh_axe_pickup:
    call sys_ai_beh_axe_common
 
-   CHECK_NO_AIM_XY _sys_ai_aim_to_entity
+   call _sys_ai_aim_to_entity
 
-   ; TODO no va fluido
-   ; ld d, #4
-   ; call _sys_ai_seekCoords_y
+   ld d, #4
+   call _sys_ai_seekCoords_y
    ld d, #2
    call _sys_ai_seekCoords_x
 
+   ; TODO use collision 
    CHECK_VX_VY_ZERO sys_ai_axe_set_follow
+   ; CHECK_DOUBLE_ZERO_CALL e_vx(ix) e_vy(ix) sys_ai_axe_set_follow
 
    ret
 
