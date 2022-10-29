@@ -155,23 +155,24 @@
 ; Usar al final de un label
 ;====================================================================
 .macro CHECK_VX_VY_ZERO _call_on_succes
-   ld a, e_vx(ix)
-   or a
-   jr z, . + 3
-   jr . + 9
-   ;; . + 3
-      ld a, e_vy(ix)
-      or a
-      call z, _call_on_succes
-   ;; . + 9
-
-   ; ????
    ; ld a, e_vx(ix)
    ; or a
-   ; jr nz, . + 8
-   ; ld a, e_vy(ix)
-   ; or a
-   ; call z, _call_on_succes
+   ; jr z, . + 3
+   ; jr . + 9
+   ; ;; . + 3
+   ;    ld a, e_vy(ix)
+   ;    or a
+   ;    call z, _call_on_succes
+   ;; . + 9
+
+   ; ???? es lo mismo creo que van de las dos
+   ld a, e_vx(ix)
+   or a
+   jr nz, . + 9
+   ld a, e_vy(ix)
+   or a
+   call z, _call_on_succes
+   ;; . + 9
 
 .endm
 
@@ -185,13 +186,23 @@
    ;; . + 8
 .endm
 
-.macro CHECK_DOUBLE_ZERO _call_type _jr_on_succes
-   ld a, e_vx(ix)
+.macro CHECK_DOUBLE_ZERO_CALL _v1 _v2 _call_on_succes
+   ld a, _v1
+   or a
+   jr nz, . + 9
+   ld a, _v2
+   or a
+   call z, _call_on_succes
+   ;; . + 8
+.endm
+
+.macro CHECK_DOUBLE_ZERO_JR _v1 _v2 _jr_on_succes
+   ld a, _v1
    or a
    jr nz, . + 8
-   ld a, e_vy(ix)
+   ld a, _v2
    or a
-   _call_type z, _jr_on_succes
+   jr z, _jr_on_succes
    ;; . + 8
 .endm
 
