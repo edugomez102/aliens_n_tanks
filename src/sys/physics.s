@@ -60,19 +60,19 @@ _sys_physics_updateOneEntity:
     ld  e, e_vy(ix) 
 
     ;; A = x_pos + x_vel
-    ld a,b
-    add a,c
+    ld a, b
+    add a, c
     cp #0x4c
     jr nc, skip_x_increment
-    ld e_xpos(ix),a
+    ld e_xpos(ix), a
     skip_x_increment:
 
     ;; A = y_pos + y_vel
-    ld a,d
-    add a,e
+    ld a, d
+    add a, e
     cp #0xc2
     jr nc, skip_x_increment
-    ld e_ypos(ix),a
+    ld e_ypos(ix), a
     skip_y_increment:
 
    ret

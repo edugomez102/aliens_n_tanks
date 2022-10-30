@@ -126,7 +126,7 @@ _m_game_createInitTemplate:
    LOAD_VARIABLE_IN_REGISTER _m_sizeOfEntity, C
    call cpct_memcpy_asm
    pop hl
-   ret
+ret
 
 
 ;===================================================================================================================================================
@@ -135,7 +135,7 @@ _m_game_createInitTemplate:
 ; NO llega ningun dato
 ;===================================================================================================================================================
 _m_game_init:
-   call  _sys_init_render
+   call _sys_init_render
 
    ;; TODO: me salia undefined
    ; ld de, #_GameSong
@@ -144,7 +144,7 @@ _m_game_init:
 
    call _man_int_setIntHandler
    
-   ret
+ret
 
 ;===================================================================================================================================================
 ; FUNCION waitKeyPressed
@@ -214,42 +214,34 @@ ei
 
    testIr:
 
+      cpctm_setBorder_asm HW_BLACK
       ld a, (_man_int_current)
       cp #0
       jr nz, testIr
-      ld a, (_man_frames_counter)
-      cp #0
-      jr nz, testIr
-
-      ; cpctm_setBorder_asm HW_BLUE
+      
+      cpctm_setBorder_asm HW_BLUE
       call _sys_render_update
 
-      ; cpctm_setBorder_asm HW_BLACK
+      cpctm_setBorder_asm HW_BLACK
       call _man_entityUpdate
 
-      ; cpctm_setBorder_asm HW_RED
+      cpctm_setBorder_asm HW_RED
       call _sys_input_update
 
-      ; cpctm_setBorder_asm HW_GREEN
+      cpctm_setBorder_asm HW_GREEN
       call _sys_animator_update
 
-      ; cpctm_setBorder_asm HW_WHITE
+      cpctm_setBorder_asm HW_WHITE
       call _sys_ai_update
 
-      ; cpctm_setBorder_asm HW_RED
+      cpctm_setBorder_asm HW_BRIGHT_RED
       call _sys_collision_update
 
-      ; cpctm_setBorder_asm HW_YELLOW
+      cpctm_setBorder_asm HW_BRIGHT_YELLOW
       call _sys_physics_update
 
+      cpctm_setBorder_asm HW_BRIGHT_GREEN
       call _man_game_updateGameStatus
-      ; cpctm_setBorder_asm HW_BRIGHT_YELLOW
-
-      ld a, (_man_int_current)
-      cp #0
-      jr nz, testIr
-      halt
-      
 
    jr testIr
    
@@ -304,7 +296,7 @@ ret
 ;===================================================================================================================================================
 _m_game_destroyEntity:
    call _man_setEntity4Destroy
-   ret
+ret
 
 
 ;===================================================================================================================================================
@@ -486,7 +478,7 @@ _m_game_playerShot:
       ld e_aictr(ix), #player_shoot_cooldown_h
       ld e_ai_aux_l(ix), #player_max_bullets
 
-   ret
+ret
 
 
 ;===================================================================================================================================================
@@ -525,7 +517,7 @@ _man_game_initGameVar:
    ld hl, #_m_enemyCounter
    ld (hl), #0x00
 
-   ret
+ret
 
 
 ;===================================================================================================================================================
@@ -657,7 +649,7 @@ _man_game_loadLevel:
 
    call _m_game_reg_ingame_items
 
-   ret
+ret
 
 
 ;===================================================================================================================================================
@@ -731,22 +723,18 @@ _man_game_updateGameStatus:
    jp restartLevel
 
    dontPassLevel:
-   ret
+ret
 
-
-
-.globl _sys_render_erasePrevPtr
-.globl _sys_render_renderOneEntity
 
 player_quit_render_cmp:
    call _sys_render_erasePrevPtr
-   ret
+ret
 
 player_restore_render_cmp:
    push ix
    pop hl
    call _sys_render_renderOneEntity
-   ret
+ret
 ;===================================================================================================================================================
 ; FUNCION _man_game_decreasePlayerLife   
 ; Función encargada de decrementar la vida del jugador
@@ -789,7 +777,7 @@ _man_game_decreasePlayerLife:
    pop hl ;Aqui quitamos lo ultimo de la pila pues no vamos a hacer un ret
    jp restartLevel
 
-   ret
+ret
 
 
 _man_game_increasePlayerLife:
@@ -802,7 +790,7 @@ _man_game_increasePlayerLife:
    call _m_HUD_renderLifes
    dontIncrease:
 
-   ret
+ret
 
 ;===============================================================================
 ; iy: item entity
@@ -864,31 +852,31 @@ _man_game_getItem:
       pop hl
 
       call _m_game_destroyEntity
-   ret
+ret
 
 player_picking_rotator:
    ld a, (player_has_rotator)
    cp #0
    jp z, can_pick_ingame_item
-   ret
+ret
 
 player_picking_heart:
    ld a, (_m_lifePlayer)
    cp #3
    jp nz, can_pick_ingame_item
-   ret
+ret
 
 player_picking_sharp_bullet:
    ld a, (player_has_sharp_bullet)
    cp #0
    jp z, can_pick_ingame_item
-   ret
+ret
 
 player_picking_speed_bullet:
    ld a, (player_has_speed_bullet)
    cp #0
    jp z, can_pick_ingame_item
-   ret
+ret
 
 ;===================================================================================================================================================
 ; FUNCION _man_game_decreaseEnemyCounter   
@@ -902,7 +890,7 @@ _man_game_decreaseEnemyCounter:
    call _m_HUD_addPoints
    ld a, #0x01
    call _m_HUD_renderScore
-   ret
+ret
 
 ;===================================================================================================================================================
 ; FUNCION _m_game_StartMenu   
@@ -923,7 +911,7 @@ _m_game_reg_ingame_items:
    ld a, (player_has_rotator)
    cp #1
    call z, item_create_ingame_rotator
-   ret
+ret
 
 _m_game_reset_items_endgame:
    ld a, #2
@@ -934,18 +922,18 @@ _m_game_reset_items_endgame:
    ld (player_has_rotator), a
    ld a, #0
    ld (player_has_sharp_bullet), a
-   ret
+ret
 
 _m_game_quit_rotator:
    ld hl, #player_has_rotator
    dec (hl)
-   ret
+ret
 
 ;; Destroy HL
 _m_game_restart_level_counter:
    ld hl, #_m_current_level_counter
    ld (hl), #0
-   ret
+ret
 
 
 ; esto lo hicimos el ultimo dia a ultima hora vale pedimos perdon
@@ -1095,7 +1083,7 @@ _m_game_inc_level_counter:
    cp (hl)
    jp z, lvl_34
 
-   ret
+ret
 
 lvl_01:
    ; pintamos el primero de 0 por si viene de un nivel superior a 10
@@ -1257,7 +1245,7 @@ lvl_34:
 inc_lvl_ctr_var:
    ld hl, #_m_current_level_counter
    inc (hl)
-   ret
+ret
 
 ; hl: new sprite
 load_lvl_ctr_sprite_2:
@@ -1268,7 +1256,7 @@ load_lvl_ctr_sprite_2:
    inc de
    ld a, h
    ld (de), a
-   ret
+ret
 
 ; hl: new sprite
 load_lvl_ctr_sprite_1:
@@ -1279,4 +1267,4 @@ load_lvl_ctr_sprite_1:
    inc de
    ld a, h
    ld (de), a
-   ret
+ret

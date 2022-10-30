@@ -1,6 +1,6 @@
 ;;-----------------------------LICENSE NOTICE------------------------------------
-;;  This file is part of Aliens'n Tanks: An Amstrad CPC Game 
-;;  Copyright (C) 2021 Yaroslav Paslavskiy Danko / Rodrigo Guzmán Escribá / 
+;;  This file is part of Aliens'n Tanks: An Amstrad CPC Game
+;;  Copyright (C) 2021 Yaroslav Paslavskiy Danko / Rodrigo Guzmán Escribá /
 ;;                     Eduardo David Gómez Saldias / Semag Ohcaco (@SemagOhcaco)
 ;;
 ;;  This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 ;===================================================================================================================================================
 ; includes
 ;===================================================================================================================================================
+.include "cpctelera.h.s"
 .include "resources/macros.s"
 .include "resources/entityInfo.s"
 .include "resources/sprites.h.s"
@@ -28,8 +29,11 @@
 .include "cpct_globals.h.s"
 .include "man/entity.h.s"
 
+;;Math
+.include "macros/math.h.s"
+
 ;===================================================================================================================================================
-; Manager data   
+; Manager data
 ;===================================================================================================================================================
 ;; Descripcion : Array de entidades
 ;; TODO: recalcular con los cambios de estructura de entity
@@ -40,7 +44,7 @@ _m_entities:
 _m_emptyMemCheck:
     .ds 1
 
-;; Descripcion : Direccion de memoria con la siguiente posicion del array libre 
+;; Descripcion : Direccion de memoria con la siguiente posicion del array libre
 _m_next_free_entity:
     .ds 2
 
@@ -48,7 +52,7 @@ _m_next_free_entity:
 _m_functionMemory:
     .ds 2
 
-;; Descripcion : Signature para comprobar entidades en el forAllMatching 
+;; Descripcion : Signature para comprobar entidades en el forAllMatching
 _m_signatureMatch:
     .ds 1
 
@@ -60,28 +64,25 @@ _m_numEntities:
 _m_sizeOfEntity:
     .db #0x1c
 
-
 ;===================================================================================================================================================
-; FUNCION _man_entityInit   
+; FUNCION _man_entityInit
 ; Inicializa el manager de entidades y sus datos
 ; NO llega ningun dato
 ;===================================================================================================================================================
 _man_entityInit:
-    ld  DE, #_m_entities
-    ld  A,  #0x00
-    ld  (_m_emptyMemCheck), a
-    ld  (_m_numEntities), a
-    ld  BC, #0x01C0
+    ld de, #_m_entities
+    ld a,  #0x00
+    ld (_m_emptyMemCheck), a
+    ld (_m_numEntities), a
+    ld bc, #0x01C0
     call    cpct_memset_asm
-    
+
     ld  hl, #_m_entities
     ld  (_m_next_free_entity), hl
-    
-    ret
-
+ret
 
 ;===================================================================================================================================================
-; FUNCION _man_createEntity   
+; FUNCION _man_createEntity
 ; Crea una entidad
 ; NO llega ningun dato
 ;===================================================================================================================================================
@@ -98,9 +99,7 @@ _man_createEntity:
 
     ld  l,e
     ld  h,d
-    ret
-
-
+ret
 
 ;===================================================================================================================================================
 ; FUNCION _man_entityForAllMatching
@@ -146,8 +145,7 @@ _man_entityForAllMatching:
         jp next_entity2
     allDone:
     pop hl
-    ret
-
+ret
 
 ;===================================================================================================================================================
 ; FUNCION _man_setEntity4Destroy
@@ -163,8 +161,8 @@ ret
 
 ;===================================================================================================================================================
 ; FUNCION _man_entityDestroy
-; Elimina de las entidades la entidad de HL y arregla el array de entidades 
-; para establecer la ultima entidad al espacio liberado por la entidad destruida 
+; Elimina de las entidades la entidad de HL y arregla el array de entidades
+; para establecer la ultima entidad al espacio liberado por la entidad destruida
 ; HL : La entidad para ser destruida
 ;===================================================================================================================================================
 _man_entityDestroy:
@@ -191,7 +189,7 @@ _man_entityDestroy:
     checkMemory:
     ld a,d
     sub h
-    jr Z, no_copy 
+    jr Z, no_copy
 
     ;;Si no es la misma copiamos la ultima entidad al espacio de la entidad a destruir
     copy:
@@ -214,7 +212,7 @@ _man_entityDestroy:
         jr NZ, setLast2
 
 
-    ;;Aquí liberamos el ultimo espacio del array de entidades y lo seteamos como el proximo espacio libre 
+    ;;Aquí liberamos el ultimo espacio del array de entidades y lo seteamos como el proximo espacio libre
     no_copy:
     ;last->type = e_type_invalid;
     ld (hl),#0x00
@@ -224,27 +222,27 @@ _man_entityDestroy:
     ld (hl), e
     inc hl
     ld (hl), d
-    ;    --m_num_entities;      
+    ;    --m_num_entities;
     ld  hl, #_m_numEntities
     dec (hl)
-    ret
+ret
 
 
 ;===================================================================================================================================================
 ; FUNCION _man_entitiesUpdate
 ; Recorre todas las entidades y destruye las entidades marcadas
-; NO llega ningun dato 
+; NO llega ningun dato
 ;===================================================================================================================================================
 _man_entitiesUpdate:
     ld hl, #_m_entities
 
     inc (hl)
     dec (hl)
-    ret Z 
+    ret Z
     ld a, (#_m_sizeOfEntity)
     ld c, a
-    ld b, #0x00    
-    ld a, #0x80    
+    ld b, #0x00
+    ld a, #0x80
     valid:
         and (hl)
         jr Z, _next_entity
@@ -258,13 +256,13 @@ _man_entitiesUpdate:
             inc (hl)
             dec (hl)
             jr NZ, valid
-    ret
+ret
 
 
 ;===================================================================================================================================================
 ; FUNCION _man_entity_freeSpace
 ; Devuelve en a si hay espacio libre en las entidades para poder generar
-; NO llega ningun dato 
+; NO llega ningun dato
 ;===================================================================================================================================================
 ; _man_entity_freeSpace:
         ; ld hl, #_m_numEntities
@@ -277,26 +275,24 @@ _man_entitiesUpdate:
 ;===================================================================================================================================================
 ; FUNCION _man_entityUpdate
 ; Encargado de updatear las entidades y al jugador
-; NO llega ningun dato 
+; NO llega ningun dato
 ;===================================================================================================================================================
 _man_entityUpdate:
     call _man_entitiesUpdate
     call _man_playerUpdate
-    ret
-
-
+ret
 
 ;===================================================================================================================================================
 ; FUNCION _man_playerUpdate
 ; Actualiza el sprite del jugador en funcion de su orientacion
-; NO llega ningun dato 
+; NO llega ningun dato
 ;===================================================================================================================================================
 _man_playerUpdate:
     ;; Actualiza el cooldown de la bala
     call _man_playerBulletCooldown
-    
+
     ld ix, #_m_playerEntity
-    
+
     ld h, (ix)
     inc ix
     ld l, (ix)
@@ -324,7 +320,7 @@ _man_playerUpdate:
         ld e_anim1(ix), l
         ld hl, #_tanque_0
         jp setSprite
-    setYUpAxis:    
+    setYUpAxis:
         ld hl, #_man_anim_player_y_up
         ld e_anim2(ix), h
         ld e_anim1(ix), l
@@ -338,12 +334,12 @@ _man_playerUpdate:
         ld hl, #_tanque_4
         jp setSprite
 
-    setYDownAxis:    
+    setYDownAxis:
         ld hl, #_man_anim_player_y_down
         ld e_anim2(ix), h
         ld e_anim1(ix), l
         ld hl, #_tanque_5
-    
+
     setSprite:
     ld e_sprite2(ix), h
     ld e_sprite1(ix), l
@@ -355,11 +351,11 @@ _man_playerUpdate:
 ;===================================================================================================================================================
 ; FUNCION _man_playerBulletCooldown
 ; Descuenta el cooldown de la bala
-; NO llega ningun dato 
+; NO llega ningun dato
 ;===================================================================================================================================================
 _man_playerBulletCooldown:
     ld ix, #_m_playerEntity
-    
+
     ld h, (ix)
     inc ix
     ld l, (ix)

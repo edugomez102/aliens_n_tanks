@@ -36,6 +36,9 @@
 .include "resources/templates.h.s"
 .include "sys/ai.h.s"
 
+;;Math
+.include "macros/math.h.s"
+
 ;===================================================================================================================================================
 ; Manager data   
 ;===================================================================================================================================================
@@ -71,7 +74,7 @@ _sys_collision_update:
     call _sys_checkColissionBwEntities
     call _sys_checkColissionBwTile
 
-    ret
+ret
 
 
 ;===================================================================================================================================================
@@ -235,42 +238,63 @@ _sys_collision_updateOneEntity:
     push hl
     pop ix
 
-    ld a, e_vx(ix)
-    dec a
-    inc a
-    jp NZ , checkColl
+    ;;Check if the entity will surpass the right border if we update it's position
+    ld a, e_xpos(ix)
+    add a, e_vx(ix)
 
-    ld a, e_vy(ix)
-    dec a
-    inc a
-    ret Z
+    IS_HIGHER 0x49
+    jr nc, set_vx_zero
 
-    checkColl:
+    ;;Check if the entity will surpass the left border if we update it's position
+    ld a, e_xpos(ix)
+    add a, e_vx(ix)
 
-    ld d, h ;; | Guardamos hl en de 
-    ld e, l ;; |
+    ld b, #0x04
+    cp b
+    jr c, set_vx_zero
 
-    ;; Establecemos los dos puntos de colisiones del sprite
-    ld a, e_orient(ix)
-    call _sys_setEntityCollisionPoints
-    ex de, hl
+    ;;Check if the entity will surpass the up border if we update it's position
+    check_y_axis:
+        ld a, e_ypos(ix)
+        add a, e_vy(ix)
 
-    push hl
-    pop ix
-    ;; Chekeamos que el primer punto no esté en el tile que no toca
-    ld a, (#_sys_entityColisionPos1_Y)
-    ld b, a
-    ld a, (#_sys_entityColisionPos1_X)
-    ld c, a
-    call _sys_checkTilePosition
+        ld b, #0x30
+        cp b
+        jr c, set_vy_zero
 
-    ;; Chekeamos que el segundo punto no esté en el tile que no toca
-    ld a, (#_sys_entityColisionPos2_Y)
-    ld b, a
-    ld a, (#_sys_entityColisionPos2_X)
-    ld c, a
-    call _sys_checkTilePosition
+        ld a, e_ypos(ix)
+        add a, e_vy(ix)
 
+        IS_HIGHER 0xB6
+        jr nc, set_vy_zero
+
+    ret
+
+    set_vx_zero:
+
+        ld e_vx(ix), #0x00
+
+        IS_ENTITY_GIVEN_TYPE_IX e_type_bullet
+        jr nz, delete_bullet
+        IS_ENTITY_GIVEN_TYPE_IX e_type_enemy_bullet
+        jr nz, delete_bullet
+
+        jp check_y_axis
+
+    set_vy_zero:
+
+        ld e_vy(ix), #0x00
+
+        IS_ENTITY_GIVEN_TYPE_IX e_type_bullet
+        jr nz, delete_bullet
+        IS_ENTITY_GIVEN_TYPE_IX e_type_enemy_bullet
+        jr nz, delete_bullet
+
+        ret
+    
+    delete_bullet:
+
+        call _m_game_destroyEntity
 ret
 
 tile_margin_x: .db 0
