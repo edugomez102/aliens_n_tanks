@@ -60,6 +60,8 @@ sys_ai_beh_axe_follow:
    ld a, e_ypos(iy)
    ld e_ypos(ix), a
 
+   ld e_cmp(ix), #0x0A 
+
    ret
 
 ;====================================================================
@@ -86,7 +88,11 @@ sys_ai_beh_axe_throw:
 
       ld e_ai_aux_l(iy), #2
       ld e_aictr(ix), #t_bullet_timer_player
-      ; TODO mejorar
+
+      ;; quitar render al axe
+      ; ld e_cmp(ix), #0x0A 
+
+      ; TODO new mejorar
 
     ret 
 
@@ -627,7 +633,10 @@ _sys_ai_beh_shoot_x_f:
 
 _sys_ai_beh_shoot_y:
    call _sys_ai_shoot_condition_common
+   push ix
    call z, _sys_ai_shoot_bullet_l_y
+   pop ix
+   ; ld e_aictr(ix), #10
    ret
 
 ;; fast version

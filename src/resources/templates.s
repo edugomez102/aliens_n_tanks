@@ -44,8 +44,8 @@ t_bullet_timer_enemy = 120
 ; fast
 t_bullet_timer_enemy_f = 60
 
-; tiempo hasta que la bala del player se destruye
-t_bullet_timer_player = 10
+; tiempo hasta que la bala del player se para
+t_bullet_timer_player = 8
 
 t_spawner_timer = 45
 
@@ -94,24 +94,24 @@ free_item = 0
 ; patrol_step para la direccion de su axe
 t_player:
    .db #e_type_player
-   .db #0x37                                 ; cmp
+   .db #0x07                                 ; cmp
    .db #0x26                                 ; x
    .db #0xa0                                 ; y
    .db #0x04                                 ; width
    .db #0x0C                                 ; heigth
    .db #0x00                                 ; vx
    .db #0x00                                 ; vy
-   .dw #_tanque_0                            ; sprite
+   .dw #_avocado_p1_sprite_0                            ; sprite
    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
    .dw #0x0000                               ; ai_behaviour
    .db #0x00                                 ; ai_counter
-   .dw #_man_anim_player_x_right             ; animator
+   .dw #00             ; animator
    .db #0x0A                                 ; anim. counter
    .dw #0x0000                               ; input_behaviour
    .dw #0x0000                               ; ai_aim_position
-   .db #player_max_bullets                                 ; e_ai_aux_l
+   .db #1                                 ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .db #0x00                                 ; e_patrol_step_l
    .db #0x00                                 ; e_patrol_step_h
@@ -123,11 +123,11 @@ t_enemy_basic_green:
    .db #0x3b                                 ; cmp
    .db #0                                    ; x
    .db #0                                    ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
+   .db #3                                   ; width
+   .db #8                                   ; heigth
    .db #0                                    ; vx
    .db #0                                    ; vy
-   .dw #_ovni_green_0                      ; sprite
+   .dw #_alien_blue                      ; sprite
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr

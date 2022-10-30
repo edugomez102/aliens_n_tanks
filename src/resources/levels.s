@@ -91,7 +91,7 @@ _level1:
    .db #4                                 ; e_ai_aux_l
    .db #48                                 ; e_ai_aux_h
    .dw #patrol_all_game_zone_m0
-   .dw #enemy_no_shoot
+   .dw #_sys_ai_beh_shoot_y
 
    ; .db #level_new_entity
    ; .dw #t_spawner_from_template_01
@@ -241,7 +241,28 @@ _level1:
    ; ;
    ; ; .db #level_separator
    ; ;
-   ;
+
+   ;=====================================================================
+   ; Level big
+   ;=====================================================================
+   .dw #_tilemap_01
+   .db #level_new_entity
+   .dw #t_player
+   .db #36                   ;Entity X
+   .db #104
+
+   .db #level_new_entity
+   .dw #t_spawner_from_plist_01
+   .db #4
+   .db #108
+   .dw #_sys_ai_behaviourSpawner_plist
+   .db #00                                 ; e_ai_aux_l
+   .db #00                                 ; e_ai_aux_h
+   .dw #spawner_plist_06
+   .dw #enemy_no_shoot
+
+   .db #level_separator
+
    ; ================================================================================
    ; Level 1
    ; ================================================================================

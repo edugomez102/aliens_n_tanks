@@ -167,6 +167,9 @@ _sys_render_renderOneEntity:
 
     ret
 
+; render_erase_color = #0x00
+render_erase_color = #0x00
+
 _sys_render_erasePrevPtr:
         ld  a, e_prevptr1(ix)
         dec a
@@ -180,7 +183,7 @@ _sys_render_erasePrevPtr:
         ret Z
         ld  c, e_width(ix) 
         ld  b, e_heigth(ix)
-        ld  a, #0x3F
+        ld  a, #render_erase_color
 
         call cpct_drawSolidBox_asm
     ret
