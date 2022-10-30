@@ -234,7 +234,7 @@ ei
       call _sys_input_update
 
       ; cpctm_setBorder_asm HW_GREEN
-      call _sys_animator_update
+      ; call _sys_animator_update
 
       ; cpctm_setBorder_asm HW_RED
       call _sys_collision_update
@@ -307,8 +307,11 @@ _m_game_destroyEntity:
    ret
 
 
-; crear la axe 
-; guardar dir de axe en patrol de player y viceversa
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Crear la axe 
+;; Guardar dir de axe en patrol de player y viceversa
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _m_game_createAxe:
    GET_PLAYER_ENTITY iy
    ; ix: axe
@@ -326,10 +329,13 @@ _m_game_createAxe:
    ret
 
 ; TODO ix: current player
-; lanzar o recoger axe
-; 0 no se hace nada
-; 1 player puede lanzar
-; 2 player puede recoger
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Input de player. Lanzar o recoger axe
+;; En e_ai_aux_l esta la variable del estado de la axe
+;;   0 no se hace nada
+;;   1 player puede lanzar
+;;   2 player puede recoger
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _m_game_playerFire:
    GET_PLAYER_ENTITY iy
    ; axe in ix
@@ -338,16 +344,13 @@ _m_game_playerFire:
    ld__ix_hl
 
    ld a, e_ai_aux_l(iy)
-   sub #1
-   call z, _m_game_playerThrow
 
-   ld a, e_ai_aux_l(iy)
-   sub #2
-   call z, _m_game_playerGetAxe
+   cp #1
+   jp z, _m_game_playerThrow
 
-   ; dec e_ai_aux_l(iy)
-   ; call z, _m_game_playerShot
-   ; call _m_game_playerGetAxe
+   cp #2
+   jp z, _m_game_playerGetAxe
+
 ret
 
 _m_game_playerGetAxe:
