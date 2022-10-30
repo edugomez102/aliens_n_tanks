@@ -281,75 +281,40 @@ _man_entitiesUpdate:
 ;====================================================================
 _man_entityUpdate:
     call _man_entitiesUpdate
-    call _man_playerUpdate
+    call _man_playerUpdateOrientation
     ret
 
 
-
-;====================================================================
-; FUNCION _man_playerUpdate
-; Actualiza el sprite del jugador en funcion de su orientacion
-; NO llega ningun dato 
-;====================================================================
-_man_playerUpdate:
-    ;; Actualiza el cooldown de la bala
-    call _man_playerBulletCooldown
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Actualiza el sprite del jugador en funcion de su orientacion y si 
+;; tiene la axe
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_man_playerUpdateOrientation:
+   ; TODO player por parametro
+   ; TODO comprobar si player 1 o 2
+   GET_PLAYER_ENTITY iy
     
-    ld ix, #_m_playerEntity
-    
-    ld h, (ix)
-    inc ix
-    ld l, (ix)
-    push hl
-    pop ix
+   ld a,   e_orient(iy)
+   ld e_prorient(iy), a
 
-    ld a, e_orient(ix)
-    sub e_prorient(ix)
-    ret Z
+   ld a, e_ai_aux_l(iy)
+   cp #1
+   jp z, player_axe_yes
+   jp nz, player_axe_no
 
-    ld a,   e_orient(ix)
-    ld e_prorient(ix), a
+   player_axe_yes:
+      ld a, e_orient(iy)
+      ld hl, #avocado_p1_sprite_list
+      call update_sprite_from_list
+      ret
 
-    dec a ;Si vale 0 se irá a -1 y por lo tanto llegará al último jr
-    jr Z, setYDownAxis
-    dec a
-    jr Z, setXLeftAxis
-    dec a
-    jr Z, setYUpAxis
-    jr NZ, setXRightAxis
+   player_axe_no:
+      ld a, e_orient(iy)
+      ld hl, #avocado_nn_p1_sprite_list
+      call update_sprite_from_list
 
-    setXRightAxis:
-        ld hl, #_man_anim_player_x_right
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_0
-        jp setSprite
-    setYUpAxis:    
-        ld hl, #_man_anim_player_y_up
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_1
-        jp setSprite
-
-    setXLeftAxis:
-        ld hl, #_man_anim_player_x_left
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_4
-        jp setSprite
-
-    setYDownAxis:    
-        ld hl, #_man_anim_player_y_down
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_5
-    
-    setSprite:
-    ld e_sprite2(ix), h
-    ld e_sprite1(ix), l
-    ld e_animctr(ix), #0x0A
-
-    ret
+   ret
 
 
 ;====================================================================

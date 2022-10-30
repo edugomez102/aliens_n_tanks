@@ -343,6 +343,7 @@ _m_game_playerFire:
    ld h, e_patrol_step_h(iy)
    ld__ix_hl
 
+   ld e_cmp(ix), #0x0B
    ld a, e_ai_aux_l(iy)
 
    cp #1
@@ -362,6 +363,7 @@ _m_game_playerGetAxe:
    ret 
 
 ; iy: Player
+; TODO: centrar
 _m_game_playerThrow:
    ;; Se comprueba si el jugador ha disparado ya
    ;; Si el ai_counter del player es != 0 es que está
@@ -375,27 +377,21 @@ _m_game_playerThrow:
    ld c, e_ypos(iy)
 
    ; bala en pos de player
-   ; TODO: centrar
    ld e_xpos(ix), b
    ld e_ypos(ix), c
 
-   ; segun orientacion de player 
-   ld d, e_orient(iy)
+   ld a, e_orient(iy)
 
-   ld a, #0x00 ;; Right
-   sub d
+   cp #0
    jr z, righOrientation ;; Si es 0 va a la derecha
 
-   ld a, #0x01 ;; Down
-   sub d
+   cp #1
    jr z, downOrientation ;; Si es 0 va a la abajo
 
-   ld a, #0x02 ;; Left
-   sub d
+   cp #2
    jr z, leftOrientation ;; Si es 0 va a la izquierda
 
-   ld a, #0x03 ;; Up
-   sub d
+   cp #3
    jr z, upOrientation ;; Si es 0 va a la arriba
 
    ret

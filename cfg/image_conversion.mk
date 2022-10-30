@@ -42,7 +42,7 @@
 #$(eval $(call IMG2SP, CONVERT         , img.png , w, h, array, palette, tileset))
 
 
-PALETTE=0 2 3 6 13 14 15 16 18 20 21 22 23 24 25 26
+PALETTE=0 9 3 6 13 14 15 16 18 20 21 22 23 24 25 26
 
 ## ========== MAPA ========== 
 $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
@@ -61,6 +61,8 @@ $(eval $(call IMG2SP, CONVERT         , assets/horizBullet.png , 4, 8, hBullet,,
 $(eval $(call IMG2SP, CONVERT         , assets/test.png , 4, 4, test,,))
 $(eval $(call IMG2SP, CONVERT         , assets/HUD.png , 12, 16, HUDLife,,))
 $(eval $(call IMG2SP, CONVERT         , assets/scoreNumeros.png , 8, 8, spriteScore,,))
+$(eval $(call IMG2SP, CONVERT         , assets/avocado_1.png , 8, 12, avocado_p1_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/avocado_1_nonut.png , 8, 12, avocado_nn_p1_sprite,,))
 
 # 24, 16
 $(eval $(call IMG2SP, CONVERT         , assets/ovniGreen.png , 8, 12, ovni_green,,))
@@ -68,6 +70,8 @@ $(eval $(call IMG2SP, CONVERT         , assets/ovniBlue.png , 8, 12, ovni_blue,,
 $(eval $(call IMG2SP, CONVERT         , assets/ovniPurple.png , 8, 12, ovni_purple,,))
 $(eval $(call IMG2SP, CONVERT         , assets/ovniRed.png , 8, 12, ovni_red,,))
 $(eval $(call IMG2SP, CONVERT         , assets/ovniExplosion.png , 8, 12, ovni_exp,,))
+
+$(eval $(call IMG2SP, CONVERT         , assets/alien_03.png , 6, 8, alien_blue,,))
 
 $(eval $(call IMG2SP, CONVERT         , assets/final_boss2.png , 20, 22, final_boss,,))
 

@@ -32,6 +32,18 @@
 .globl _tanque_6
 .globl _tanque_7
 
+.globl _avocado_p1_sprite_0
+.globl _avocado_p1_sprite_1
+.globl _avocado_p1_sprite_2
+.globl _avocado_p1_sprite_3
+
+.globl _avocado_nn_p1_sprite_0
+.globl _avocado_nn_p1_sprite_1
+.globl _avocado_nn_p1_sprite_2
+.globl _avocado_nn_p1_sprite_3
+
+.globl _alien_blue
+
 .globl _vBullet_0
 .globl _vBullet_1
 .globl _hBullet_0
@@ -108,3 +120,8 @@
 .globl _final_boss_07
 .globl _final_boss_08
 .globl _final_boss_09
+
+.globl update_sprite_from_list
+.globl avocado_p1_sprite_list
+.globl avocado_nn_p1_sprite_list
+
