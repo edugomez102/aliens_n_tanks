@@ -23,15 +23,6 @@
 .globl _sprite_player01
 .globl _sprite_player02
 
-.globl _tanque_0
-.globl _tanque_1
-.globl _tanque_2
-.globl _tanque_3
-.globl _tanque_4
-.globl _tanque_5
-.globl _tanque_6
-.globl _tanque_7
-
 .globl _avocado_p1_sprite_0
 .globl _avocado_p1_sprite_1
 .globl _avocado_p1_sprite_2
@@ -42,12 +33,25 @@
 .globl _avocado_nn_p1_sprite_2
 .globl _avocado_nn_p1_sprite_3
 
+.globl avocado_p1_sprite_list
+.globl avocado_nn_p1_sprite_list
+
+.globl _avocado_p2_sprite_0
+.globl _avocado_p2_sprite_1
+.globl _avocado_p2_sprite_2
+.globl _avocado_p2_sprite_3
+
+.globl _avocado_nn_p2_sprite_0
+.globl _avocado_nn_p2_sprite_1
+.globl _avocado_nn_p2_sprite_2
+.globl _avocado_nn_p2_sprite_3
+
+.globl avocado_p2_sprite_list
+.globl avocado_nn_p2_sprite_list
+
+
 .globl _alien_blue
 
-.globl _vBullet_0
-.globl _vBullet_1
-.globl _hBullet_0
-.globl _hBullet_1
 
 .globl _HUDLife_0
 .globl _HUDLife_1
@@ -101,7 +105,9 @@
 .globl _rotator_item_sprite
 .globl _sharp_bullet_sprite
 
-.globl _rotator_ingame_sprite
+.globl _avocado_axe_1_sprite
+.globl _avocado_axe_2_sprite
+
 .globl _shield_ingame_sprite
 
 .globl _nextStage
@@ -122,6 +128,4 @@
 .globl _final_boss_09
 
 .globl update_sprite_from_list
-.globl avocado_p1_sprite_list
-.globl avocado_nn_p1_sprite_list
 

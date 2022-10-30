@@ -435,7 +435,7 @@ t_axe_player:
    .db #6                                 ; heigth
    .db #0x00                                 ; vx
    .db #0x00                                 ; vy
-   .dw #_rotator_ingame_sprite               ; sprite
+   .dw #_avocado_axe_1_sprite               ; sprite
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
@@ -450,29 +450,6 @@ t_axe_player:
    .db #0x00                                 ; e_patrol_step_l
    .db #0x00                                 ; e_patrol_step_h
 
-t_bullet_player:
-   .db #e_type_bullet                                 ; type
-   .db #0x2B                                 ; cmp
-   .db #0x00                                 ; x
-   .db #0x00                                 ; y
-   .db #0x03                                 ; width
-   .db #0x06                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_vBullet_1                           ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourBullet              ; ai_behaviour
-   .db #t_bullet_timer_player               ; ai_counter   ;; Contador de la bala
-   .dw #0x00                                 ; animator
-   .db #0x00                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .dw #0x0000                               ; ai_aim_position
-   .db #0x00                                 ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .db #0x00                                 ; e_patrol_step_l
-   .db #0x00                                 ; e_patrol_step_h
 
 ;; la bullet del enemey
 t_bullet_enemy_sp:
@@ -506,8 +483,8 @@ t_bullet_enemy_l:
    .db #0x3B                                 ; cmp
    .db #50
    .db #150
-   .db #02                                 ; width
-   .db #06                                 ; heigth
+   .db #01                                 ; width
+   .db #04                                 ; heigth
    .db #0x00                                 ; vx
    .db #0x00                                 ; vy
    .dw #_ovni_bullet_0                     ; sprite
@@ -1192,7 +1169,7 @@ t_ingame_rotator:
    .db #6                                   ; heigth
    .db #0                                    ; vx
    .db #0                                    ; vy
-   .dw #_rotator_ingame_sprite                      ; sprite
+   .dw #_avocado_axe_1_sprite                      ; sprite
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr

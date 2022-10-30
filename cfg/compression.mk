@@ -38,7 +38,7 @@
 #$(eval $(call ADD2PACK,mygraphics,gfx/background.bin))
 #$(eval $(call PACKZX7B,mygraphics,src/))
 
-$(eval $(call ADD2PACK,screenmenu,src/assets/sprites/MenuPrincipal.bin))
+$(eval $(call ADD2PACK,screenmenu,src/assets/sprites/space_avocados_title.bin))
 $(eval $(call PACKZX7B,screenmenu,src/assets/compress/))
 
 $(eval $(call ADD2PACK,screenend,src/assets/sprites/GameEnd.bin))
