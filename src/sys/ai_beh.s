@@ -384,12 +384,12 @@ do_follow_player_y_f:
 
 ; IX: entidad
 _sys_ai_check_tile_collision_from_ai:
-   push ix
-   pop hl
+   ;push ix
+   ;pop hl
    ;; haciendo un buen uso de nuestro maravilloso ECS
    ;; porque sino en la siguiente itereacion se mete en el tilemap
-   call _sys_collision_updateOneEntity
-   ret
+   ;call _sys_collision_updateOneEntity
+ret
 
 
 ;====================================================================

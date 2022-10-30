@@ -94,7 +94,7 @@ free_item = 0
 ; patrol_step para la direccion de su axe
 t_player:
    .db #e_type_player
-   .db #0x07                                 ; cmp
+   .db #0x27                                 ; cmp
    .db #0x26                                 ; x
    .db #0xa0                                 ; y
    .db #0x04                                 ; width
@@ -428,7 +428,7 @@ t_spawner_from_plist_01:
 
 t_axe_player:
    .db #e_type_bullet                        ; type
-   .db #0x0B                                 ; cmp
+   .db #0x2B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #2                                 ; width

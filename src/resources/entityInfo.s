@@ -18,9 +18,9 @@
 ;;------------------------------------------------------------------------------
 
 .module EntityInfo
-;====================================================================
+;===================================================================================================================================================
 ; Entity types   
-;====================================================================
+;===================================================================================================================================================
 e_type_invalid       = 0x00
 e_type_player        = 0x01
 e_type_item          = 0x02
@@ -30,9 +30,9 @@ e_type_spawner       = 0x10
 e_type_enemy_bullet  = 0x20
 e_type_dead          = 0x80
 
-;====================================================================
+;===================================================================================================================================================
 ; Component types   
-;====================================================================
+;===================================================================================================================================================
 e_cmp_render   = 0x01
 e_cmp_movable  = 0x02
 e_cmp_input    = 0x04
@@ -41,9 +41,9 @@ e_cmp_animated = 0x10
 e_cmp_collider = 0x20
 ; 0x2b
 
-;====================================================================
+;===================================================================================================================================================
 ; Entity variables    
-;====================================================================
+;===================================================================================================================================================
 e_type      =  0
 e_cmp       =  1
 e_xpos      =  2
@@ -77,9 +77,9 @@ e_ai_aux_h = 25
 e_patrol_step_l = 26
 e_patrol_step_h = 27
 
-;=====================================================================
+;================================================================================
 ; Item id
-;=====================================================================
+;================================================================================
 i_id_heart        = 0
 i_id_skip         = 1
 i_id_restart      = 2
@@ -89,9 +89,9 @@ i_id_shield       = 5
 i_id_rotator      = 6
 i_id_sharp_bullet = 7
 
-;====================================================================
+;===================================================================================================================================================
 ; Entity struct       TODO : Investigar si así guay la estruct
-;====================================================================
+;===================================================================================================================================================
 ; entity:
 ;    .db #0x00                         ; type
 ;    .db #0x00                         ; components
@@ -109,3 +109,60 @@ i_id_sharp_bullet = 7
 ;    .dw #_sys_ai_behaviourExample     ; ai_behaviour
 ;    .db #0x00                         ; ai_counter
 ;    .dw #_sys_
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  - IX: should point to the beginning of the entity to be checked 
+;;  -_type: SHOULD NOT BE E_TYPE_INVALID cause its 0
+;; Objetive: Check if an entity is matching the given type
+;;
+;; Return: Z = 0 if the entity is matching the type, otherwise Z = 1
+;; Modifies: A
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.macro IS_ENTITY_GIVEN_TYPE_IX _type
+	ld a, e_type(ix)
+	and #_type
+.endm
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  - IY: should point to the beginning of the entity to be checked 
+;;  -_type: SHOULD NOT BE E_TYPE_INVALID cause its 0
+;; Objetive: Check if an entity is matching the given type
+;;
+;; Return: Z = 0 if the entity is matching the type, otherwise Z = 1
+;; Modifies: A
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.macro IS_ENTITY_GIVEN_TYPE_IY _type
+	ld a, e_type(iy)
+	and #_type
+.endm
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  - IX: should point to the beginning of the entity to be checked 
+;; Objetive: Check if an entity is invalid
+;;
+;; Return: Z = 1 if the entity is invalid, otherwise Z = 0
+;; Modifies: A
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.macro IS_ENTITY_INVALID _register
+	ld a, e_type(_register)
+	cp #e_type_invalid
+.endm
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  - IX: should point to the beginning of the entity to be checked
+;; 	-  C: should contain the signature to match
+;; Objetive: Check if an entity is matching the components signature
+;;
+;; Return: Z = 1 if the entity is matching, otherwise Z = 0
+;; Modifies: a
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.macro IS_ENTITY_MATCHING_SIGNATURE
+	ld a, e_cmp(ix)
+	and c
+	cp c
+
+.endm
