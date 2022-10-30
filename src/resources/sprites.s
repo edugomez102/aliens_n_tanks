@@ -216,6 +216,18 @@ avocado_nn_p1_sprite_list:
    .dw #_avocado_nn_p1_sprite_2
    .dw #_avocado_nn_p1_sprite_3
 
+avocado_p2_sprite_list:
+   .dw #_avocado_p2_sprite_0
+   .dw #_avocado_p2_sprite_1
+   .dw #_avocado_p2_sprite_2
+   .dw #_avocado_p2_sprite_3
+
+avocado_nn_p2_sprite_list:
+   .dw #_avocado_nn_p2_sprite_0
+   .dw #_avocado_nn_p2_sprite_1
+   .dw #_avocado_nn_p2_sprite_2
+   .dw #_avocado_nn_p2_sprite_3
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Sets sprite of entity from a sprite list and an index
 ;; Orientation   0 = Right , 1 = Down , 2 = Left , 3 = Up

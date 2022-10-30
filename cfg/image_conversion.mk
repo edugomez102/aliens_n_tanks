@@ -42,27 +42,30 @@
 #$(eval $(call IMG2SP, CONVERT         , img.png , w, h, array, palette, tileset))
 
 
-PALETTE=0 9 3 6 13 14 15 16 18 20 21 22 23 24 25 26
+PALETTE=0 1 2 3 4 6 9 26 11 15 17 18 24 20 21 25
 
 ## ========== MAPA ========== 
 $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/maps  ))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles  ))
-$(eval $(call IMG2SP, CONVERT         , assets/tileset.png , 8, 8, tileset,,))
+$(eval $(call IMG2SP, CONVERT         , assets/tileset_2.png , 8, 8, tileset,,))
 
 ## ========== TANQUE Y BALAS ========== 
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/sprites               ))
 # $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , sprites            )) #	{ sprites, zgtiles, screen }
-$(eval $(call IMG2SP, CONVERT         , assets/tanque.png , 8, 12, tanque,,))
-$(eval $(call IMG2SP, CONVERT         , assets/verticalBullet.png , 6, 6, vBullet,,))
-$(eval $(call IMG2SP, CONVERT         , assets/horizBullet.png , 4, 8, hBullet,,))
+# $(eval $(call IMG2SP, CONVERT         , assets/tanque.png , 8, 12, tanque,,))
+# $(eval $(call IMG2SP, CONVERT         , assets/verticalBullet.png , 6, 6, vBullet,,))
+# $(eval $(call IMG2SP, CONVERT         , assets/horizBullet.png , 4, 8, hBullet,,))
 $(eval $(call IMG2SP, CONVERT         , assets/test.png , 4, 4, test,,))
 $(eval $(call IMG2SP, CONVERT         , assets/HUD.png , 12, 16, HUDLife,,))
 $(eval $(call IMG2SP, CONVERT         , assets/scoreNumeros.png , 8, 8, spriteScore,,))
+
 $(eval $(call IMG2SP, CONVERT         , assets/avocado_1.png , 8, 12, avocado_p1_sprite,,))
 $(eval $(call IMG2SP, CONVERT         , assets/avocado_1_nonut.png , 8, 12, avocado_nn_p1_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/avocado_2.png , 8, 12, avocado_p2_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/avocado_2_nonut.png , 8, 12, avocado_nn_p2_sprite,,))
 
 # 24, 16
 $(eval $(call IMG2SP, CONVERT         , assets/ovniGreen.png , 8, 12, ovni_green,,))
@@ -78,7 +81,8 @@ $(eval $(call IMG2SP, CONVERT         , assets/final_boss2.png , 20, 22, final_b
 # 3
 $(eval $(call IMG2SP, CONVERT         , assets/ovniPortal.png , 12, 16, ovni_portal,,))
 
-$(eval $(call IMG2SP, CONVERT         , assets/ovniBullet.png , 4, 6, ovni_bullet,,))
+# antes 4 6
+$(eval $(call IMG2SP, CONVERT         , assets/ovniBullet.png , 2, 4, ovni_bullet,,))
 
 ## ========== NEXT STAGE ========== 
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/sprites               ))
@@ -99,14 +103,16 @@ $(eval $(call IMG2SP, CONVERT         , assets/item_rotator.png, 14, 16, rotator
 $(eval $(call IMG2SP, CONVERT         , assets/item_sharp_bullet.png, 14, 16, sharp_bullet_sprite,,))
 
 $(eval $(call IMG2SP, CONVERT         , assets/shield_ingame.png, 12, 16, shield_ingame_sprite,,))
-$(eval $(call IMG2SP, CONVERT         , assets/rotator_ingame.png , 4, 6, rotator_ingame_sprite,,))
+
+$(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_1.png , 4, 6, avocado_axe_1_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_2.png , 4, 6, avocado_axe_2_sprite,,))
 
 
 ## ========== PNG ENTEROS ========== 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , screen  ))
 $(eval $(call IMG2SP, SET_OUTPUT      , bin ))
 
-$(eval $(call IMG2SP, CONVERT         , assets/png/MenuPrincipal.png , 160, 200, MenuPrincipal,,))
+$(eval $(call IMG2SP, CONVERT         , assets/png/space_avocados_title.png , 160, 200, space_avocados_title,,))
 $(eval $(call IMG2SP, CONVERT         , assets/png/GameEnd.png , 160, 200, GameEnd,,))
 $(eval $(call IMG2SP, CONVERT         , assets/png/victoryScreen.png , 160, 200, victoryScreen,,))
 

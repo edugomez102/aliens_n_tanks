@@ -50,6 +50,6 @@ _macro_addresAux:
 _main:
     call	cpct_disableFirmware_asm
 
-    cpctm_setBorder_asm HW_BRIGHT_CYAN
+    cpctm_setBorder_asm HW_BLACK
     call _m_game_init
     call _m_game_play

@@ -32,7 +32,6 @@
 
 .globl t_axe_player
 
-.globl t_bullet_player
 .globl t_bullet_enemy_sp
 .globl t_bullet_enemy_l
 .globl t_bullet_enemy_l_f
