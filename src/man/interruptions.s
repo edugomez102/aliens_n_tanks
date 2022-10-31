@@ -273,6 +273,7 @@ int_handler_9::
 	push bc
 	push de
 	push hl
+	push ix
 
     ld a, #3
     ld (#_man_int_current), a
@@ -281,6 +282,7 @@ int_handler_9::
 	ld de, #int_handler_10
     call man_interruptions_set_next_interruption
 
+	pop ix
 	pop hl
 	pop de
 	pop bc

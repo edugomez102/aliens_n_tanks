@@ -28,6 +28,8 @@
 .globl _sys_render_renderHUDLifes
 .globl _sys_render_renderHUDScore
 .globl _renderMenuItems
+.globl _sys_render_erasePrevPtr
+.globl _sys_render_renderOneEntity
 
 .globl _sys_render_level_counter_next
 .globl _sys_render_level_counter_end

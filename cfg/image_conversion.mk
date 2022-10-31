@@ -49,7 +49,7 @@ $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/maps  ))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles  ))
-$(eval $(call IMG2SP, CONVERT         , assets/tileset_2.png , 8, 8, tileset,,))
+$(eval $(call IMG2SP, CONVERT         , assets/tileset.png , 8, 8, tileset,,))
 
 ## ========== TANQUE Y BALAS ========== 
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/sprites               ))
