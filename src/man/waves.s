@@ -9,12 +9,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-man_wave_is_waiting: .dw #0
+; man_wave_is_waiting: .dw #0
 
-
-wait_between_waves = 40
-; wave_counter: .dw #0
-
+wave_wait_between = 40
+wave_waiter_time: .db #0
 
 wave_current_time: .dw #0
 wave_next_time: .dw #0
@@ -23,6 +21,7 @@ wave_last_spawn: .dw #0
 wave_current_dir: .dw #0
 
 wave_timer_is_stop: .db #0
+wave_counter: .dw #0
 
 ; TODO spawn warning
 
@@ -50,6 +49,7 @@ man_wave_init:
 
    ld hl, #wave_timer_is_stop
    ld (hl), #0
+   ld hl, #wave_counter
 
    ret
 
@@ -85,6 +85,9 @@ man_wave_reset_local:
    call man_wave_set_next_entity_time
    inc hl
    call man_wave_set_last_dir
+
+   ld hl, #wave_counter
+   inc (hl)
 
    ret
 
