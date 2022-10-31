@@ -57,8 +57,12 @@
 _m_irCtr:
    .db 1
 
-;;Descripcion : Posición de memoria de la entidad del jugador
-_m_playerEntity:
+;;Descripcion : Posición de memoria de la entidad del jugador 1
+_m_player1Entity:
+   .dw #0x0000
+
+;;Descripcion : Posición de memoria de la entidad del jugador 2
+_m_player2Entity:
    .dw #0x0000
 
 ;;Descripcion : Número de vidas restantes
@@ -77,15 +81,9 @@ _m_nextLevel:
 _m_enemyCounter:
    .ds 1
 
-; ;;Descripcion : Texto que sale en la pantalla de inicio
-; press_str:
-   ; .asciz "PRESS ENTER"
-
-; restart_str:
-   ; .asciz "PRESS ENTER TO RESTART GAME"
-
-; victory_str:
-;    .asciz "Has ganao suprimo, dale a enter pa volver a generar endorcinas"
+;;Current game mode
+_m_gameMode:
+   .ds 1
 
 _m_current_level_counter: .db #0
 _m_max_level = #24
@@ -162,7 +160,36 @@ waitKeyPressed:
       pop hl
       jr  z, loopWaitKey
    
-   ret
+ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -
+;; Objetive: Makes the loop for the menu
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+man_menu_update:
+   ;;Check if is the key 1 pressed for individual mode
+   ld hl, #Key_1
+   call cpct_isKeyPressed_asm
+   jr nz, set_gamemode_individual
+
+   ;;Check if is the key 2 pressed for individual mode
+   ld hl, #Key_2
+   call cpct_isKeyPressed_asm
+   jr nz, set_gamemode_multiplayer
+
+   jr man_menu_update
+
+   set_gamemode_individual:
+      ld hl, #_m_gameMode
+      ld (hl), #0
+      ret
+
+   set_gamemode_multiplayer:
+      ld hl, #_m_gameMode
+      ld (hl), #1
+ret
 
 ;====================================================================
 ; FUNCION _m_game_play   
@@ -177,8 +204,18 @@ startGame:
 
    call _m_game_StartMenu
 
-   ld hl, #Key_Return
-   call waitKeyPressed
+   ;;ld hl, #Key_Return
+   ;;call waitKeyPressed
+
+   call man_menu_update
+
+   ld a, #_m_gameMode
+   cp #0
+   ;;jr z, modo individual
+
+   ld a, #_m_gameMode
+   cp #1
+   ;;jr z, modo multiplayer
 
    cpctm_clearScreen_asm 0
 
@@ -304,7 +341,9 @@ _m_game_destroyEntity:
    call _man_setEntity4Destroy
 ret
 
-
+_m_game_initPlayers:
+   
+ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Crear la axe 
 ;; Guardar dir de axe en patrol de player y viceversa
@@ -324,7 +363,7 @@ _m_game_createAxe:
    ld e_xpos(ix), #4
    ld e_ypos(ix), #48
 
-   ret
+ret
 
 ; TODO ix: current player
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -561,16 +600,16 @@ _man_game_loadLevel:
       jp checkNextLevelEntity
 
       playerCreated:
-      ; ;Aqui guardamos en _m_playerEntity la direccion de memoria del jugador
-      push ix
-      pop  de
-      push hl     
-      ld hl, #_m_playerEntity
-      ld (hl), d
-      inc hl
-      ld (hl), e
-      pop  hl
-      jp checkNextLevelEntity
+         ;;Aqui guardamos en _m_playerEntity la direccion de memoria del jugador
+         ; push ix
+         ; pop  de
+         ; push hl     
+         ; ld hl, #_m_playerEntity
+         ; ld (hl), d
+         ; inc hl
+         ; ld (hl), e
+         ; pop  hl
+         jp checkNextLevelEntity
 
       checkNextLevelEntity:
       inc hl

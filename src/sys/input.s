@@ -41,6 +41,9 @@
 .globl Key_S
 .globl Key_Space
 
+;;KEY CONTROLS
+
+
 ;===================================================================================================================================================
 ; FUNCION _sys_input_update
 ; Llama a la inversión de control para updatear las fisicas de cada entidad que coincida con e_type_movable
@@ -176,7 +179,7 @@ _sys_input_updateOneEntity:
         ld a, #0x00
         ld e_vx(ix), a
         ld a, #0x00
-        ld e_vy(ix), a   
+        ld e_vy(ix), a
         call _m_game_playerFire
         jp after_space_pressed
 

@@ -309,7 +309,7 @@ _man_playerUpdateOrientation:
       ld hl, #avocado_nn_p1_sprite_list
       call update_sprite_from_list
 
-   ret
+ret
 
 
 ;====================================================================
