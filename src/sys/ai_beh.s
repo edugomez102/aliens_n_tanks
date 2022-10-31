@@ -55,12 +55,14 @@ sys_ai_beh_axe_follow:
    ld__iy_hl
 
    ld a, e_xpos(iy)
+   add a, e_vx(iy)
    ld e_xpos(ix), a
 
    ld a, e_ypos(iy)
+   add a, e_vy(iy)
    ld e_ypos(ix), a
 
-   ld e_cmp(ix), #0x0A 
+   ;;ld e_cmp(ix), #0x0A
 
    ret
 
@@ -506,7 +508,11 @@ _sys_ai_prepare_ovni_die:
    ld e_sprite1(ix), l
    ld e_sprite2(ix), h
 
-   ret
+   ld a, e_cmp(ix)
+   sub a, #e_cmp_collider
+   ld e_cmp(ix), a
+
+ret
 
 _sys_ai_beh_boss_move:
    push bc

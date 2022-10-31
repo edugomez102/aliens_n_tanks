@@ -85,7 +85,7 @@ _level1:
 
    .db #level_new_entity
    .dw #t_enemy_basic_green
-   .db #8
+   .db #24
    .db #156
    .dw #ia_no_move
    .db #4                                 ; e_ai_aux_l

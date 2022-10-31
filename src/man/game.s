@@ -225,7 +225,7 @@ ei
       call _sys_input_update
 
       ;cpctm_setBorder_asm HW_GREEN
-      ;;call _sys_animator_update
+      call _sys_animator_update
 
       cpctm_setBorder_asm HW_WHITE
       call _sys_ai_update
