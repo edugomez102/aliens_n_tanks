@@ -28,6 +28,7 @@
 .include "templates.h.s"
 .include "entityInfo.s"
 .include "sys/items.h.s"
+.include "resources/template_macros.s"
 
 ; tiempo hasta que un enemy dispara
 t_shoot_timer_enemy_s = 38
@@ -90,7 +91,6 @@ free_item = 0
 ; 1 player tiene el axe
 ; 2 axe se esta lanzando
 ; 0 axe volviendoj
-
 ; patrol_step para la direccion de su axe
 t_player:
    .db #e_type_player
@@ -982,30 +982,6 @@ t_item_shield:
    .dw #0                                    ; input_behaviour
    .db #i_id_shield                                 ; e_ai_aim_x
    .db #0                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
-
-t_item_restart:
-   .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #7                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_restart_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_restart                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0                                    ; input_behaviour
-   .db #i_id_restart                                 ; e_ai_aim_x
-   .db #3                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step

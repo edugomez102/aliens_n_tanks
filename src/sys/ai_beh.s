@@ -482,7 +482,7 @@ _sys_ai_beh_ovni_die:
       push ix
       pop hl
       call _m_game_destroyEntity
-      call _man_game_decreaseEnemyCounter
+      call man_game_enemy_die
    ret
 
 ;; IX: enemy entity

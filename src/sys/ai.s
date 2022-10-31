@@ -428,7 +428,7 @@ _sys_ai_decrement_spawner_hp:
 
 _sys_ai_spawner_has_to_die:
    call _m_game_destroyEntity
-   call _man_game_decreaseEnemyCounter
+   call man_game_enemy_die
    ret
 
 ; iy: entity
@@ -527,7 +527,7 @@ decrease_boss_hp:
       push ix
       pop hl
       call _m_game_destroyEntity
-      call _man_game_decreaseEnemyCounter
+      call man_game_enemy_die
 
    ret
 

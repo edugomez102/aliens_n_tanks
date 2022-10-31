@@ -163,9 +163,9 @@ _sys_collision_updateMultiple:
     and e_type(ix)
     call NZ, playerCollisionBehaviour
 
-    ; ld a, #0x04
-    ; and e_type(ix)
-    ; call NZ, bulletCollisionBehaviour
+    ld a, #0x04
+    and e_type(ix)
+    call NZ, bulletCollisionBehaviour
 
     ld a, #0x08
     and e_type(ix)

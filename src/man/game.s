@@ -47,6 +47,7 @@
 .include "game.h.s"
 .include "resources/tilemaps.h.s"
 .include "sys/items.h.s"
+.include "man/waves.h.s"
 
 
 ;====================================================================
@@ -182,7 +183,7 @@ startGame:
 
    cpctm_clearScreen_asm 0
 
-;Set de variables de juego (Num Vidas / Num Nivel / Num Enemy / Puntuacion)
+;Set de variables de juego ()
 call _man_game_initGameVar
 call _m_HUD_initHUD
 call _m_game_restart_level_counter
@@ -197,6 +198,9 @@ SET_TILESET _tileset_00
 ld hl, #_m_enemyCounter
 ld (hl), #0x00
 call _man_entityInit
+
+; call man_wave_set_next_entity_time
+call man_wave_init
 call _man_game_loadLevel
 call _sys_render_renderTileMap
 call _m_HUD_renderLifes
@@ -246,6 +250,7 @@ ei
 
       cpctm_setBorder_asm HW_BRIGHT_GREEN
       call _man_game_updateGameStatus
+      call man_wave_update
 
       cpctm_setBorder_asm HW_BLACK
 
@@ -522,12 +527,12 @@ _man_game_loadLevel:
       jr load_level_enemy
 
       load_level_item:
-         ld hl, #_m_enemyCounter
-         dec (hl)
+         ; ld hl, #_m_enemyCounter
+         ; dec (hl)
       load_level_enemy:
 
-      ld hl, #_m_enemyCounter
-      inc (hl)
+      ; ld hl, #_m_enemyCounter
+      ; inc (hl)
       pop  hl
       ;/=======================
       ;| Al ser enemy tiene más datos que cargar
@@ -613,10 +618,11 @@ _man_game_updateGameStatus:
    ; /
    ; | Se checkea si el jugador ha acabado con los enemigos y pasa de nivel
    ; \
-   ld hl, #_m_enemyCounter
-   inc (hl)
-   dec (hl)
+   ; ld hl, #_m_enemyCounter
+   ; inc (hl)
+   ; dec (hl)
    jr NZ, dontPassLevel
+
    ld ix, #_m_nextLevel
    
    ;/
@@ -717,8 +723,8 @@ _man_game_decreasePlayerLife:
    jr Z, dontResetScore
    call _m_HUD_resetLevelScore
    dontResetScore:
-   pop hl ;Aqui quitamos lo ultimo de la pila pues no vamos a hacer un ret
-   jp restartLevel
+   ; pop hl ;Aqui quitamos lo ultimo de la pila pues no vamos a hacer un ret
+   ; jp restartLevel
 
    ret
 
@@ -822,11 +828,10 @@ player_picking_speed_bullet:
    ret
 
 ;====================================================================
-; FUNCION _man_game_decreaseEnemyCounter   
 ; Función encargada de decrementar el número de enemigos
 ; NO llega ningun dato
 ;====================================================================
-_man_game_decreaseEnemyCounter:
+man_game_enemy_die:
    ld hl, #_m_enemyCounter
    dec (hl)
    ld bc, #0x0002

@@ -27,7 +27,7 @@
 .globl _m_game_playerFire
 
 .globl _m_game_StartMenu
-.globl _man_game_decreaseEnemyCounter
+.globl man_game_enemy_die
 .globl _man_game_decreasePlayerLife
 .globl _man_game_increasePlayerLife
 .globl _man_game_getItem

@@ -17,10 +17,6 @@ item_pick_skip:
    call nextLevel
    ret
 
-item_pick_restart:
-   call restartLevel
-   ret
-
 item_pick_speed_bullet:
    ld hl, #player_bullet_vel_x
    ld (hl), #4
