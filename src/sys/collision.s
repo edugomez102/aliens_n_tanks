@@ -215,6 +215,50 @@ check_enemy_collision:
         jr loop_entities_enemy_collision
 ret
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  - IX: should contain the entity's memory direction we want to know 
+;;        if its colliding with something
+;;	- HL: should contain the entity array memory address
+;; Objetive: Check if some enemy is colliding with something he can
+;;           collide with.
+;;
+;; Modifies: -
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+check_enemyBullet_collision:
+    ;;First we load the entity array in IY
+    ld hl, (#_sys_entityArray)
+    ld__iy_hl
+
+    loop_entities_enemyBullet_collision:
+        IS_ENTITY_GIVEN_TYPE_IY e_type_bullet
+        jr nz, check_colliding_to_death_enemyBullet_collision
+
+        jr increment_next_entity_enemyBullet_collision
+
+    check_colliding_to_death_enemyBullet_collision:
+        call _sys_collisionEntity_check
+        jr c, increment_next_entity_enemyBullet_collision
+
+        ld__hl_ix
+        call _m_game_destroyEntity
+        ret
+
+    increment_next_entity_enemyBullet_collision:
+        ld bc, #0x0000
+        ld a, (#_sys_sizeOfEntity)
+        ld c, a
+        add iy, bc
+
+        ;;Here check if we don't have more entities to loop
+        ld__hl_iy
+        ld a, (hl)
+        or a, a
+        ret z
+
+        jr loop_entities_enemyBullet_collision
+ret
+
 ;====================================================================
 ; FUNCION _sys_collision_updateMultiple
 ; Comprueba la colision entre todas las entidades
@@ -230,10 +274,17 @@ _sys_collision_updateMultiple:
     IS_ENTITY_GIVEN_TYPE_IX e_type_enemy
     jr nz, is_enemy_type
 
+    IS_ENTITY_GIVEN_TYPE_IX e_type_enemy_bullet
+    jr nz, is_enemyBullet_type
+
     ret
 
     is_player_type:
         call check_player_collision
+        ret
+    
+    is_enemyBullet_type:
+        call check_enemyBullet_collision
         ret
 
     is_enemy_type:
