@@ -92,6 +92,9 @@ free_item = 0
 ; 2 axe se esta lanzando
 ; 0 axe volviendoj
 ; patrol_step para la direccion de su axe
+;
+; e_anim1 indica si es invencible
+; e_anim2 indica tiempo invencible
 t_player:
    .db #e_type_player
    .db #0x27                                 ; cmp

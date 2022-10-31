@@ -111,6 +111,10 @@ player_max_rotators = 2
 ; TODO pasar a t_player
 player_has_shot: .db #0
 
+
+player_blink_time = 20
+
+
 ;====================================================================
 ; FUNCION _m_game_createInitTemplate   
 ; ; Crea la entidad con el template indicado
@@ -596,12 +600,38 @@ _man_game_loadLevel:
    ret
 
 
+; TODO  FINISH
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IY: player
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_man_game_player_blink:
+   ld a, (player_blink_time)
+   cp e_anim2(iy)
+   jr nc, is_blinking
+   ret
+   
+   is_blinking:
+      ld e_cmp(iy), #0x07
+      ret
+   
+   ret
+
 ;====================================================================
 ; FUNCION _man_game_updateGameStatus   
 ; Función encargada de updatear el estado del juego y nivel
 ; NO llega ningun dato
 ;====================================================================
 _man_game_updateGameStatus:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   GET_PLAYER_ENTITY iy
+
+   ld a, e_anim1(iy)
+   cp #1
+   call z, _man_game_player_blink
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
    ; /
    ; ; | Se checkea si el jugador ha perdido las 3 vidas
@@ -670,47 +700,12 @@ _man_game_updateGameStatus:
    dontPassLevel:
    ret
 
-
-
-.globl _sys_render_erasePrevPtr
-.globl _sys_render_renderOneEntity
-
-player_quit_render_cmp:
-   call _sys_render_erasePrevPtr
-   ret
-
-player_restore_render_cmp:
-   push ix
-   pop hl
-   call _sys_render_renderOneEntity
-   ret
 ;====================================================================
 ; FUNCION _man_game_decreasePlayerLife   
 ; Función encargada de decrementar la vida del jugador
 ; NO llega ningun dato
 ;====================================================================
-player_max_blink = 60
-player_blink_time: .db #player_max_blink
 _man_game_decreasePlayerLife:
-
-   player_blink_loop:
-      halt
-      GET_PLAYER_ENTITY ix
-      ld hl, #player_blink_time
-
-      ; ld a, (hl)
-      ; cp #50
-      ; call z, #player_quit_render_cmp
-      ;
-      ; cp #20
-      ; call z, #player_restore_render_cmp
-
-      dec (hl)
-      jr nz, player_blink_loop
-
-   ; call cpct_waitVSYNC_asm
-   ld hl, #player_blink_time
-   ld (hl), #player_max_blink
 
    ld hl, #_m_lifePlayer
    dec (hl)
@@ -725,6 +720,11 @@ _man_game_decreasePlayerLife:
    dontResetScore:
    ; pop hl ;Aqui quitamos lo ultimo de la pila pues no vamos a hacer un ret
    ; jp restartLevel
+
+   GET_PLAYER_ENTITY iy
+   ld e_anim1(iy), #1
+   ld a, (player_blink_time)
+   ld e_anim2(iy), a
 
    ret
 

@@ -83,15 +83,15 @@ _level1:
    ; .dw #patrol_boss
    ; .dw #_sys_ai_beh_boss_shoot
 
-   .db #level_new_entity
-   .dw #t_enemy_basic_green
-   .db #8
-   .db #156
-   .dw #ia_no_move
-   .db #4                                 ; e_ai_aux_l
-   .db #48                                 ; e_ai_aux_h
-   .dw #patrol_all_game_zone_m0
-   .dw #_sys_ai_beh_shoot_y
+   ; .db #level_new_entity
+   ; .dw #t_enemy_basic_green
+   ; .db #8
+   ; .db #156
+   ; .dw #ia_no_move
+   ; .db #4                                 ; e_ai_aux_l
+   ; .db #48                                 ; e_ai_aux_h
+   ; .dw #patrol_all_game_zone_m0
+   ; .dw #_sys_ai_beh_shoot_y
 
    ; .db #level_new_entity
    ; .dw #t_spawner_from_template_01
