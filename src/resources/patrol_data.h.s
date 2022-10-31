@@ -43,6 +43,7 @@
 
 .globl patrol_relative_around_01
 .globl patrol_relative_around_02
+.globl patrol_relative_around_03
 .globl patrol_relative_03
 .globl patrol_seeknpatrol_01
 .globl patrol_seeknpatrol_02

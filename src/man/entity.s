@@ -18,10 +18,9 @@
 ;;------------------------------------------------------------------------------
 
 .module Entity
-;===================================================================================================================================================
+;====================================================================
 ; includes
-;===================================================================================================================================================
-.include "cpctelera.h.s"
+;====================================================================
 .include "resources/macros.s"
 .include "resources/entityInfo.s"
 .include "resources/sprites.h.s"
@@ -29,12 +28,9 @@
 .include "cpct_globals.h.s"
 .include "man/entity.h.s"
 
-;;Math
-.include "macros/math.h.s"
-
-;===================================================================================================================================================
-; Manager data
-;===================================================================================================================================================
+;====================================================================
+; Manager data   
+;====================================================================
 ;; Descripcion : Array de entidades
 ;; TODO: recalcular con los cambios de estructura de entity
 _m_entities:
@@ -64,11 +60,12 @@ _m_numEntities:
 _m_sizeOfEntity:
     .db #0x1c
 
-;===================================================================================================================================================
-; FUNCION _man_entityInit
+
+;====================================================================
+; FUNCION _man_entityInit   
 ; Inicializa el manager de entidades y sus datos
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_entityInit:
     ld de, #_m_entities
     ld a,  #0x00
@@ -81,11 +78,11 @@ _man_entityInit:
     ld  (_m_next_free_entity), hl
 ret
 
-;===================================================================================================================================================
-; FUNCION _man_createEntity
+;====================================================================
+; FUNCION _man_createEntity   
 ; Crea una entidad
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_createEntity:
     ld  de, (_m_next_free_entity)
     ld  h, #0x00
@@ -101,11 +98,11 @@ _man_createEntity:
     ld  h,d
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_entityForAllMatching
 ; Ejecuta la funcion  de _m_functionMemory por cada entidad que cumpla con el tipo designado en  _m_signatureMatch
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_entityForAllMatching:
     ld  hl, #_m_entities
     
@@ -147,11 +144,11 @@ _man_entityForAllMatching:
     pop hl
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_setEntity4Destroy
 ; Establece la entidad para ser destruida
 ; HL : La entidad para ser marcada
-;===================================================================================================================================================
+;====================================================================
 _man_setEntity4Destroy:
    ; ld (hl), #e_type_dead
     ld a, #0x80
@@ -159,12 +156,12 @@ _man_setEntity4Destroy:
     ld (hl),a
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_entityDestroy
 ; Elimina de las entidades la entidad de HL y arregla el array de entidades
 ; para establecer la ultima entidad al espacio liberado por la entidad destruida
 ; HL : La entidad para ser destruida
-;===================================================================================================================================================
+;====================================================================
 _man_entityDestroy:
     ;; HL = _m_next_free_entity
     ;; DE = entity to destroy
@@ -228,11 +225,11 @@ _man_entityDestroy:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_entitiesUpdate
 ; Recorre todas las entidades y destruye las entidades marcadas
-; NO llega ningun dato
-;===================================================================================================================================================
+; NO llega ningun dato 
+;====================================================================
 _man_entitiesUpdate:
     ld hl, #_m_entities
 
@@ -259,11 +256,11 @@ _man_entitiesUpdate:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_entity_freeSpace
 ; Devuelve en a si hay espacio libre en las entidades para poder generar
-; NO llega ningun dato
-;===================================================================================================================================================
+; NO llega ningun dato 
+;====================================================================
 ; _man_entity_freeSpace:
         ; ld hl, #_m_numEntities
         ; ld a, (#_m_numEntities)
@@ -272,87 +269,54 @@ ret
 
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_entityUpdate
 ; Encargado de updatear las entidades y al jugador
-; NO llega ningun dato
-;===================================================================================================================================================
+; NO llega ningun dato 
+;====================================================================
 _man_entityUpdate:
     call _man_entitiesUpdate
-    call _man_playerUpdate
-ret
-
-;===================================================================================================================================================
-; FUNCION _man_playerUpdate
-; Actualiza el sprite del jugador en funcion de su orientacion
-; NO llega ningun dato
-;===================================================================================================================================================
-_man_playerUpdate:
-    ;; Actualiza el cooldown de la bala
-    call _man_playerBulletCooldown
-
-    ld ix, #_m_playerEntity
-
-    ld h, (ix)
-    inc ix
-    ld l, (ix)
-    push hl
-    pop ix
-
-    ld a, e_orient(ix)
-    sub e_prorient(ix)
-    ret Z
-
-    ld a,   e_orient(ix)
-    ld e_prorient(ix), a
-
-    dec a ;Si vale 0 se irá a -1 y por lo tanto llegará al último jr
-    jr Z, setYDownAxis
-    dec a
-    jr Z, setXLeftAxis
-    dec a
-    jr Z, setYUpAxis
-    jr NZ, setXRightAxis
-
-    setXRightAxis:
-        ld hl, #_man_anim_player_x_right
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_0
-        jp setSprite
-    setYUpAxis:
-        ld hl, #_man_anim_player_y_up
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_1
-        jp setSprite
-
-    setXLeftAxis:
-        ld hl, #_man_anim_player_x_left
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_4
-        jp setSprite
-
-    setYDownAxis:
-        ld hl, #_man_anim_player_y_down
-        ld e_anim2(ix), h
-        ld e_anim1(ix), l
-        ld hl, #_tanque_5
-
-    setSprite:
-    ld e_sprite2(ix), h
-    ld e_sprite1(ix), l
-    ld e_animctr(ix), #0x0A
-
+    call _man_playerUpdateOrientation
     ret
 
 
-;===================================================================================================================================================
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Actualiza el sprite del jugador en funcion de su orientacion y si 
+;; tiene la axe
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_man_playerUpdateOrientation:
+   ; TODO player por parametro
+   ; TODO comprobar si player 1 o 2
+   GET_PLAYER_ENTITY iy
+    
+   ld a,   e_orient(iy)
+   ld e_prorient(iy), a
+
+   ld a, e_ai_aux_l(iy)
+   cp #1
+   jp z, player_axe_yes
+   jp nz, player_axe_no
+
+   player_axe_yes:
+      ld a, e_orient(iy)
+      ld hl, #avocado_p1_sprite_list
+      call update_sprite_from_list
+      ret
+
+   player_axe_no:
+      ld a, e_orient(iy)
+      ld hl, #avocado_nn_p1_sprite_list
+      call update_sprite_from_list
+
+   ret
+
+
+;====================================================================
 ; FUNCION _man_playerBulletCooldown
 ; Descuenta el cooldown de la bala
-; NO llega ningun dato
-;===================================================================================================================================================
+; NO llega ningun dato 
+;====================================================================
 _man_playerBulletCooldown:
     ld ix, #_m_playerEntity
 

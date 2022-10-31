@@ -23,9 +23,9 @@
 .include "resources/patrol_data.h.s"
 .include "resources/templates.h.s"
 
-;===============================================================================
+;====================================================================
 ; Regular Patrol
-;===============================================================================
+;====================================================================
 
 ; CENTRO: 36, 104
 ; !! se puede hacer que un patrol redirija  a otro !!
@@ -259,9 +259,9 @@ patrol_boss_3:
    .db #patrol_invalid_move
    .dw #patrol_boss_3
 
-;=============================================================================== 
+;==================================================================== 
 ; Relative Patrol
-;===============================================================================
+;====================================================================
 
 ;; moverse alredeodr de una entidad
 patrol_relative_around_01:
@@ -279,6 +279,14 @@ patrol_relative_around_02:
    .db  -2, -8
    .db #patrol_invalid_move
    .dw #patrol_relative_around_02
+
+patrol_relative_around_03:
+   .db  -2, -8
+   .db  4, -8
+   .db  4, 12
+   .db  -2, 12
+   .db #patrol_invalid_move
+   .dw #patrol_relative_around_03
 
 patrol_seeknpatrol_01:
    .db  0, -16
@@ -363,9 +371,9 @@ patrol_relative_y_64:
    .db  0, 64
    .db #patrol_invalid_move
    .dw #patrol_relative_y_64
-;===============================================================================
+;====================================================================
 ; Spawner Patrol List
-;===============================================================================
+;====================================================================
 ; !!!! el tamanyo tiene que ser menor que enemy_max_spawn !!!j
 ; igora el ultimo por eso hay que poner 0000 al final!
 

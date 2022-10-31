@@ -52,15 +52,14 @@ _sys_input_update:
     ld hl , #_m_signatureMatch 
     ld (hl), #0x04  ; e_type_input
     call _man_entityForAllMatching
-    ret
+ret
 
 ;===================================================================================================================================================
 ; FUNCION _sys_input_updateOneEntity
 ; Updatea cada una de las entidades que tiene componente input
 ; HL : Entidad a updatear
 ;===================================================================================================================================================
-_sys_input_updateOneEntity:    
-    
+_sys_input_updateOneEntity:
     push hl
     pop ix
 
@@ -178,7 +177,7 @@ _sys_input_updateOneEntity:
         ld e_vx(ix), a
         ld a, #0x00
         ld e_vy(ix), a   
-        call _m_game_playerShot
+        call _m_game_playerFire
         jp after_space_pressed
 
       .globl nextLevel

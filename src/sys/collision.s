@@ -18,9 +18,9 @@
 ;;------------------------------------------------------------------------------
 
 .module Collision
-;===================================================================================================================================================
+;====================================================================
 ; includes
-;===================================================================================================================================================
+;====================================================================
 .include "resources/entityInfo.s"
 .include "cpct_globals.h.s"
 .include "man/entity.h.s"
@@ -39,9 +39,9 @@
 ;;Math
 .include "macros/math.h.s"
 
-;===================================================================================================================================================
+;====================================================================
 ; Manager data   
-;===================================================================================================================================================
+;====================================================================
 ;; Punto 1 de la colision de la entidad
 _sys_entityColisionPos1_X:
     .ds 1
@@ -64,11 +64,11 @@ _sys_numEntities:
 
 _sys_sizeOfEntity:
     .ds 1    
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_collision_update
 ; Llama a varias etiquetas para updatear las colisiones
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_collision_update:
 
     call _sys_checkColissionBwEntities
@@ -77,11 +77,11 @@ _sys_collision_update:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_checkColissionBwEntities
 ; Setea las variables para comprobar la colision entre todas las entidades
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_checkColissionBwEntities:
     ld hl, #_m_entities
     ld (#_sys_entityArray), hl
@@ -93,25 +93,25 @@ _sys_checkColissionBwEntities:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_checkColissionBwTile
 ; Comprueba la colision de los type colisionables con el tile del mapa
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_checkColissionBwTile:
     ld hl, #_sys_collision_updateOneEntity
     ld (_m_functionMemory), hl
     ld hl , #_m_signatureMatch 
-    ld (hl), #0x21  ; e_type_movable | e_cmp_collider = #0x21
+    ld (hl), #0x20  ; e_cmp_collider = #0x20
     call _man_entityForAllMatching
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_collision_updateMultiple
 ; Comprueba la colision entre todas las entidades
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_collision_updateMultiple:
     ;; Guardamos en "ix" la entidad base a updatear
     ld hl, (#_sys_entityArray)
@@ -119,11 +119,6 @@ _sys_collision_updateMultiple:
     pop ix
     ld d, h
     ld e, l
-
-    ; ld a, e_cmp(ix)
-    ; and #e_cmp_collider
-    ; cp #e_cmp_collider
-    ; jp z, _next_ix
 
     jp _next_iy
 
@@ -168,9 +163,9 @@ _sys_collision_updateMultiple:
     and e_type(ix)
     call NZ, playerCollisionBehaviour
 
-    ld a, #0x04
-    and e_type(ix)
-    call NZ, bulletCollisionBehaviour
+    ; ld a, #0x04
+    ; and e_type(ix)
+    ; call NZ, bulletCollisionBehaviour
 
     ld a, #0x08
     and e_type(ix)
@@ -197,11 +192,11 @@ _sys_collision_updateMultiple:
         jp _next_ix
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_collision_updateMultiple
 ; Comprueba se las entidades realmente colisionan
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_collisionEntity_check:
     
     ld a, e_xpos(ix)
@@ -229,11 +224,11 @@ _sys_collisionEntity_check:
 
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_collision_updateOneEntity
 ; Comprueba según la orientación si está colisionando con una tile
 ; HL : Entidad a updatear
-;===================================================================================================================================================
+;====================================================================
 _sys_collision_updateOneEntity:
     push hl
     pop ix
@@ -326,11 +321,11 @@ check_tile_margin_bullets:
 
    ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_checkTilePosition
 ; Comprueba si el punto que le han pasado colisiona con la tile y en ese caso updatea su velocidad
 ; BC : El punto en el que se va a comprobar la colision
-;===================================================================================================================================================
+;====================================================================
 _sys_checkTilePosition:
     call check_tile_margin_bullets
 
@@ -504,7 +499,6 @@ _sys_checkTilePosition:
          ; ld e_aictr(iy), #0
          call reset_player_aictr
 
-         call _m_game_bulletDestroyed
 
       ;; TODO[Edu]: mejorar !!
       is_type_rotator:
@@ -515,11 +509,11 @@ _sys_checkTilePosition:
    ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_setEntityCollisionPoints
 ; Según la orientación de la entidad. Setea los puntos a comprobar en las variables
 ; BC : El punto en el que se va a comprobar la colision
-;===================================================================================================================================================
+;====================================================================
 _sys_setEntityCollisionPoints:
     ld c, a
 
@@ -625,11 +619,11 @@ _sys_setEntityCollisionPoints:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION playerCollisionBehaviour
 ; Comportamiento de las colisiones del jugador
 ; NO llega nada
-;===================================================================================================================================================
+;====================================================================
 no_collision_player_die = (e_type_bullet | e_type_item)
 
 playerCollisionBehaviour:
@@ -646,11 +640,11 @@ playerCollisionBehaviour:
 
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION enemyCollisionBehaviour
 ; Comportamiento de las colisiones del enemigo
 ; NO llega nada
-;===================================================================================================================================================
+;====================================================================
 enemyCollisionBehaviour:
     ld a, #0x04
     and e_type(iy)
@@ -680,7 +674,6 @@ enemyCollisionBehaviour:
     call _sys_ai_prepare_ovni_die
 
     call reset_player_aictr
-    call _m_game_bulletDestroyed
 
     ret
 
@@ -694,11 +687,11 @@ enemyCollisionBehaviour:
     ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION destroyPairOfEntities
 ; Método encargado las dos entidades que colisionan
 ; NO llega nada
-;===================================================================================================================================================
+;====================================================================
 destroyPairOfEntities:
     push iy
     pop hl 
@@ -711,11 +704,11 @@ destroyPairOfEntities:
     ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION enemySpawnerCollisionBehaviour
 ; Método encargado de las colisiones del enemySpawner
 ; NO llega nada
-;===================================================================================================================================================
+;====================================================================
 enemySpawnerCollisionBehaviour:
 
     ld a, #0x04
@@ -726,7 +719,6 @@ enemySpawnerCollisionBehaviour:
     push iy
     pop hl
     call _m_game_destroyEntity
-    call _m_game_bulletDestroyed
     ; call reset_player_aictr
 
     ret
@@ -736,11 +728,11 @@ enemySpawnerCollisionBehaviour:
 ;                                Y SE BORRA ASÍ MISMO
 ;                                si es una enemyBullet se eliminan las 2
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION bulletCollisionBehaviour
 ; Método encargado de las colisiones del bullet
 ; NO llega nada
-;===================================================================================================================================================
+;====================================================================
 bulletCollisionBehaviour:
     ld a, #e_type_enemy
     and e_type(iy)
@@ -767,7 +759,6 @@ bulletCollisionBehaviour:
     push ix
     pop hl 
     call _m_game_destroyEntity
-    call _m_game_bulletDestroyed
     
     ret
     destroyEnity:
@@ -811,17 +802,16 @@ bulletCollisionBehaviour:
 
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION enemyBulletCollisionBehaviour
 ; Método encargado de las colisiones del enemyBullet
 ; NO llega nada
-;===================================================================================================================================================
+;====================================================================
 enemyBulletCollisionBehaviour:
     ld a, #0x04
     and e_type(iy)
     ret Z
 
-    call _m_game_bulletDestroyed
     ld bc, #0x0001
     call _m_HUD_addPoints
     ld a, #0x01

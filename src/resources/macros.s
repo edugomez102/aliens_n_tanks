@@ -108,14 +108,14 @@
 .endm
 
 
-;===============================================================================
+;====================================================================
 ; Comprobrar los dos af despues de salir de seekCoords_x y seekCoords_y
 ; Salta ret si no es el caso !!!
 ; Parameters:
 ;  - HL: af register
 ;  - BC: previous af register
 ;  - DE: paramter for _call_on_succes that goes on HL
-;===============================================================================
+;====================================================================
 .macro X_AND_Y_ON_ZERO_AFTER_SEEK _call_on_succes
    ld a, #0x40
    and l
@@ -149,20 +149,29 @@
    pop bc
 .endm
 
-;===============================================================================
+;====================================================================
 ; Comprobrar si entidad esta parada
 ; Salta ret si no es el caso !!!
 ; Usar al final de un label
-;===============================================================================
+;====================================================================
 .macro CHECK_VX_VY_ZERO _call_on_succes
+   ; ld a, e_vx(ix)
+   ; or a
+   ; jr z, . + 3
+   ; jr . + 9
+   ; ;; . + 3
+   ;    ld a, e_vy(ix)
+   ;    or a
+   ;    call z, _call_on_succes
+   ;; . + 9
+
+   ; ???? es lo mismo creo que van de las dos
    ld a, e_vx(ix)
    or a
-   jr z, . + 3
-   jr . + 9
-   ;; . + 3
-      ld a, e_vy(ix)
-      or a
-      call z, _call_on_succes
+   jr nz, . + 9
+   ld a, e_vy(ix)
+   or a
+   call z, _call_on_succes
    ;; . + 9
 
 .endm
@@ -170,14 +179,41 @@
 .macro CHECK_VX_VY_ZERO_JR _jr_on_succes
    ld a, e_vx(ix)
    or a
-   jr z, . + 3
-   jr . + 9
-   ;; . + 3
-      ld a, e_vy(ix)
-      or a
-      jr z, _jr_on_succes
-   ;; . + 9
+   jr nz, . + 8
+   ld a, e_vy(ix)
+   or a
+   jr z, _jr_on_succes
+   ;; . + 8
+.endm
 
+.macro CHECK_DOUBLE_ZERO_CALL _v1 _v2 _call_on_succes
+   ld a, _v1
+   or a
+   jr nz, . + 9
+   ld a, _v2
+   or a
+   call z, _call_on_succes
+   ;; . + 8
+.endm
+
+.macro CHECK_DOUBLE_ZERO_JR _v1 _v2 _jr_on_succes
+   ld a, _v1
+   or a
+   jr nz, . + 8
+   ld a, _v2
+   or a
+   jr z, _jr_on_succes
+   ;; . + 8
+.endm
+
+.macro CHECK_DOUBLE_ZERO_RET _v1 _v2
+   ld a, _v1
+   or a
+   jr nz, . + 6
+   ld a, _v2
+   or a
+   ret z
+   ;; . + 6
 .endm
 
 .macro CHECK_NO_AIM_XY _call_on_succes2
@@ -192,10 +228,10 @@
    ;; . + 9
 .endm
 
-;===============================================================================
+;====================================================================
 ; Comprobrar si entidad esta parada
 ; Destroy: BC, HL
-;===============================================================================
+;====================================================================
 .macro GET_PLAYER_ENTITY _register
    ld hl, #_m_playerEntity
    ld b, (hl)

@@ -17,6 +17,7 @@
 ;;  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;------------------------------------------------------------------------------
 
+.include "cpctelera.h.s"
 .include "sys/ai.h.s"
 
 .include "man/entity.h.s"
@@ -36,40 +37,91 @@
 ;; BULLET
 ;;--------------------------------------------------------------------------------
 
-;===================================================================================================================================================
-; FUNCION _sys_ai_behaviourBullet
-; Updatea el contador de existencia de la bala y la destruye si hace falta
-; BC : Entidad a updatear
-;===================================================================================================================================================
-_sys_ai_behaviourBullet:
-    ld h, b
-    ld l, c
-    push hl
-    pop ix
-
-    ;; Se comprueba que el contador de mov. restantes de las
-    ;; balas sea 0. En ese caso se manda a destruir
-    ld a, e_aictr(ix)
-    dec a
-    jr z, destroyBullet ;; Si es 0 se destruye la bala
-
-    jp stopUpdateBullet
-
-    destroyBullet:
-        ;; Volvemos a indicar que no tiene balas y re-seteamos el contador
-        push hl
-        call _m_game_bulletDestroyed
-        pop hl
-        call _m_game_destroyEntity
-
-
-    stopUpdateBullet:
-    ld e_aictr(ix), a
+; sets = ix: axe, iy: player dir
+sys_ai_beh_axe_common:
+   ld__ix_bc
+   ; dir del player que tiene la axe
+   ld l, e_patrol_step_l(ix)
+   ld h, e_patrol_step_h(ix)
+   ld__iy_hl
    ret
 
-;===============================================================================
+sys_ai_beh_axe_follow:
+   call sys_ai_beh_axe_common
+   ld__ix_bc
+   ; dir del player que tiene la axe
+   ld l, e_patrol_step_l(ix)
+   ld h, e_patrol_step_h(ix)
+   ld__iy_hl
+
+   ld a, e_xpos(iy)
+   ld e_xpos(ix), a
+
+   ld a, e_ypos(iy)
+   ld e_ypos(ix), a
+
+   ld e_cmp(ix), #0x0A 
+
+   ret
+
+;====================================================================
+; Updatea el contador de existencia de la bala y la destruye si hace falta
+  ; ix: axe
+  ; iy: player
+;====================================================================
+
+_sys_ai_behaviourBullet:
+   ret
+
+sys_ai_beh_axe_throw:
+   call sys_ai_beh_axe_common
+
+   CHECK_DOUBLE_ZERO_RET e_vx(ix) e_vy(ix)
+
+   dec e_aictr(ix)
+   jr z, stopBullet ;; Si es 0 se destruye la bala
+   ret
+
+   stopBullet:
+      ld e_vx(ix), #0
+      ld e_vy(ix), #0
+
+      ld e_ai_aux_l(iy), #2
+      ld e_aictr(ix), #t_bullet_timer_player
+
+      ;; quitar render al axe
+      ; ld e_cmp(ix), #0x0A 
+
+      ; TODO new mejorar
+
+    ret 
+
+sys_ai_beh_axe_pickup:
+   call sys_ai_beh_axe_common
+
+   call _sys_ai_aim_to_entity
+
+   ld d, #4
+   call _sys_ai_seekCoords_y
+   ld d, #2
+   call _sys_ai_seekCoords_x
+
+   ; TODO use collision 
+   CHECK_VX_VY_ZERO sys_ai_axe_set_follow
+   ; CHECK_DOUBLE_ZERO_CALL e_vx(ix) e_vy(ix) sys_ai_axe_set_follow
+
+   ret
+
+sys_ai_axe_set_follow:
+   ld hl, #sys_ai_beh_axe_follow
+   call _sys_ai_changeBevaviour
+   ld e_ai_aux_l(iy), #1
+   call _sys_ai_reset_aim
+   ret
+
+;====================================================================
 ; Esta bala muere cuado aictr llega a 0
-;===============================================================================
+;====================================================================
 _sys_ai_behaviourBulletLinear:
    push bc
    pop ix
@@ -90,9 +142,9 @@ _sys_ai_behaviourBulletLinear:
       ; call _man_setEntity4Destroy
    ret
 
-;===============================================================================
+;====================================================================
 ; Esta bala muere cuado llega al ai_aim
-;===============================================================================
+;====================================================================
 _sys_ai_behaviourBulletSeektoPlayer:
    push bc
    pop ix
@@ -126,17 +178,17 @@ _sys_ai_behaviourBulletSeektoPlayer:
 ;; AI MOVE BEHAVIOURS
 ;;--------------------------------------------------------------------------------
 
-enemy_no_move:
+ia_no_move:
    push bc
    pop ix
    ld e_vx(ix), #0
    ld e_vy(ix), #0
    ret
 
-;===============================================================================
+;====================================================================
 ; actualiza _sys_ai_nextPatrolCoords
 ; Destroy: HL, BC
-;===============================================================================
+;====================================================================
 _sys_ai_behaviourPatrol:
    push bc
    pop ix
@@ -169,11 +221,11 @@ _sys_ai_behaviourPatrol_f:
 
    ret
 
-;===============================================================================
+;====================================================================
 ; Patron con posiones relativas a xy, actualiza _sys_ai_nextPatrolCoords
 ; !!! Necesario poner en e_ai_aux mismas posiciones que en xpos ypos
 ; Destroy: HL, BC
-;===============================================================================
+;====================================================================
 _sys_ai_behaviourPatrolRelative:
    push bc
    pop ix
@@ -216,10 +268,10 @@ _sys_ai_behaviourPatrolRelative_f:
 
    ret
 ;; TODO: si pos inicial 1 peta no se
-;===============================================================================
+;====================================================================
 ; Sigue al jugador cambiando y se para a hacer un patron
 ; Usa el aictr
-;===============================================================================
+;====================================================================
 _sys_ai_behaviourSeekAndPatrol:
    push bc
    pop ix
@@ -332,17 +384,17 @@ do_follow_player_y_f:
 
 ; IX: entidad
 _sys_ai_check_tile_collision_from_ai:
-   push ix
-   pop hl
+   ;push ix
+   ;pop hl
    ;; haciendo un buen uso de nuestro maravilloso ECS
    ;; porque sino en la siguiente itereacion se mete en el tilemap
-   call _sys_collision_updateOneEntity
-   ret
+   ;call _sys_collision_updateOneEntity
+ret
 
 
-;===============================================================================
+;====================================================================
 ; SPAWNER
-;===============================================================================
+;====================================================================
 _sys_ai_behaviourSpawner_template_f:
    call _sys_ai_beh_spawner_commmon_f
    call c, _sys_ai_spawnEnemy_template
@@ -543,20 +595,20 @@ boss_multi_shoot:
 ;; AI SHOOT BEHAVIOURS
 ;;--------------------------------------------------------------------------------
 
-;===============================================================================
+;====================================================================
 ; dec e_aictr y si es cero llama a un shoot
 ; Destroy: BC
-;===============================================================================
+;====================================================================
 _sys_ai_shoot_condition_common:
    dec e_aictr(ix)
    ld b, e_xpos(ix)
    ld c, e_ypos(ix)
    ret
 
-;===============================================================================
+;====================================================================
 ; dispara bala tipo SeektoPlayer
 ; Destroy: BC
-;===============================================================================
+;====================================================================
 ; _sys_ai_shoot_condition_sp:
 _sys_ai_beh_shoot_seekplayer:
    call _sys_ai_shoot_condition_common
@@ -581,7 +633,10 @@ _sys_ai_beh_shoot_x_f:
 
 _sys_ai_beh_shoot_y:
    call _sys_ai_shoot_condition_common
+   push ix
    call z, _sys_ai_shoot_bullet_l_y
+   pop ix
+   ; ld e_aictr(ix), #10
    ret
 
 ;; fast version

@@ -19,6 +19,7 @@
 
 .module Sprites
 .include "sprites.h.s"
+.include "resources/entityInfo.s"
 
 _sprite_player01:
    .dw #0x3F3F
@@ -200,4 +201,84 @@ _sprite_enemy01:
    .dw #0x0000
    .dw #0x0000
    .dw #0x0000
+
+; los jugadores tienen spritelist
+
+avocado_p1_sprite_list:
+   .dw #_avocado_p1_sprite_0
+   .dw #_avocado_p1_sprite_1
+   .dw #_avocado_p1_sprite_2
+   .dw #_avocado_p1_sprite_3
+
+avocado_nn_p1_sprite_list:
+   .dw #_avocado_nn_p1_sprite_0
+   .dw #_avocado_nn_p1_sprite_1
+   .dw #_avocado_nn_p1_sprite_2
+   .dw #_avocado_nn_p1_sprite_3
+
+avocado_p2_sprite_list:
+   .dw #_avocado_p2_sprite_0
+   .dw #_avocado_p2_sprite_1
+   .dw #_avocado_p2_sprite_2
+   .dw #_avocado_p2_sprite_3
+
+avocado_nn_p2_sprite_list:
+   .dw #_avocado_nn_p2_sprite_0
+   .dw #_avocado_nn_p2_sprite_1
+   .dw #_avocado_nn_p2_sprite_2
+   .dw #_avocado_nn_p2_sprite_3
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sets sprite of entity from a sprite list and an index
+;; Orientation   0 = Right , 1 = Down , 2 = Left , 3 = Up
+;;
+;; Param A : index in sprite list. starts from 0
+;; Param HL: sprite_list
+;; Param IY: player dir
+;; 
+;; Destroy: HL, BC, A
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+update_sprite_from_list:
+   cp #0
+   jp z, sprite_list_apply
+
+   cp #1
+   jp z, sprite_list_index_1
+
+   cp #2
+   jp z, sprite_list_index_2
+
+   cp #3
+   jp z, sprite_list_index_3
+
+   sprite_list_index_1:
+      inc hl
+      inc hl
+      jp sprite_list_apply
+
+   sprite_list_index_2:
+      inc hl
+      inc hl
+      inc hl
+      inc hl
+      jp sprite_list_apply
+
+   sprite_list_index_3:
+      inc hl
+      inc hl
+      inc hl
+      inc hl
+      inc hl
+      inc hl
+      jp sprite_list_apply
+
+   sprite_list_apply:
+      ld b, (hl)
+      inc hl
+      ld c, (hl)
+      ld e_sprite2(iy), c
+      ld e_sprite1(iy), b
+
+   ret
 

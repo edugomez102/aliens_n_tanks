@@ -50,7 +50,7 @@ int_handler_1::
 	push de
 	push hl
 
-    ld a, #5
+    ld a, #11
     ld (#_man_int_current), a
 
 	;;Here we set the next interruption to jump to the next int_handler
@@ -77,7 +77,7 @@ int_handler_2::
 	push de
 	push hl
 
-    ld a, #4
+    ld a, #10
     ld (#_man_int_current), a
 
 	;;Here we set the next interruption to jump to the next int_handler
@@ -105,7 +105,7 @@ int_handler_3::
 	push hl
 	push ix
 
-    ld a, #3
+    ld a, #9
     ld (#_man_int_current), a
 
 	;;Here we play the music, once per frame
@@ -139,7 +139,7 @@ int_handler_4::
 	push de
 	push hl
 
-    ld a, #2
+    ld a, #8
     ld (#_man_int_current), a
 
 	;;Here we set the next interruption to jump to the next int_handler
@@ -166,7 +166,7 @@ int_handler_5::
 	push de
 	push hl
 
-    ld a, #1
+    ld a, #7
     ld (#_man_int_current), a
 
 	;;Here we set the next interruption to jump to the next int_handler
@@ -188,6 +188,170 @@ reti
 ;; Modifies: HL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 int_handler_6::
+	push af
+	push bc
+	push de
+	push hl
+
+    ld a, #6
+    ld (#_man_int_current), a
+
+    ;;Here we set the next interruption to jump to the next int_handler
+	ld de, #int_handler_7
+    call man_interruptions_set_next_interruption
+
+	pop hl
+	pop de
+	pop bc
+	pop af
+ei
+reti
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -  
+;; Objetive: Set the interruption 7 code.
+;;
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int_handler_7::
+	push af
+	push bc
+	push de
+	push hl
+
+    ld a, #5
+    ld (#_man_int_current), a
+
+    ;;Here we set the next interruption to jump to the next int_handler
+	ld de, #int_handler_8
+    call man_interruptions_set_next_interruption
+
+	pop hl
+	pop de
+	pop bc
+	pop af
+ei
+reti
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -  
+;; Objetive: Set the interruption 8 code.
+;;
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int_handler_8::
+	push af
+	push bc
+	push de
+	push hl
+
+    ld a, #4
+    ld (#_man_int_current), a
+
+    ;;Here we set the next interruption to jump to the next int_handler
+	ld de, #int_handler_9
+    call man_interruptions_set_next_interruption
+
+	pop hl
+	pop de
+	pop bc
+	pop af
+ei
+reti
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -  
+;; Objetive: Set the interruption 9 code.
+;;
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int_handler_9::
+	push af
+	push bc
+	push de
+	push hl
+	push ix
+
+    ld a, #3
+    ld (#_man_int_current), a
+
+    ;;Here we set the next interruption to jump to the next int_handler
+	ld de, #int_handler_10
+    call man_interruptions_set_next_interruption
+
+	pop ix
+	pop hl
+	pop de
+	pop bc
+	pop af
+ei
+reti
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -  
+;; Objetive: Set the interruption 10 code.
+;;
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int_handler_10::
+	push af
+	push bc
+	push de
+	push hl
+
+    ld a, #2
+    ld (#_man_int_current), a
+
+    ;;Here we set the next interruption to jump to the next int_handler
+	ld de, #int_handler_11
+    call man_interruptions_set_next_interruption
+
+	pop hl
+	pop de
+	pop bc
+	pop af
+ei
+reti
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -  
+;; Objetive: Set the interruption 11 code.
+;;
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int_handler_11::
+	push af
+	push bc
+	push de
+	push hl
+
+    ld a, #1
+    ld (#_man_int_current), a
+
+    ;;Here we set the next interruption to jump to the next int_handler
+	ld de, #int_handler_12
+    call man_interruptions_set_next_interruption
+
+	pop hl
+	pop de
+	pop bc
+	pop af
+ei
+reti
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Pre requirements
+;;  -  
+;; Objetive: Set the interruption 12 code.
+;;
+;; Modifies: HL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+int_handler_12::
 	push af
 	push bc
 	push de

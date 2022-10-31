@@ -17,18 +17,21 @@
 ;;  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;------------------------------------------------------------------------------
 
-;================================================================================
+;=====================================================================
 ; Globals
-;================================================================================
+;=====================================================================
 .globl t_shoot_timer_enemy
 .globl t_shoot_timer_enemy_r_l
 .globl t_shoot_timer_enemy_r_h
 .globl t_shoot_timer_tile_collision
 
+.globl t_bullet_timer_player
+
 .globl t_bullet_timer_enemy
 .globl player_max_bullets
 
-.globl t_bullet_player
+.globl t_axe_player
+
 .globl t_bullet_enemy_sp
 .globl t_bullet_enemy_l
 .globl t_bullet_enemy_l_f
@@ -39,9 +42,9 @@
 .globl t_spawner_timer
 .globl enemy_no_shoot
 
-;================================================================================
+;=====================================================================
 ; Template declaration
-;================================================================================
+;=====================================================================
 
 .globl t_player
 

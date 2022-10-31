@@ -31,11 +31,11 @@
 ; beh patrol
 ; beh x right left
 ; beh y up down
-;===============================================================================
+;====================================================================
 ; actualiza _sys_ai_nextPatrolCoords y llama a _sys_ai_setAiAim
 ; IX: entidad
 ; Destroy: HL
-;===============================================================================
+;====================================================================
 _sys_patrol_next::
 
    ld h, e_patrol_step_h(ix)
@@ -131,7 +131,7 @@ stop_spawning:
    ; push ix
    ; pop hl
    ; call _m_game_destroyEntity
-   ld de, #enemy_no_move
+   ld de, #ia_no_move
    ld e_aibeh1(ix), e
    ld e_aibeh2(ix), d
 
@@ -145,12 +145,12 @@ stop_spawning:
    ret
 
 .globl t_bullet_timer_enemy
-;===============================================================================
+;====================================================================
 ; Meter en ai_aux la posicion del jugador al hacer el call
 ; Destroy: BC
 ; IY: entity to set as origin
 ; IX: AI
-;===============================================================================
+;====================================================================
 _sys_patrol_set_relative_origin:
 
    ld h, e_xpos(iy)

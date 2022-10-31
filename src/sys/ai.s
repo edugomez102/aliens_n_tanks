@@ -31,9 +31,9 @@
 .include "resources/sprites.h.s"
 .include "collision.h.s"
 
-;===================================================================================================================================================
+;====================================================================
 ; Manager data
-;===================================================================================================================================================
+;====================================================================
 
 _sys_ai_directionMemory:
     .dw #0x0000
@@ -56,22 +56,22 @@ _sys_ai_init:
    ret
 
 
-;===============================================================================
+;====================================================================
 ; Actualiza ai_beh
 ; HL: direction of new behaviour
-;===============================================================================
+;====================================================================
 _sys_ai_changeBevaviour:
    ld e_aibeh1(ix), l
    ld e_aibeh2(ix), h
    ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_ai_update
 ; Llama a la inversión de control para updatear el comportamiento de 
 ; las entidades que coincida con e_type_movable
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _sys_ai_update:
     ld hl, #_sys_ai_updateOneEntity
     ld (_m_functionMemory), hl
@@ -80,12 +80,12 @@ _sys_ai_update:
     call _man_entityForAllMatching
     ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _sys_ai_updateOneEntity
 ; Busca el comportamiento de la entidad y lo ejecuta 
 ; HL : LA entidad a updatear
 ;   - Sale BC que es la entidad a updatear
-;===================================================================================================================================================
+;====================================================================
 _sys_ai_updateOneEntity:    
 
     ld b, h
@@ -131,12 +131,12 @@ _sys_ai_updateOneEntity:
 ;; FUNCTIONS OF BEHAVIOURS
 ;;--------------------------------------------------------------------------------
 
-;===============================================================================
+;====================================================================
 ; El enemigo dispara una bala hacia el jugador, se destruye al llegar
 ; Genera una entidad _bullet_template y le cambia la posicion a la del enemy
 ; BC: posicon desde dodne sale
 ;; TODO[Edu]: no sale del centro de la entidad
-;===============================================================================
+;====================================================================
 _sys_ai_shootBulletSeek:
    call _sys_ai_reset_shoot_aictr
 
@@ -307,15 +307,15 @@ _sys_ai_shoot_bullet_l_d_f:
    call _sys_ai_seekCoords_y
    ret
 
-;===============================================================================
+;====================================================================
 ; Esta bala muere cuando aictr llega a 0
 
-;===============================================================================
+;====================================================================
 ; Genera un patron de entidades que hay en patrol_step
 ; BC: posicion donde debe sale
 ; Destroy: IX, IY, HL, BC
 ;; TODO[Edu]: no sale del centro de la entidad
-;===============================================================================
+;====================================================================
 _sys_ai_spawnEnemy_plist:
    call _sys_ai_reset_spawner_aictr
    ; si es patrol_invalid_move se sale
@@ -360,12 +360,12 @@ _sys_ai_spawnEnemy_plist:
 
    ret
 
-;===============================================================================
+;====================================================================
 ; Genera entidades de un template que esta en patrol_step
 ; BC: posicion donde debe sale
 ; Destroy: IX, IY, HL, BC
 ;; TODO[Edu]: no sale del centro de la entidad
-;===============================================================================
+;====================================================================
 _sys_ai_spawnEnemy_template:
    call _sys_ai_reset_spawner_aictr
    push bc
@@ -391,10 +391,10 @@ _sys_ai_spawnEnemy_template:
    ret
 
 
-;===============================================================================
+;====================================================================
 ; Usamos orient para hp spawner ya que nunca se va a mover
 ; IX: spawner entity
-;===============================================================================
+;====================================================================
 _sys_ai_decrement_spawner_hp:
    ;; TODO: cargar animacion para dar feedback de menor vida
    dec e_orient(ix)
@@ -531,11 +531,11 @@ decrease_boss_hp:
 
    ret
 
-;===============================================================================
+;====================================================================
 ; actualizar ai_aim a nueva posicion y guardar en ai_last_aim la de antes del cambio
 ; IX: entidad que va a hacer el seek
 ; HL: coordenadas nuveas
-;===============================================================================
+;====================================================================
 _sys_ai_setAiAim:
 
    ld e_ai_aim_x(ix), h
@@ -545,11 +545,11 @@ _sys_ai_setAiAim:
 ; poner en el counter el valor que pasa hasta disparar una baga 
 
 
-;===============================================================================
+;====================================================================
 ; Seek a unas coordenadas segun e_ai_aim_x, usando CP(con unsigned en principio)
 ; IX: entidad que va a hacer el seek
 ; D: velocidad
-;===============================================================================
+;====================================================================
 _sys_ai_seekCoords_x:
    ld a, e_ai_aim_x(ix)
 
@@ -577,11 +577,11 @@ _sys_ai_seekCoords_x:
 
    ret
 
-;===============================================================================
+;====================================================================
 ; Seek a unas coordenadas segun e_ai_aim_y, usando CP(con unsigned en principio)
 ; IX: entidad que va a hacer el seek
 ; D: velocidad
-;===============================================================================
+;====================================================================
 _sys_ai_seekCoords_y:
    ld a, e_ai_aim_y(ix)
 
@@ -641,11 +641,11 @@ _sys_ai_restore_spawn:
 ;; PRIVATE FUNCS
 ;;--------------------------------------------------------------------------------
 
-;===============================================================================
+;====================================================================
 ; Poner el aim de una entidad en la pos de otro
 ; IX: changes aim
 ; IY: entity to set as aim
-;===============================================================================
+;====================================================================
 _sys_ai_aim_to_entity:
    ld a, e_xpos(iy)
    ld e_ai_aim_x(ix), a
@@ -671,6 +671,11 @@ _sys_ai_reset_shoot_aictr:
 
    set_fixed:
       ld e_aictr(ix), #t_shoot_timer_enemy
+   ret
+
+_sys_ai_reset_aim:
+   ld e_ai_aim_x(ix), #0
+   ld e_ai_aim_y(ix), #0
    ret
 
 _sys_ai_reset_bullet_aictr:

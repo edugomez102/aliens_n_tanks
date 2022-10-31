@@ -18,9 +18,9 @@
 ;;------------------------------------------------------------------------------
 
 .module Game
-;===================================================================================================================================================
+;====================================================================
 ; includes
-;===================================================================================================================================================
+;====================================================================
 .include "cpctelera.h.s"
 .include "cpct_globals.h.s"
 .include "man/entity.h.s"
@@ -35,6 +35,7 @@
  
 .include "sys/render.h.s"
 .include "sys/ai.h.s"
+.include "sys/ai_beh.h.s"
 .include "sys/animator.h.s"
 .include "sys/collision.h.s"
 .include "sys/input.h.s"
@@ -48,17 +49,13 @@
 .include "sys/items.h.s"
 
 
-;===================================================================================================================================================
+;====================================================================
 ; Manager data
-;===================================================================================================================================================
+;====================================================================
 
 ;;Descripcion : Contador de las interrupciones por la que vamos
 _m_irCtr:
    .db 1
-
-; ;;Descripcion : Saber si el jugador ha disparado ya 
-_m_playerShot:
-   .db #0x01
 
 ;;Descripcion : Posición de memoria de la entidad del jugador
 _m_playerEntity:
@@ -94,8 +91,7 @@ _m_current_level_counter: .db #0
 _m_max_level = #24
 
 ;; TODO: nose poner mejor
-player_shoot_cooldown_l = 36
-player_shoot_cooldown_h = 36
+player_shoot_cooldown = 12
 
 player_vel_x = 2
 player_vel_y = 4
@@ -103,19 +99,22 @@ player_vel_y = 4
 player_bullet_vel_x: .db #2
 player_bullet_vel_y: .db #4
 
-
 player_has_rotator: .db #0
 player_has_shield: .db #0
 
-player_has_sharp_bullet: .db #0
+player_has_sharp_bullet: .db #1
 player_has_speed_bullet: .db #0
 
 player_max_rotators = 2
-;===================================================================================================================================================
+
+; TODO pasar a t_player
+player_has_shot: .db #0
+
+;====================================================================
 ; FUNCION _m_game_createInitTemplate   
 ; ; Crea la entidad con el template indicado
 ; BC : Valor de template a crear
-;===================================================================================================================================================
+;====================================================================
 _m_game_createInitTemplate:
    call _man_createEntity
    push hl
@@ -129,11 +128,11 @@ _m_game_createInitTemplate:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _m_game_init   
 ; Inicializa el juego y sus entidades
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _m_game_init:
    call _sys_init_render
 
@@ -146,11 +145,11 @@ _m_game_init:
    
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION waitKeyPressed
 ; Funcion encargada de esperar a que se pulse de forma única la tecla pasada por registro
 ; HL = Tecla para pulsar
-;===================================================================================================================================================
+;====================================================================
 waitKeyPressed:
    push hl
    call cpct_isKeyPressed_asm
@@ -165,11 +164,11 @@ waitKeyPressed:
    
    ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _m_game_play   
 ; Bucle del juego
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _m_game_play:
 ;==================
 ;Pantalla inicio
@@ -216,11 +215,8 @@ ei
 
       cpctm_setBorder_asm HW_BLACK
       ld a, (_man_int_current)
-      cp #0
+      cp #2
       jr nz, testIr
-      
-      cpctm_setBorder_asm HW_BLUE
-      call _sys_render_update
 
       cpctm_setBorder_asm HW_BLACK
       call _man_entityUpdate
@@ -228,8 +224,8 @@ ei
       cpctm_setBorder_asm HW_RED
       call _sys_input_update
 
-      cpctm_setBorder_asm HW_GREEN
-      call _sys_animator_update
+      ;cpctm_setBorder_asm HW_GREEN
+      ;;call _sys_animator_update
 
       cpctm_setBorder_asm HW_WHITE
       call _sys_ai_update
@@ -239,12 +235,22 @@ ei
 
       cpctm_setBorder_asm HW_BRIGHT_YELLOW
       call _sys_physics_update
+      
+      wait_render:
+
+      ld a, (_man_int_current)
+      cp #0
+      jr nz, wait_render
+
+      cpctm_setBorder_asm HW_BLUE
+      call _sys_render_update
 
       cpctm_setBorder_asm HW_BRIGHT_GREEN
       call _man_game_updateGameStatus
 
-   jr testIr
-   
+      cpctm_setBorder_asm HW_BLACK
+
+      jr testIr
 
    endGame:
 
@@ -289,203 +295,136 @@ ei
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _m_game_destroyEntity
 ; Funcion que destruye la entidad indicada
 ; HL : Llega el valor de la entidad
-;===================================================================================================================================================
+;====================================================================
 _m_game_destroyEntity:
    call _man_setEntity4Destroy
 ret
 
 
-;===================================================================================================================================================
-; FUNCION _m_game_bulletDestroyed
-; ; Funcion que indica al player que su bala ha sido destruida
-;===================================================================================================================================================
-_m_game_bulletDestroyed:
-   ld hl, #_m_playerShot
-   ld (hl), #0x00
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Crear la axe 
+;; Guardar dir de axe en patrol de player y viceversa
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_m_game_createAxe:
+   GET_PLAYER_ENTITY iy
+   ; ix: axe
+   CREATE_ENTITY_FROM_TEMPLATE t_axe_player ; hl
+   ld e_patrol_step_l(iy), l
+   ld e_patrol_step_h(iy), h
+   ld__ix_hl ; ix: axe
+   ld__hl_iy
+   ld e_patrol_step_l(ix), l
+   ld e_patrol_step_h(ix), h
+
+   ld e_xpos(ix), #4
+   ld e_ypos(ix), #48
+
+   ret
+
+; TODO ix: current player
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Input de player. Lanzar o recoger axe
+;; En e_ai_aux_l esta la variable del estado de la axe
+;;   0 no se hace nada
+;;   1 player puede lanzar
+;;   2 player puede recoger
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_m_game_playerFire:
+   GET_PLAYER_ENTITY iy
+   ; axe in ix
+   ld l, e_patrol_step_l(iy)
+   ld h, e_patrol_step_h(iy)
+   ld__ix_hl
+
+   ld e_cmp(ix), #0x0B
+   ld a, e_ai_aux_l(iy)
+
+   cp #1
+   jp z, _m_game_playerThrow
+
+   cp #2
+   jp z, _m_game_playerGetAxe
+
 ret
 
-;===================================================================================================================================================
-; FUNCION _m_game_playerShot
-; ; Funcion que dispara si puede
-; NO llega nada
-;===================================================================================================================================================
-_m_game_playerShot:
-   ; ;; Se comprueba si el jugador ha disparado ya
-   ; ;; Si el ai_counter del player es != 0 es que está en cooldown (ha disparado)
-   GET_ENTITY_POSITION #_m_playerEntity
-   push de
-   pop ix
-   ld a, e_aictr(ix)
-   ld b, #0x00
-   sub b
-   ret NZ ;; Si ha disparado se sale de la etiqueta
+_m_game_playerGetAxe:
+   ld e_ai_aux_l(iy), #0
 
-   
-   CREATE_ENTITY_FROM_TEMPLATE t_bullet_player
-   ;; HL es la primera pos del array de la bala
-   ex de, hl   ;; de = hl
-   push de     ;; guardamos la primera pos del array de la bala
+   ld hl, #sys_ai_beh_axe_pickup
+   call _sys_ai_changeBevaviour
 
-   ;; Sacamos la pos del player en el array de entidades
-   push ix
-   pop iy
-   GET_PLAYER_ENTITY ix
-   ; ld hl, #_m_playerEntity
-   ; ld d, (hl)
-   ; inc hl
-   ; ld e, (hl)
-   ; ;; de ahora es la primera pos. del array del player
-   ;
-   ; ex de, hl
-   ;
-   ; ;; Guardamos en registros los datos del player
-   ; push hl
-   ; pop ix
+   ret 
 
-   ld b, e_xpos(ix) 
-   ld c, e_ypos(ix)
+; iy: Player
+; TODO: centrar
+_m_game_playerThrow:
+   ;; Se comprueba si el jugador ha disparado ya
+   ;; Si el ai_counter del player es != 0 es que está
+   ;; en cooldown (ha disparado)
+   ld e_ai_aux_l(iy), #0
 
-   ld a, e_orient(ix)
+   ld hl, #sys_ai_beh_axe_throw
+   call _sys_ai_changeBevaviour
 
-   ;; Sacamos la posicion de la bala en el array
-   pop de
-   ex de,hl
-   
-   push af  ;; Guardamos la orientación del tanque en la pila
+   ld b, e_xpos(iy) 
+   ld c, e_ypos(iy)
 
-   ;; Actualizamos su pos
-   push hl
-   pop ix
-   ld a, b
-   ld e_xpos(ix), a
-   ld a, c
-   ld e_ypos(ix), a
+   ; bala en pos de player
+   ld e_xpos(ix), b
+   ld e_ypos(ix), c
 
-   ;; ----- ACTUALIZAMOS LA ORIENTACIÓN DE LA BALA -----
-   pop de ;; "d" es la orientación del tanque
-   ;; A lo mejor no hace falta
-   ;; Uso aqui la pila para poder posicionarme en el array (bala)
-   push hl
-   pop ix
+   ld a, e_orient(iy)
 
-   ld a, #0x00 ;; Right
-   sub d
+   cp #0
    jr z, righOrientation ;; Si es 0 va a la derecha
 
-   ld a, #0x01 ;; Down
-   sub d
+   cp #1
    jr z, downOrientation ;; Si es 0 va a la abajo
 
-   ld a, #0x02 ;; Left
-   sub d
+   cp #2
    jr z, leftOrientation ;; Si es 0 va a la izquierda
 
-   ld a, #0x03 ;; Up
-   sub d
+   cp #3
    jr z, upOrientation ;; Si es 0 va a la arriba
 
-   jp stopCheckOrientation
+   ret
+
    righOrientation:
       ld a, (player_bullet_vel_x)
       ld e_vx(ix), a
-
-      ld e_orient(ix), #0x00
-      ld a, e_ypos(ix)
-      add a, #0x03
-      ld e_ypos(ix), a
-      jp stopCheckOrientation
+      ret
 
    downOrientation:
       ld a, (player_bullet_vel_y)
       ld e_vy(ix), a
-      ld e_orient(ix), #0x01
-
-      ld e_width(ix),  #0x02
-      ld e_heigth(ix), #0x08
-      
-      ld a, e_ypos(ix)
-      add a, #0x2
-      ld e_ypos(ix), a
-      ld a, e_xpos(ix)
-      add a, #0x01
-      ld e_xpos(ix), a
-
-      ld hl, #_hBullet_1
-      ld e_sprite2(ix), h
-      ld e_sprite1(ix), l
-      jp stopCheckOrientation
+      ret
 
    leftOrientation:
       ld a, (player_bullet_vel_x)
       ld d, a
       NEGATE_NUMBER d
       ld e_vx(ix), a
-      ld e_orient(ix), #0x02
-
-      ld a, e_ypos(ix)
-      add a, #0x03
-      ld e_ypos(ix), a
-      ld a, e_xpos(ix)
-      add a, #0x01
-      ld e_xpos(ix), a
-
-      ld hl, #_vBullet_0
-      ld e_sprite2(ix), h
-      ld e_sprite1(ix), l
-
-      jp stopCheckOrientation
+      ret
 
    upOrientation:
       ld a, (player_bullet_vel_y)
       ld d, a
       NEGATE_NUMBER d
       ld e_vy(ix), a
-      ld e_orient(ix), #0x03
-
-      ld e_width(ix),  #0x02
-      ld e_heigth(ix), #0x08
-      
-      ld a, e_ypos(ix)
-      add a, #0x02
-      ld e_ypos(ix), a
-      ld a, e_xpos(ix)
-      add a, #0x01
-      ld e_xpos(ix), a
-      
-      ld hl, #_hBullet_0
-      ld e_sprite2(ix), h
-      ld e_sprite1(ix), l
-      jp stopCheckOrientation
-   stopCheckOrientation:
-
-   ; ; ;; Indicamos que ya ha disparado
-   GET_ENTITY_POSITION, #_m_playerEntity
-   push de
-   pop ix
-   
-   ; contador de balas 
-   dec e_ai_aux_l(ix)
-   jr z, cooldown_high
-
-   ld e_aictr(ix), #player_shoot_cooldown_l
-   ret
-
-   cooldown_high:
-      ld e_aictr(ix), #player_shoot_cooldown_h
-      ld e_ai_aux_l(ix), #player_max_bullets
+      ret
 
 ret
 
-
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _wait   
 ; Espera un tiempo antes de realizar otra iteracion del bucle de juego
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 
 _wait:
    ld h, #0x05
@@ -498,11 +437,11 @@ _wait:
    ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_game_initGameVar   
 ; Función encargada de iniciar/resetear los valores del juego
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_game_initGameVar:
 
    ld hl, #_m_lifePlayer
@@ -520,11 +459,11 @@ _man_game_initGameVar:
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_game_loadLevel   
 ; Función encargada de cargar los datos y crear entidades del nivel
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_game_loadLevel:
    ld hl, #_m_gameLevel
    ld e, (hl)
@@ -647,16 +586,17 @@ _man_game_loadLevel:
    inc hl
    ld (hl), d
 
+   call _m_game_createAxe
    call _m_game_reg_ingame_items
 
 ret
 
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_game_updateGameStatus   
 ; Función encargada de updatear el estado del juego y nivel
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_game_updateGameStatus:
 
    ; /
@@ -734,12 +674,12 @@ player_restore_render_cmp:
    push ix
    pop hl
    call _sys_render_renderOneEntity
-ret
-;===================================================================================================================================================
+   ret
+;====================================================================
 ; FUNCION _man_game_decreasePlayerLife   
 ; Función encargada de decrementar la vida del jugador
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 player_max_blink = 60
 player_blink_time: .db #player_max_blink
 _man_game_decreasePlayerLife:
@@ -792,9 +732,9 @@ _man_game_increasePlayerLife:
 
 ret
 
-;===============================================================================
+;====================================================================
 ; iy: item entity
-;===============================================================================
+;====================================================================
 _man_game_getItem:
 
    ld b, #0
@@ -878,11 +818,11 @@ player_picking_speed_bullet:
    jp z, can_pick_ingame_item
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _man_game_decreaseEnemyCounter   
 ; Función encargada de decrementar el número de enemigos
 ; NO llega ningun dato
-;===================================================================================================================================================
+;====================================================================
 _man_game_decreaseEnemyCounter:
    ld hl, #_m_enemyCounter
    dec (hl)
@@ -892,11 +832,11 @@ _man_game_decreaseEnemyCounter:
    call _m_HUD_renderScore
 ret
 
-;===================================================================================================================================================
+;====================================================================
 ; FUNCION _m_game_StartMenu   
 ; Funcion que manda a renderizar la pantalla de inicio del juego
 ; NO llega ningun dato
-; ;===================================================================================================================================================
+; ;====================================================================
 _m_game_StartMenu:
 
    ld hl, #_screenmenu_end
