@@ -429,9 +429,10 @@ t_spawner_from_plist_01:
 ; BULLETS
 ;=====================================================================
 
+; cmp cambia entre 0 y 0x2b
 t_axe_player:
    .db #e_type_bullet                        ; type
-   .db #0x2B                                 ; cmp
+   .db #0x0                                ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #2                                 ; width

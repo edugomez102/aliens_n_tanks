@@ -196,8 +196,6 @@ check_enemy_collision:
 
         ld__hl_ix
         call _sys_ai_prepare_ovni_die
-        GET_PLAYER_ENTITY iy
-        ld e_ai_aux_l(iy), #1
         ret
 
     increment_next_entity_enemy_collision:

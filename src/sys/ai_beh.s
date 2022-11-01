@@ -81,20 +81,15 @@ sys_ai_beh_axe_throw:
    CHECK_DOUBLE_ZERO_RET e_vx(ix) e_vy(ix)
 
    dec e_aictr(ix)
-   jr z, stopBullet ;; Si es 0 se destruye la bala
+   jr z, ai_axe_stop
    ret
 
-   stopBullet:
+   ai_axe_stop:
       ld e_vx(ix), #0
       ld e_vy(ix), #0
 
       ld e_ai_aux_l(iy), #2
       ld e_aictr(ix), #t_bullet_timer_player
-
-      ;; quitar render al axe
-      ; ld e_cmp(ix), #0x0A 
-
-      ; TODO new mejorar
 
     ret 
 
@@ -117,7 +112,10 @@ sys_ai_beh_axe_pickup:
 sys_ai_axe_set_follow:
    ld hl, #sys_ai_beh_axe_follow
    call _sys_ai_changeBevaviour
+
    ld e_ai_aux_l(iy), #1
+   ld e_cmp(ix), #0x0
+
    call _sys_ai_reset_aim
    ret
 
