@@ -60,3 +60,4 @@
 .globl _man_game_player_blink
 
 .globl _m_gameMode
+.globl victoryScreen

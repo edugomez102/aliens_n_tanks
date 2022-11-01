@@ -195,7 +195,7 @@ check_enemy_collision:
         jr c, increment_next_entity_enemy_collision
 
         ld__hl_ix
-        call _sys_ai_prepare_ovni_die
+        call _sys_ai_prepare_enemy_die
         ret
 
     increment_next_entity_enemy_collision:

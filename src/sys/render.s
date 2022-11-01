@@ -336,6 +336,27 @@ _sys_render_renderHUDScore:
 
     ret
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; C: y pos
+;; B: x pos
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_sys_render_box_on_coord:
+   ld de, #0xC000
+   call cpct_getScreenPtr_asm
+
+   ex de, hl
+
+   ld  c, e_width(ix) 
+   ld  b, e_heigth(ix)
+   ; ld c, #10
+   ; ld b, #10
+   ld  a, #0x00
+
+   call cpct_drawSolidBox_asm
+   ret
+
 _sys_render_next_wave:
 
    ; base
@@ -347,8 +368,8 @@ _sys_render_next_wave:
    ex de, hl
 
    ld hl, #_next_wave_sprite
-   ld c, #39
-   ld b, #14
+   ld c, #36
+   ld b, #7
    call cpct_drawSprite_asm
 
    ret

@@ -29,8 +29,9 @@
 .include "sys/patrol.h.s"
 .include "sys/ai.h.s"
 .include "resources/sprites.h.s"
-.include "collision.h.s"
-.include "resources/animations.h.s"
+; .include "collision.h.s"
+; .include "resources/animations.h.s"
+.include "sys/render.h.s"
 
 
 ;;--------------------------------------------------------------------------------
@@ -482,7 +483,7 @@ _sys_ai_beh_spawner_commmon_f:
       cp d
    ret
 
-_sys_ai_beh_ovni_die:
+_sys_ai_beh_enemy_die:
    push bc
    pop ix
 
@@ -497,23 +498,19 @@ _sys_ai_beh_ovni_die:
    ret
 
 ;; IX: enemy entity
-_sys_ai_prepare_ovni_die:
+_sys_ai_prepare_enemy_die:
+   ld e_aictr(ix), #4
+   ld e_vx(ix), #0
+   ld e_vy(ix), #0
+
    ld hl, #enemy_no_shoot
    ld e_inputbeh1(ix), l
    ld e_inputbeh2(ix), h
 
-   ld e_aictr(ix), #7
-   ld hl, #_sys_ai_beh_ovni_die
+   ld hl, #_sys_ai_beh_enemy_die
    call _sys_ai_changeBevaviour
-   ld e_vx(ix), #0
-   ld e_vy(ix), #0
 
-   ld hl, #_man_anim_exp
-   ld e_anim1(ix), l
-   ld e_anim2(ix), h
-   ld e_animctr(ix), #3
-
-   ld hl, #_ovni_exp_0
+   ld hl, #_points_20
    ld e_sprite1(ix), l
    ld e_sprite2(ix), h
 
@@ -690,8 +687,6 @@ _sys_ai_beh_item_update:
    ret
 
    ai_destroy_item:
-      ; ld__hl_ix
-      ; call _m_game_destroyEntity
       ld hl, #_sys_ai_beh_blink
       call _sys_ai_changeBevaviour
 
@@ -751,22 +746,14 @@ _sys_ai_beh_blink:
    blink_no_render:
       dec e_cmp(ix)
 
-      ld de, #0xC000
       ld c, e_xpos(ix)
       ld b, e_ypos(ix)
-      call cpct_getScreenPtr_asm
-
-      ex de, hl
-
-      ld  c, e_width(ix) 
-      ld  b, e_heigth(ix)
-      ld  a, #0x00
-
-      call cpct_drawSolidBox_asm
+      call _sys_render_box_on_coord
       ret
 
    destroy_blinking_entity:
       ld__hl_ix
+      ; TODO variable
       call _m_game_destroyEntity
 
    ret

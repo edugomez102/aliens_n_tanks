@@ -74,7 +74,12 @@ $(eval $(call IMG2SP, CONVERT         , assets/ovniPurple.png , 8, 12, ovni_purp
 $(eval $(call IMG2SP, CONVERT         , assets/ovniRed.png , 8, 12, ovni_red,,))
 $(eval $(call IMG2SP, CONVERT         , assets/ovniExplosion.png , 8, 12, ovni_exp,,))
 
+## ========== ENEMIES ========== 
+
 $(eval $(call IMG2SP, CONVERT         , assets/alien_03.png , 6, 8, alien_blue,,))
+
+$(eval $(call IMG2SP, CONVERT         , assets/spawn_warn.png , 6, 8, spawn_warn,,))
+$(eval $(call IMG2SP, CONVERT         , assets/points_20.png , 6, 8, points_20,,))
 
 $(eval $(call IMG2SP, CONVERT         , assets/final_boss2.png , 20, 22, final_boss,,))
 
@@ -107,8 +112,9 @@ $(eval $(call IMG2SP, CONVERT         , assets/shield_ingame.png, 12, 16, shield
 $(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_1.png , 4, 6, avocado_axe_1_sprite,,))
 $(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_2.png , 4, 6, avocado_axe_2_sprite,,))
 
+
 ## ========== HUD new ========== 
-$(eval $(call IMG2SP, CONVERT         , assets/next_wave.png , 78, 14, next_wave_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/next_wave.png , 72, 7, next_wave_sprite,,))
 
 
 ## ========== PNG ENTEROS ========== 
