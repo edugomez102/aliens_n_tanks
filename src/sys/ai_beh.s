@@ -160,7 +160,7 @@ _sys_ai_behaviourBulletSeektoPlayer:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    CHECK_NO_AIM_XY _sys_ai_aim_to_entity
 
    ; mira la verdad no se como esto funciona
@@ -287,7 +287,7 @@ _sys_ai_behaviourSeekAndPatrol:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    CHECK_NO_AIM_XY _sys_ai_aim_to_entity
 
    dec e_ai_aux_l(ix)
@@ -309,7 +309,7 @@ _sys_ai_behaviourSeekAndPatrol_f:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    CHECK_NO_AIM_XY _sys_ai_aim_to_entity
 
    dec e_ai_aux_l(ix)
@@ -355,7 +355,7 @@ _sys_ai_beh_follow_player_y_f:
 _sys_ai_beh_follow_player:
    push bc
    pop ix
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    call _sys_ai_aim_to_entity
    dec e_ai_aux_l(ix)
    ret
@@ -779,7 +779,7 @@ _sys_ai_beh_ingame_shield:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    ld a, e_xpos(iy)
    sub #1
    ld e_xpos(ix), a
@@ -794,7 +794,7 @@ _sys_ai_beh_ingame_rotator:
    push bc
    pop ix
 
-   ; GET_PLAYER_ENTITY iy
+   ; GET_PLAYER1_ENTITY iy
    ; ld a, e_xpos(iy)
    ; ; add #2
    ; ld e_xpos(ix), a
@@ -803,7 +803,7 @@ _sys_ai_beh_ingame_rotator:
    ; ; add #1
    ; ld e_ypos(ix), a
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    ld a, e_xpos(iy)
    ld e_ai_aux_l(ix), a
 

@@ -118,8 +118,33 @@ t_player:
    .dw #0x0000                               ; ai_aim_position
    .db #1                                 ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
-   .db #0x00                                 ; e_patrol_step_l
-   .db #0x00                                 ; e_patrol_step_h
+   .db #0x00                                 ; e_patrol_step_l || dir axe b1
+   .db #0x00                                 ; e_patrol_step_h || dir axe b2
+
+t_player2:
+   .db #e_type_player
+   .db #0x27                                 ; cmp
+   .db #0x26                                 ; x
+   .db #0xa0                                 ; y
+   .db #0x04                                 ; width
+   .db #0x0C                                 ; heigth
+   .db #0x00                                 ; vx
+   .db #0x00                                 ; vy
+   .dw #_avocado_p2_sprite_0                            ; sprite
+   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #_sys_ai_beh_blink                               ; ai_behaviour
+   .db #0x00                                 ; ai_counter
+   .db #41                                   ; anim1 
+   .db #41                                   ; anim1 
+   .db #0                                   ; anim. counter
+   .dw #0x0000                               ; input_behaviour
+   .dw #0x0000                               ; ai_aim_position
+   .db #1                                 ; e_ai_aux_l
+   .db #0x00                                 ; e_ai_aux_h
+   .db #0x00                                 ; e_patrol_step_l || dir axe b1
+   .db #0x00                                 ; e_patrol_step_h || dir axe b2
 
 ; w 12 ;6
 ; h 16 ;16
@@ -453,8 +478,32 @@ t_axe_player:
    .dw #0x0000                               ; ai_aim_position
    .db #0x00                                 ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
-   .db #0x00                                 ; e_patrol_step_l
-   .db #0x00                                 ; e_patrol_step_h
+   .db #0x00                                 ; e_patrol_step_l || dir player b1
+   .db #0x00                                 ; e_patrol_step_h || dir player b2
+
+t_axe_player2:
+   .db #e_type_bullet                        ; type
+   .db #0x0                                ; cmp
+   .db #0x00                                 ; x
+   .db #0x00                                 ; y
+   .db #2                                 ; width
+   .db #6                                 ; heigth
+   .db #0x00                                 ; vx
+   .db #0x00                                 ; vy
+   .dw #_avocado_axe_2_sprite               ; sprite
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #sys_ai_beh_axe_follow              ; ai_behaviour
+   .db #t_bullet_timer_player               ; ai_counter 
+   .dw #0x00                                 ; animator
+   .db #0x00                                 ; anim. counter
+   .dw #0x0000                               ; input_behaviour
+   .dw #0x0000                               ; ai_aim_position
+   .db #0x00                                 ; e_ai_aux_l
+   .db #0x00                                 ; e_ai_aux_h
+   .db #0x00                                 ; e_patrol_step_l || dir player b1
+   .db #0x00                                 ; e_patrol_step_h || dir player b2
 
 
 ;; la bullet del enemey

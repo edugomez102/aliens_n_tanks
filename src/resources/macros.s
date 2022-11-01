@@ -232,8 +232,17 @@
 ; Comprobrar si entidad esta parada
 ; Destroy: BC, HL
 ;====================================================================
-.macro GET_PLAYER_ENTITY _register
-   ld hl, #_m_playerOneEntity
+.macro GET_PLAYER1_ENTITY _register
+   ld hl, #_m_player1Entity
+   ld b, (hl)
+   inc hl
+   ld c, (hl)
+   push bc
+   pop _register
+.endm
+
+.macro GET_PLAYER2_ENTITY _register
+   ld hl, #_m_player2Entity
    ld b, (hl)
    inc hl
    ld c, (hl)

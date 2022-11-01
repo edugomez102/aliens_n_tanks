@@ -149,7 +149,7 @@ _sys_ai_shootBulletSeek:
    pop bc
    call shoot_from_enemy_center
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    call _sys_ai_aim_to_entity
 
 
@@ -176,7 +176,7 @@ shoot_from_enemy_center:
 _sys_ai_shoot_b_position_y_aim:
    call shoot_from_enemy_center
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    call _sys_ai_aim_to_entity
 
    ret

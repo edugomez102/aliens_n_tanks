@@ -59,7 +59,7 @@ _m_irCtr:
    .db 1
 
 ;;Descripcion : Posición de memoria de la entidad del jugador 1
-_m_playerOneEntity:
+_m_player1Entity:
    .dw #0x0000
 
 ;;Descripcion : Posición de memoria de la entidad del jugador 2
@@ -355,7 +355,7 @@ ret
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _m_game_createAxe:
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    ; ix: axe
    CREATE_ENTITY_FROM_TEMPLATE t_axe_player ; hl
    ld e_patrol_step_l(iy), l
@@ -368,6 +368,26 @@ _m_game_createAxe:
    ld e_xpos(ix), #4
    ld e_ypos(ix), #48
 
+   ;;If there is individual gamemode return
+   ld a, (#_m_gameMode)
+   cp #0
+   ret z
+
+   ;;Create the axe for the player 2
+   GET_PLAYER2_ENTITY iy
+   ; ix: axe
+   CREATE_ENTITY_FROM_TEMPLATE t_axe_player2 ; hl
+   ld e_patrol_step_l(iy), l
+   ld e_patrol_step_h(iy), h
+   ld__ix_hl ; ix: axe
+   ld__hl_iy
+   ld e_patrol_step_l(ix), l
+   ld e_patrol_step_h(ix), h
+
+   ld e_xpos(ix), #6
+   ld e_ypos(ix), #48
+
+
 ret
 
 _m_game_createPlayer:
@@ -376,7 +396,7 @@ _m_game_createPlayer:
    call _m_game_createInitTemplate
    ex de, hl
 
-   ld hl, #_m_playerOneEntity
+   ld hl, #_m_player1Entity
    ld (hl), d
    inc hl
    ld (hl), e
@@ -385,7 +405,26 @@ _m_game_createPlayer:
    ld e_xpos(iy), #36
    ld e_ypos(iy), #104
 
-   ret
+   ;;If there is individual gamemode return
+   ld a, (#_m_gameMode)
+   cp #0
+   ret z
+
+   ;;Create the player 2
+   ld bc, #t_player2
+   call _m_game_createInitTemplate
+   ex de, hl
+
+   ld hl, #_m_player2Entity
+   ld (hl), d
+   inc hl
+   ld (hl), e
+
+   ld__iy_de
+   ld e_xpos(iy), #40
+   ld e_ypos(iy), #104
+
+ret
 
 ; TODO ix: current player
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -396,7 +435,6 @@ _m_game_createPlayer:
 ;;   2 player puede recoger
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _m_game_playerFire:
-   GET_PLAYER_ENTITY iy
    ; axe in ix
    ld l, e_patrol_step_l(iy)
    ld h, e_patrol_step_h(iy)
@@ -542,132 +580,8 @@ ret
 ; NO llega ningun dato
 ;====================================================================
 _man_game_loadLevel:
-
    call _m_game_createPlayer
    call _m_game_createAxe
-   ; call _m_game_reg_ingame_items
-
-   ; ld hl, #_m_gameLevel
-   ; ld e, (hl)
-   ; inc hl
-   ; ld d, (hl)
-   ; ex de, hl ; En HL tengo el inicio del array del nivel asignado
-   ;
-   ; ;En de cargo el tilemap y se lo paso a _m_render_tilemap
-   ; ;y dejo hl apuntando al inicio de las entidades para crear
-   ; ld e, (hl)
-   ; inc hl
-   ; ld d, (hl)
-   ; inc hl
-   ; push hl
-   ; ld hl, #_m_render_tilemap
-   ; ld (hl), e
-   ; inc hl
-   ; ld (hl), d
-   ; pop hl
-   ;
-   ; inc (hl)
-   ; dec (hl)
-   ; jr Z, endLoadLevel
-   ;
-   ; loopCreateEntities:      
-   ;    ;;Creamos la entidad de la template que pase el nivel
-   ;    inc hl
-   ;    ld c, (hl)
-   ;    inc hl
-   ;    ld b, (hl)
-   ;    ;CREATE_ENTITY_FROM_TEMPLATE de
-   ;    push hl
-   ;    call _m_game_createInitTemplate
-   ;    push hl
-   ;    pop ix
-   ;    pop hl
-   ;
-   ;    ;Una vez creada la entidad le ponemos mas coordenadas del nivel
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_xpos(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_ypos(ix), a
-   ;
-   ;    ld a, e_type(ix)
-   ;    dec a
-   ;    jr Z, playerCreated ; Si no entra aqui crea un enemigo pq no hay más entityType del level así que sumamos uno a los enemigos
-   ;
-   ;
-   ;    push hl
-   ;
-   ;    ; no se xq va pero va !!
-   ;    ld a, e_type(ix)
-   ;    cp #e_type_item
-   ;    jr z, load_level_item
-   ;    jr load_level_enemy
-   ;
-   ;    load_level_item:
-   ;       ; ld hl, #_m_enemyCounter
-   ;       ; dec (hl)
-   ;    load_level_enemy:
-   ;
-   ;    ; ld hl, #_m_enemyCounter
-   ;    ; inc (hl)
-   ;    pop  hl
-   ;    ;/=======================
-   ;    ;| Al ser enemy tiene más datos que cargar
-   ;    ;\=======================
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_aibeh1(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_aibeh2(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_ai_aux_l(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_ai_aux_h(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_patrol_step_l(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_patrol_step_h(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_inputbeh1(ix), a
-   ;    inc hl
-   ;    ld a, (hl)
-   ;    ld e_inputbeh2(ix), a
-   ;
-   ;    jp checkNextLevelEntity
-   ;
-   ;    playerCreated:
-   ;    ; ;Aqui guardamos en _m_playerOneEntity la direccion de memoria del jugador
-   ;    push ix
-   ;    pop  de
-   ;    push hl     
-   ;    ld hl, #_m_playerOneEntity
-   ;    ld (hl), d
-   ;    inc hl
-   ;    ld (hl), e
-   ;    pop  hl
-   ;    jp checkNextLevelEntity
-   ;
-   ;    checkNextLevelEntity:
-   ;    inc hl
-   ;    inc (hl)
-   ;    dec (hl)
-   ;    jr NZ, loopCreateEntities
-   ;
-   ; endLoadLevel:
-   ; inc hl
-   ; ex de,hl
-   ; ld hl, #_m_nextLevel
-   ; ld (hl), e
-   ; inc hl
-   ; ld (hl), d
-
 ret
 
 
@@ -695,7 +609,7 @@ _man_game_player_blink:
 ;====================================================================
 _man_game_updateGameStatus:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ; GET_PLAYER_ENTITY iy
+   ; GET_PLAYER1_ENTITY iy
    ;
    ; ld a, e_anim1(iy)
    ; cp #1
@@ -793,7 +707,7 @@ _man_game_decreasePlayerLife:
    ; jp restartLevel
 
    ; TODO blink
-   ; GET_PLAYER_ENTITY iy
+   ; GET_PLAYER1_ENTITY iy
    ; ld e_anim1(iy), #1
    ; ld a, (player_blink_time)
    ; ld e_anim2(iy), a
@@ -926,7 +840,7 @@ ret
 
 
 _m_game_reg_ingame_items:
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
 
    ld a, (player_has_rotator)
    cp #1

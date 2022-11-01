@@ -36,7 +36,8 @@
 ;=====================================================================
 ; Manager Data
 ;=====================================================================
-.globl _m_playerOneEntity
+.globl _m_player1Entity
+.globl _m_player2Entity
 
 .globl _m_enemyCounter
 
@@ -57,3 +58,5 @@
 .globl player_vel_y
 
 .globl _man_game_player_blink
+
+.globl _m_gameMode
