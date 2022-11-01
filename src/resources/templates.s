@@ -963,8 +963,7 @@ t_item_heart_free:
    .dw #0x0000                               ; prevptr
    .dw #_sys_ai_beh_item_update
    .db #item_life_time
-   .db #0
-   .db #0
+   .dw #item_pick_heart
    .db #entity_blink_time                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
