@@ -416,14 +416,25 @@ _m_game_playerThrow:
 
    ret
 
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;; Depues de vx se corrige margen 
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    righOrientation:
       ld a, (player_bullet_vel_x)
       ld e_vx(ix), a
+
+      ; ld a, e_ypos(ix)
+      ; add #3
+      ; ld e_ypos(ix), a
       ret
 
    downOrientation:
       ld a, (player_bullet_vel_y)
       ld e_vy(ix), a
+
+      ; ld a, e_xpos(ix)
+      ; add #1
+      ; ld e_xpos(ix), a
       ret
 
    leftOrientation:
@@ -431,6 +442,10 @@ _m_game_playerThrow:
       ld d, a
       NEGATE_NUMBER d
       ld e_vx(ix), a
+
+      ; ld a, e_ypos(ix)
+      ; add #3
+      ; ld e_ypos(ix), a
       ret
 
    upOrientation:
@@ -438,6 +453,10 @@ _m_game_playerThrow:
       ld d, a
       NEGATE_NUMBER d
       ld e_vy(ix), a
+
+      ; ld a, e_xpos(ix)
+      ; add #1
+      ; ld e_xpos(ix), a
       ret
 
 ret

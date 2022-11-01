@@ -98,10 +98,21 @@ sys_ai_beh_axe_pickup:
 
    call _sys_ai_aim_to_entity
 
+   ;; Margen 
+
+   ; ld a, e_ai_aim_y(ix)
+   ; add #3
+   ; ld e_ai_aim_y(ix), a
+
+   ; ld a, e_ai_aim_x(ix)
+   ; add #1
+   ; ld e_ai_aim_x(ix), a
+
    ld d, #4
    call _sys_ai_seekCoords_y
    ld d, #2
    call _sys_ai_seekCoords_x
+
 
    ; TODO use collision 
    CHECK_VX_VY_ZERO sys_ai_axe_set_follow
