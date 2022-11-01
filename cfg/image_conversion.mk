@@ -107,6 +107,9 @@ $(eval $(call IMG2SP, CONVERT         , assets/shield_ingame.png, 12, 16, shield
 $(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_1.png , 4, 6, avocado_axe_1_sprite,,))
 $(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_2.png , 4, 6, avocado_axe_2_sprite,,))
 
+## ========== HUD new ========== 
+$(eval $(call IMG2SP, CONVERT         , assets/next_wave.png , 78, 14, next_wave_sprite,,))
+
 
 ## ========== PNG ENTEROS ========== 
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , screen  ))

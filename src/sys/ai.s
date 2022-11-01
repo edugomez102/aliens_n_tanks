@@ -76,7 +76,7 @@ _sys_ai_update:
     ld hl, #_sys_ai_updateOneEntity
     ld (_m_functionMemory), hl
     ld hl , #_m_signatureMatch 
-    ld (hl), #0x0A ;;  e_type_movable | e_type_ai
+    ld (hl), #0x08 ;;  e_type_ai
     call _man_entityForAllMatching
     ret
 
@@ -428,7 +428,7 @@ _sys_ai_decrement_spawner_hp:
 
 _sys_ai_spawner_has_to_die:
    call _m_game_destroyEntity
-   call _man_game_decreaseEnemyCounter
+   call man_game_enemy_die
    ret
 
 ; iy: entity
@@ -527,7 +527,7 @@ decrease_boss_hp:
       push ix
       pop hl
       call _m_game_destroyEntity
-      call _man_game_decreaseEnemyCounter
+      call man_game_enemy_die
 
    ret
 

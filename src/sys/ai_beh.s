@@ -55,11 +55,11 @@ sys_ai_beh_axe_follow:
    ld__iy_hl
 
    ld a, e_xpos(iy)
-   add a, e_vx(iy)
+   ; add a, e_vx(iy)
    ld e_xpos(ix), a
 
    ld a, e_ypos(iy)
-   add a, e_vy(iy)
+   ; add a, e_vy(iy)
    ld e_ypos(ix), a
 
    ;;ld e_cmp(ix), #0x0A
@@ -81,20 +81,15 @@ sys_ai_beh_axe_throw:
    CHECK_DOUBLE_ZERO_RET e_vx(ix) e_vy(ix)
 
    dec e_aictr(ix)
-   jr z, stopBullet ;; Si es 0 se destruye la bala
+   jr z, ai_axe_stop
    ret
 
-   stopBullet:
+   ai_axe_stop:
       ld e_vx(ix), #0
       ld e_vy(ix), #0
 
       ld e_ai_aux_l(iy), #2
       ld e_aictr(ix), #t_bullet_timer_player
-
-      ;; quitar render al axe
-      ; ld e_cmp(ix), #0x0A 
-
-      ; TODO new mejorar
 
     ret 
 
@@ -103,10 +98,21 @@ sys_ai_beh_axe_pickup:
 
    call _sys_ai_aim_to_entity
 
+   ;; Margen 
+
+   ; ld a, e_ai_aim_y(ix)
+   ; add #3
+   ; ld e_ai_aim_y(ix), a
+
+   ; ld a, e_ai_aim_x(ix)
+   ; add #1
+   ; ld e_ai_aim_x(ix), a
+
    ld d, #4
    call _sys_ai_seekCoords_y
    ld d, #2
    call _sys_ai_seekCoords_x
+
 
    ; TODO use collision 
    CHECK_VX_VY_ZERO sys_ai_axe_set_follow
@@ -117,7 +123,10 @@ sys_ai_beh_axe_pickup:
 sys_ai_axe_set_follow:
    ld hl, #sys_ai_beh_axe_follow
    call _sys_ai_changeBevaviour
+
    ld e_ai_aux_l(iy), #1
+   ld e_cmp(ix), #0x0
+
    call _sys_ai_reset_aim
    ret
 
@@ -484,7 +493,7 @@ _sys_ai_beh_ovni_die:
       push ix
       pop hl
       call _m_game_destroyEntity
-      call _man_game_decreaseEnemyCounter
+      call man_game_enemy_die
    ret
 
 ;; IX: enemy entity
@@ -671,6 +680,95 @@ _sys_ai_beh_shoot_d:
 _sys_ai_beh_shoot_d_f:
    call _sys_ai_shoot_condition_common
    call z, _sys_ai_shoot_bullet_l_d_f
+   ret
+
+_sys_ai_beh_item_update:
+   ld__bc_ix
+   dec e_aictr(ix)
+   ; dec e_vx(ix)
+   jr z, ai_destroy_item
+   ret
+
+   ai_destroy_item:
+      ; ld__hl_ix
+      ; call _m_game_destroyEntity
+      ld hl, #_sys_ai_beh_blink
+      call _sys_ai_changeBevaviour
+
+ret
+
+.globl render_erase_sprite
+.globl cpct_drawSolidBox_asm
+.globl cpct_getScreenPtr_asm
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; si e_anim1 es 1, se renderiza, sino no
+;; duracion e_anim2
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_sys_ai_beh_blink:
+   ld__bc_ix
+   dec e_animctr(ix)
+   jr z, destroy_blinking_entity
+
+   ld a, e_animctr(ix)
+
+   ; TODO se podria mejorar pero cuando >?>
+   cp #40
+   jr z, blink_no_render
+   cp #36
+   jr z, blink_reset_render
+
+   cp #32
+   jr z, blink_no_render
+   cp #28
+   jr z, blink_reset_render
+
+   cp #24
+   jr z, blink_no_render
+   cp #20
+   jr z, blink_reset_render
+
+   cp #16
+   jr z, blink_no_render
+   cp #12
+   jr z, blink_reset_render
+
+   cp #8
+   jr z, blink_no_render
+   cp #4
+   jr z, blink_reset_render
+
+   cp #2
+   jr z, blink_no_render
+   cp #0
+   jr z, blink_reset_render
+
+   ret
+
+   blink_reset_render:
+      inc e_cmp(ix)
+      ret
+
+   blink_no_render:
+      dec e_cmp(ix)
+
+      ld de, #0xC000
+      ld c, e_xpos(ix)
+      ld b, e_ypos(ix)
+      call cpct_getScreenPtr_asm
+
+      ex de, hl
+
+      ld  c, e_width(ix) 
+      ld  b, e_heigth(ix)
+      ld  a, #0x00
+
+      call cpct_drawSolidBox_asm
+      ret
+
+   destroy_blinking_entity:
+      ld__hl_ix
+      call _m_game_destroyEntity
+
    ret
 
 ;;--------------------------------------------------------------------------------

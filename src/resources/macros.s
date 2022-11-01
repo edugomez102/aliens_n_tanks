@@ -427,3 +427,10 @@
 .dw #0
 .dw #0
 .endm
+
+.macro ITEM_WAVE_ZEROS
+.db #0
+.db #0
+.dw #0
+.dw #0
+.endm
