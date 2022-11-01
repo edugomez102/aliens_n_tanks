@@ -83,6 +83,8 @@ enemy_no_shoot = 0x0000
 
 free_item = 0
 
+entity_blink_time = 41
+
 ;====================================================================
 ; Templates
 ;====================================================================
@@ -108,10 +110,11 @@ t_player:
    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #0x0000                               ; ai_behaviour
+   .dw #_sys_ai_beh_blink                               ; ai_behaviour
    .db #0x00                                 ; ai_counter
-   .dw #00             ; animator
-   .db #0x0A                                 ; anim. counter
+   .db #41                                   ; anim1 
+   .db #41                                   ; anim1 
+   .db #0                                   ; anim. counter
    .dw #0x0000                               ; input_behaviour
    .dw #0x0000                               ; ai_aim_position
    .db #1                                 ; e_ai_aux_l
@@ -914,12 +917,13 @@ t_enemy_patrol_x_shoot_y:
 ;====================================================================
 ; Pickable items
 ;====================================================================
+item_life_time = 141
 
 ; e_ai_aim_y: precio item
-; animator: funcion que ejecuta al pick
+; patrol: funcion que ejecuta al pick
 t_item_heart:
    .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
+   .db #0x29                                 ; cmp
    .db #50                                 ; x
    .db #50                                 ; y
    .db #7                                 ; width
@@ -927,37 +931,41 @@ t_item_heart:
    .db #0x00                                 ; vx
    .db #0x00                                 ; vy
    .dw #_heart_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
+   .db #0x00                                 ; orientation   
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_heart                                  ; animator
-   .db #0x0A                                 ; anim. counter
+   .dw #_sys_ai_beh_item_update                                    ; ai beh
+   .db #20
+   ; .dw #item_pick_heart                                  ; animator
+   .dw #00
+   .db #00                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
    .db #8                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
+   ; .dw #0                                    ; e_patrol_step
+   ; .dw #item_pick_heart                                  ; animator
+
 
 t_item_heart_free:
    .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
+   .db #0x29                                 ; cmp
    .db #50                                 ; x
    .db #50                                 ; y
    .db #7                                 ; width
    .db #16                                 ; heigth
-   .db #0x00                                 ; vx
+   .db #0                                 ; vx
    .db #0x00                                 ; vy
    .dw #_heart_item_free_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
+   .db #0x00                                 ; orientation   
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #0
+   .dw #_sys_ai_beh_item_update
+   .db #item_life_time
    .db #0
-   .dw #item_pick_heart                                  ; animator
-   .db #0x0A                                 ; anim. counter
+   .db #0
+   .db #entity_blink_time                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
    .db #free_item                                 ; e_ai_aim_y

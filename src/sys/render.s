@@ -68,6 +68,7 @@ _m_render_tilemap:
 _m_render_tileset:
     .ds 2
 
+render_erase_color = #0x00
 
 ;====================================================================
 ; FUNCION _sys_init_render
@@ -135,7 +136,7 @@ _sys_render_renderOneEntity:
 
     ld a, (hl)
     and #0x80    
-    jr NZ, eraseSprite
+    jr NZ, render_erase_sprite
 
     push de
     ;; Con la direccion de memoria dibujamos el sprite de la entidad
@@ -151,15 +152,15 @@ _sys_render_renderOneEntity:
     call cpct_drawSprite_asm
 
     jp endRender
-    eraseSprite:
+
+    render_erase_sprite:
         ;DE has already de V_Memo
         ld  c, e_width(ix) 
         ld  b, e_heigth(ix)
-        ld  a, #0x3F
+        ld  a, #render_erase_color
 
         call cpct_drawSolidBox_asm
 
-        jp endRender
 
     endRender:
 
@@ -168,7 +169,6 @@ _sys_render_renderOneEntity:
     ret
 
 ; render_erase_color = #0x00
-render_erase_color = #0x00
 
 _sys_render_erasePrevPtr:
         ld  a, e_prevptr1(ix)

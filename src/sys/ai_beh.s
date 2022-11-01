@@ -682,6 +682,95 @@ _sys_ai_beh_shoot_d_f:
    call z, _sys_ai_shoot_bullet_l_d_f
    ret
 
+_sys_ai_beh_item_update:
+   ld__bc_ix
+   dec e_aictr(ix)
+   ; dec e_vx(ix)
+   jr z, ai_destroy_item
+   ret
+
+   ai_destroy_item:
+      ; ld__hl_ix
+      ; call _m_game_destroyEntity
+      ld hl, #_sys_ai_beh_blink
+      call _sys_ai_changeBevaviour
+
+ret
+
+.globl render_erase_sprite
+.globl cpct_drawSolidBox_asm
+.globl cpct_getScreenPtr_asm
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; si e_anim1 es 1, se renderiza, sino no
+;; duracion e_anim2
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_sys_ai_beh_blink:
+   ld__bc_ix
+   dec e_animctr(ix)
+   jr z, destroy_blinking_entity
+
+   ld a, e_animctr(ix)
+
+   ; TODO se podria mejorar pero cuando >?>
+   cp #40
+   jr z, blink_no_render
+   cp #36
+   jr z, blink_reset_render
+
+   cp #32
+   jr z, blink_no_render
+   cp #28
+   jr z, blink_reset_render
+
+   cp #24
+   jr z, blink_no_render
+   cp #20
+   jr z, blink_reset_render
+
+   cp #16
+   jr z, blink_no_render
+   cp #12
+   jr z, blink_reset_render
+
+   cp #8
+   jr z, blink_no_render
+   cp #4
+   jr z, blink_reset_render
+
+   cp #2
+   jr z, blink_no_render
+   cp #0
+   jr z, blink_reset_render
+
+   ret
+
+   blink_reset_render:
+      inc e_cmp(ix)
+      ret
+
+   blink_no_render:
+      dec e_cmp(ix)
+
+      ld de, #0xC000
+      ld c, e_xpos(ix)
+      ld b, e_ypos(ix)
+      call cpct_getScreenPtr_asm
+
+      ex de, hl
+
+      ld  c, e_width(ix) 
+      ld  b, e_heigth(ix)
+      ld  a, #0x00
+
+      call cpct_drawSolidBox_asm
+      ret
+
+   destroy_blinking_entity:
+      ld__hl_ix
+      call _m_game_destroyEntity
+
+   ret
+
 ;;--------------------------------------------------------------------------------
 ;; AI INGAME ITEMS
 ;;--------------------------------------------------------------------------------

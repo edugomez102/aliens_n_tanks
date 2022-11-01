@@ -76,7 +76,7 @@ _sys_ai_update:
     ld hl, #_sys_ai_updateOneEntity
     ld (_m_functionMemory), hl
     ld hl , #_m_signatureMatch 
-    ld (hl), #0x0A ;;  e_type_movable | e_type_ai
+    ld (hl), #0x08 ;;  e_type_ai
     call _man_entityForAllMatching
     ret
 

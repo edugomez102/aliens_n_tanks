@@ -220,8 +220,15 @@ man_wave_spawn_next_entity:
 
    call _m_game_createInitTemplate
    ld__ix_hl
-   ld hl, #_m_enemyCounter
-   inc (hl)
+
+   ld a, e_type(ix)
+   cp #e_type_item
+   jr z, inc_enemy_counter_no
+
+   inc_enemy_counter_yes:
+      ld hl, #_m_enemyCounter
+      inc (hl)
+   inc_enemy_counter_no:
 
    pop hl
 
