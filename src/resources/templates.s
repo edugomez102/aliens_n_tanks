@@ -28,7 +28,6 @@
 .include "templates.h.s"
 .include "entityInfo.s"
 .include "sys/items.h.s"
-.include "resources/template_macros.s"
 
 ; tiempo hasta que un enemy dispara
 t_shoot_timer_enemy_s = 38

@@ -41,5 +41,5 @@
 .globl _m_signatureMatch
 .globl _m_numEntities
 .globl _m_sizeOfEntity
-.globl _m_player1Entity
+.globl _m_playerOneEntity
 

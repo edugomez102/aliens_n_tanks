@@ -59,7 +59,7 @@ _m_irCtr:
    .db 1
 
 ;;Descripcion : Posición de memoria de la entidad del jugador 1
-_m_player1Entity:
+_m_playerOneEntity:
    .dw #0x0000
 
 ;;Descripcion : Posición de memoria de la entidad del jugador 2
@@ -244,7 +244,6 @@ call man_wave_init
 call _man_game_loadLevel
 ; call _sys_render_renderTileMap
 call _m_HUD_renderLifes
-call _m_game_initPlayers
 
 ld a, #0x01
 call _m_HUD_renderScore
@@ -350,20 +349,6 @@ _m_game_destroyEntity:
    call _man_setEntity4Destroy
 ret
 
-_m_game_initPlayers:
-   ;;Call the method to create the player with the player template
-   ld bc, #t_player
-   call _m_game_createInitTemplate
-
-   ;;Store the entity created in the DE registers
-   ld__de_hl
-
-   ;;Store the memory address for the player in the _m_player1Entity
-   ld hl, #_m_player1Entity
-   ld (hl), d
-   inc hl
-   ld (hl), e
-ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Crear la axe 
 ;; Guardar dir de axe en patrol de player y viceversa
@@ -391,7 +376,7 @@ _m_game_createPlayer:
    call _m_game_createInitTemplate
    ex de, hl
 
-   ld hl, #_m_playerEntity
+   ld hl, #_m_playerOneEntity
    ld (hl), d
    inc hl
    ld (hl), e
@@ -658,11 +643,11 @@ _man_game_loadLevel:
    ;    jp checkNextLevelEntity
    ;
    ;    playerCreated:
-   ;    ; ;Aqui guardamos en _m_playerEntity la direccion de memoria del jugador
+   ;    ; ;Aqui guardamos en _m_playerOneEntity la direccion de memoria del jugador
    ;    push ix
    ;    pop  de
    ;    push hl     
-   ;    ld hl, #_m_playerEntity
+   ;    ld hl, #_m_playerOneEntity
    ;    ld (hl), d
    ;    inc hl
    ;    ld (hl), e
