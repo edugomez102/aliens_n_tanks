@@ -277,7 +277,7 @@ ret
 _man_entityUpdate:
     call _man_entitiesUpdate
     call _man_playerUpdateOrientation
-    ret
+ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -318,7 +318,7 @@ ret
 ; NO llega ningun dato 
 ;====================================================================
 _man_playerBulletCooldown:
-    ld ix, #_m_playerEntity
+    ld ix, #_m_player1Entity
 
     ld h, (ix)
     inc ix

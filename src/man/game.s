@@ -237,6 +237,7 @@ call _man_entityInit
 call _man_game_loadLevel
 call _sys_render_renderTileMap
 call _m_HUD_renderLifes
+call _m_game_initPlayers
 
 ld a, #0x01
 call _m_HUD_renderScore
@@ -262,7 +263,7 @@ ei
       call _sys_input_update
 
       ;cpctm_setBorder_asm HW_GREEN
-      call _sys_animator_update
+      ;call _sys_animator_update
 
       cpctm_setBorder_asm HW_WHITE
       call _sys_ai_update
@@ -342,7 +343,18 @@ _m_game_destroyEntity:
 ret
 
 _m_game_initPlayers:
-   
+   ;;Call the method to create the player with the player template
+   ld bc, #t_player
+   call _m_game_createInitTemplate
+
+   ;;Store the entity created in the DE registers
+   ld__de_hl
+
+   ;;Store the memory address for the player in the _m_player1Entity
+   ld hl, #_m_player1Entity
+   ld (hl), d
+   inc hl
+   ld (hl), e
 ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Crear la axe 
@@ -600,11 +612,11 @@ _man_game_loadLevel:
       jp checkNextLevelEntity
 
       playerCreated:
-         ;;Aqui guardamos en _m_playerEntity la direccion de memoria del jugador
+         ;;Aqui guardamos en _m_player1Entity la direccion de memoria del jugador
          ; push ix
          ; pop  de
          ; push hl     
-         ; ld hl, #_m_playerEntity
+         ; ld hl, #_m_player1Entity
          ; ld (hl), d
          ; inc hl
          ; ld (hl), e

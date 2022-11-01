@@ -233,7 +233,7 @@
 ; Destroy: BC, HL
 ;====================================================================
 .macro GET_PLAYER_ENTITY _register
-   ld hl, #_m_playerEntity
+   ld hl, #_m_player1Entity
    ld b, (hl)
    inc hl
    ld c, (hl)
