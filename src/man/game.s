@@ -283,7 +283,9 @@ ei
    jp startGame
 
 
-   victoryScreen:
+ret
+
+victoryScreen:
    ;TODO : Hacer una pantalla de victoria bonica y cargarla aquí
    cpctm_clearScreen_asm 0
 
@@ -294,13 +296,13 @@ ei
    ld a, #0x00
    call _m_HUD_renderScore
 
-   
+
    ld hl, #Key_Return
    call waitKeyPressed
    cpctm_clearScreen_asm 0
-   jp startGame
 
-ret
+   jp startGame
+   ret
 
 
 ;====================================================================
@@ -641,14 +643,14 @@ ret
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _man_game_player_blink:
-   ld a, (player_blink_time)
-   cp e_anim2(iy)
-   jr nc, is_blinking
-   ret
-   
-   is_blinking:
-      ld e_cmp(iy), #0x07
-      ret
+   ; ld a, (player_blink_time)
+   ; cp e_anim2(iy)
+   ; jr nc, is_blinking
+   ; ret
+   ;
+   ; is_blinking:
+   ;    ld e_cmp(iy), #0x07
+   ;    ret
    
    ret
 

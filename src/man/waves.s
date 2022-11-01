@@ -24,8 +24,10 @@ wave_current_dir: .dw #0
 wave_timer_is_stop: .db #0
 wave_counter: .dw #0
 
-; TODO spawn warning
+wave_is_endgame_wave: .db #0
 
+; TODO spawn warning
+next_spawn: .dw #0
 
 man_wave_init:
    ld hl, #wave_current_dir
@@ -52,19 +54,30 @@ man_wave_init:
    ld (hl), #0
    ld hl, #wave_counter
 
+   ld hl, #wave_is_endgame_wave
+   ld (hl), #0
+
    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Comprueba si no qeudan mas enemigos y llama a wave reset para 
 ;; pasar a la siguiente
+;; Comprueba si es la ultima wave del juego
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 man_wave_check_if_reset:
    ld hl, #_m_enemyCounter
    ld a, (hl)
    or a
+   jr z, man_wave_reset_or_end
+   ret
 
-   jr z, man_wave_reset_local
+   man_wave_reset_or_end:
+      ld a, (wave_is_endgame_wave)
+      cp #1
+      call z, victoryScreen
+      jr nz, man_wave_reset_local
+
    ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -133,10 +146,33 @@ man_wave_inc_timer:
       inc (hl)
    ret
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Stops timer and checks if current wave is the last one
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 man_wave_stop_timer:
    ld hl, #wave_timer_is_stop
    ld (hl), #1
+   ; check if game end
+   call man_wave_insert_cur_dir_hl
+   inc hl
+
+   ld a, (hl)
+   or a
+   jr nz, not_wave_endgame
+
+   inc hl
+   ld a, (hl)
+   or a
+   call z, man_wave_endgame_prepare
+   not_wave_endgame:
    ret
+
+man_wave_endgame_prepare:
+   ld hl, #wave_is_endgame_wave
+   ld (hl), #1
+   ret
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Comprueba los contadores de las entidades con el wave_current_time
@@ -303,10 +339,4 @@ man_wave_check_if_wave_end:
    ; wave_next_time es 0x0000
    not_wave_end:
    ret
-
-
-; TODO
-man_wave_check_end:
-   ret
-
 

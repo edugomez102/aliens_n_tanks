@@ -57,3 +57,5 @@
 .globl player_vel_y
 
 .globl _man_game_player_blink
+
+.globl victoryScreen
