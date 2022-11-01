@@ -287,12 +287,21 @@ man_wave_spawn_next_entity:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Activa el Flag Z si hay un wave_separator despues de la entidad 
 ;; spawneada de la lista
+;; Compruba si el wave_next_time es 0000, hay un inc mas porque antes
+;; el separador era un 0xFF despues del tiempo
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 man_wave_check_if_wave_end:
-   call man_wave_insert_cur_dir_hl
+   ld hl, #wave_next_time
    ld a, (hl)
-   cp #0xFF
+   or a
+   jr nz, not_wave_end
+
+   inc hl
+   ld a, (hl)
+   or a
+   ; wave_next_time es 0x0000
+   not_wave_end:
    ret
 
 
