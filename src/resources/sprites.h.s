@@ -129,3 +129,5 @@
 
 .globl update_sprite_from_list
 
+.globl _next_wave_sprite
+

@@ -5,6 +5,7 @@
 .include "game.h.s"
 .include "resources/wave_data.h.s"
 .include "resources/entityInfo.s"
+.include "sys/render.h.s"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public
@@ -88,6 +89,9 @@ man_wave_reset_local:
 
    ld hl, #wave_counter
    inc (hl)
+
+   ; TODO render next wave
+   call _sys_render_next_wave
 
    ret
 
