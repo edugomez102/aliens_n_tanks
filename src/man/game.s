@@ -28,7 +28,7 @@
 .include "resources/sprites.h.s"
 .include "resources/levels.h.s"
 .include "man/interruptions.h.s"
-.include "assets/music/ArcadeGameSong.h.s"
+.include "assets/music/paedu.h.s"
 .include "assets/compress/screenmenu.h.s"
 .include "assets/compress/screenend.h.s"
 .include "assets/compress/screenvictory.h.s"
@@ -264,7 +264,7 @@ ei
 
       cpctm_setBorder_asm HW_BLACK
       ld a, (_man_int_current)
-      cp #2
+      cp #0
       jr nz, testIr
 
       cpctm_setBorder_asm HW_BLACK
@@ -288,7 +288,7 @@ ei
       wait_render:
 
       ld a, (_man_int_current)
-      cp #0
+      cp #6
       jr nz, wait_render
 
       cpctm_setBorder_asm HW_BLUE
