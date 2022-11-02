@@ -2,8 +2,8 @@
 ;; Compresor used:   zx7b
 ;; Files compressed: [ 'src/assets/sprites/space_avocados_title.bin' ]
 ;; Uncompressed:     16384 bytes
-;; Compressed:       1514 bytes
-;; Space saved:      14870 bytes
+;; Compressed:       1966 bytes
+;; Space saved:      14418 bytes
 ;;
 
 ;; Declaration of the compressed array and
@@ -12,7 +12,7 @@
 .globl _screenmenu_end
 
 ;; Compressed and uncompressed sizes
-_screenmenu_size_z == 1514
+_screenmenu_size_z == 1966
 _screenmenu_size   == 16384
 
 

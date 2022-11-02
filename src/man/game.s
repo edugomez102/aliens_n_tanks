@@ -148,6 +148,24 @@ _m_game_init:
 ret
 
 ;====================================================================
+; FUNCION _man_game_updateGameStatus   
+; Función encargada de updatear el estado del juego y nivel
+; NO llega ningun dato
+;====================================================================
+_man_game_updateGameStatus:
+
+   ;; Se checkea si el jugador ha perdido las 3 vidas
+   ld hl , #_m_lifePlayer
+   inc (hl)
+   dec (hl)
+   jr NZ, game_continues
+   pop hl
+   jp  endGame
+   game_continues:
+
+ret
+
+;====================================================================
 ; FUNCION waitKeyPressed
 ; Funcion encargada de esperar a que se pulse de forma única la tecla pasada por registro
 ; HL = Tecla para pulsar
@@ -294,6 +312,7 @@ ei
       call _sys_render_update
 
       cpctm_setBorder_asm HW_BRIGHT_GREEN
+      call _man_game_updateGameStatus
       call man_wave_update
 
       cpctm_setBorder_asm HW_BLACK

@@ -92,10 +92,11 @@ ret
       cp #4
       jr z, blink_reset_render_ai
 
+      ; TODO BUG
+      cp #2
+      jr z, blink_no_render_ai
       ; cp #0
-      ; jr z, blink_no_render_ai
-      cp #1
-      jr z, blink_reset_render_ai
+      ; jr z, blink_reset_render_ai
 
       ret
 
