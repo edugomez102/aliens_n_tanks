@@ -895,7 +895,8 @@ t_item_speed_bullet:
    .dw #0
    .db #0
    .dw #item_pick_speed_bullet                                  ; animator
-   .db #0x0A                                 ; anim. counter
+   ; todo price
+   .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #i_id_speed_bullet                                 ; e_ai_aim_x
    .db #0                                 ; e_ai_aim_y
@@ -1005,7 +1006,12 @@ t_ingame_rotator:
    .db #0                                    ; e_ai_aux_h
    .dw #patrol_relative_around_03            ; patrol_step
 
-next_wave_life_time = 51
+next_wave_life_time = 42
+
+; TODO
+item_none:
+   ret
+
 t_next_wave_anim:
    .db #e_type_item                                 ; type
    .db #0x09                                 ; cmp
@@ -1021,7 +1027,7 @@ t_next_wave_anim:
    .dw #0x0000                               ; prevptr
    .dw #_sys_ai_beh_item_update
    .db #next_wave_life_time
-   .dw #0
+   .dw #item_none
    .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x

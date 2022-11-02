@@ -71,7 +71,7 @@ wave_01:
    ;
    ;
    .dw 43
-   .dw #t_item_heart_free
+   .dw #t_item_speed_bullet
    .db 55, 171
    .dw #_sys_ai_beh_item_update
    ITEM_WAVE_ZEROS
