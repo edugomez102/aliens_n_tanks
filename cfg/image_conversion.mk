@@ -94,6 +94,7 @@ $(eval $(call IMG2SP, CONVERT         , assets/alien_seek_red.png , 6, 8, a_seek
 
 $(eval $(call IMG2SP, CONVERT         , assets/spawn_warn.png , 6, 8, spawn_warn,,))
 $(eval $(call IMG2SP, CONVERT         , assets/points_20.png , 6, 8, points_20,,))
+$(eval $(call IMG2SP, CONVERT         , assets/points_100.png , 20, 22, points_100,,))
 
 $(eval $(call IMG2SP, CONVERT         , assets/final_boss2.png , 20, 22, final_boss,,))
 

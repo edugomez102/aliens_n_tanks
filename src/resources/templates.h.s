@@ -95,8 +95,6 @@
 .globl t_item_heart
 .globl t_item_heart_free
 .globl t_item_shield
-.globl t_item_skip
-.globl t_item_skip_to_boss
 .globl t_item_speed_bullet
 .globl t_item_rotator
 .globl t_item_sharp_bullet

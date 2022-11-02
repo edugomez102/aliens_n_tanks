@@ -150,4 +150,5 @@
 .globl _spawn_warn_2
 
 .globl _points_20
+.globl _points_100
 

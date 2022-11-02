@@ -68,3 +68,6 @@
 .globl _sys_ai_prepare_spawn
 
 .globl decrease_boss_hp
+
+.globl _sys_ai_prepare_enemy_die
+.globl _sys_ai_prepare_boss_die

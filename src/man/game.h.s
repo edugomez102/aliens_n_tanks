@@ -42,7 +42,7 @@
 .globl _m_enemyCounter
 
 .globl restartLevel
-.globl nextLevel
+; .globl nextLevel
 
 .globl player_bullet_vel_x
 .globl player_bullet_vel_y
@@ -53,11 +53,13 @@
 .globl player_has_speed_bullet
 
 .globl _m_game_quit_rotator
+.globl man_game_boss_die
 
 .globl player_vel_x
 .globl player_vel_y
 
-.globl _man_game_player_blink
-
 .globl _m_gameMode
 .globl victoryScreen
+
+.globl entity_blink_time
+

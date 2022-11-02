@@ -235,11 +235,35 @@ check_enemy_collision:
         jr increment_next_entity_enemy_collision
 
     check_colliding_to_death_enemy_collision:
+
+        ld a, e_animctr(ix)
+        or a
+        jr nz, increment_next_entity_enemy_collision
+
         call _sys_collisionEntity_check
         jr c, increment_next_entity_enemy_collision
 
+        ld a, #10
+        cp e_width(ix)
+        jr z, is_final_boss
+
         ld__hl_ix
         call _sys_ai_prepare_enemy_die
+        ret
+
+        is_final_boss:
+         ld a, e_animctr(ix)
+         or a
+         ret nz
+
+         call decrease_boss_hp
+
+         ld e_animctr(ix), #41
+
+         ld a, e_cmp(ix)
+         add #e_cmp_animated
+         ld e_cmp(ix), a
+
         ret
 
     increment_next_entity_enemy_collision:

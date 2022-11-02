@@ -164,7 +164,7 @@ t_e_patrol_blue:
    .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #_man_anim_enemy_green                                  ; animator
-   .db #0x01                                  ; anim. counter
+   .db #0                                  ; anim. counter
    .dw #enemy_no_shoot                               ; input_behaviour
    .db #0x00                                 ; e_ai_aim_x
    .db #0x00                                 ; e_ai_aim_y
@@ -247,29 +247,53 @@ t_enemy_basic_red:
 
 ; anim counter : life
 t_final_boss:
-   .db #e_type_enemy                         ; type
-   .db #0x2b                                 ; cmp
-   .db #0                                    ; x
-   .db #0                                    ; y
-   .db #10                                    ; width
-   .db #22                                   ; heigth
-   .db #0                                    ; vx
-   .db #0                                    ; vy
-   ; .dw #_final_boss                      ; sprite
-   .dw #_final_boss_09                      ; sprite
-   .db #0x00                                 ; orientation
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #ia_no_move                                    ; ai_behaviour
-   .db #t_shoot_timer_enemy_s
-   .dw #0                                  ; animator
-   .db #10                                  ; anim. counter
-   .dw #enemy_no_shoot                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0                                    ; e_ai_aux_h
-   .dw #0                                    ; patrol_step
+.db #e_type_enemy                         ; type
+.db #0x6b                                 ; cmp
+.db #0                                    ; x
+.db #0                                    ; y
+.db #10                                   ; width
+.db #22                                   ; heigth
+.db #0                                    ; vx
+.db #0                                    ; vy
+.dw #_final_boss_09                      ; sprite
+.db #0x00                                 ; orientation
+.db #0x00                                 ; prev. orientation
+.dw #0x0000                               ; prevptr
+.dw #ia_no_move                                    ; ai_behaviour
+.db #t_shoot_timer_enemy_s
+.db #10                                  ; animator1
+.db #00                                  ; animator2
+.db #00                                  ; anim. counter
+.dw #enemy_no_shoot                               ; input_behaviour
+.db #0x00                                 ; e_ai_aim_x
+.db #0x00                                 ; e_ai_aim_y
+.db #0                                    ; e_ai_aux_l
+.db #0                                    ; e_ai_aux_h
+.dw #0                                    ; patrol_step
+
+   ; .db #e_type_enemy                         ; type
+   ; .db #0x6b                                 ; cmp
+   ; .db #0                                    ; x
+   ; .db #0                                    ; y
+   ; .db #10                                    ; width
+   ; .db #22                                   ; heigth
+   ; .db #0                                    ; vx
+   ; .db #0                                    ; vy
+   ; .dw #_final_boss_09                      ; sprite
+   ; .db #0x00                                 ; orientation
+   ; .db #0x00                                 ; prev. orientation
+   ; .dw #0x0000                               ; prevptr
+   ; .dw #ia_no_move                                    ; ai_behaviour
+   ; .db #t_shoot_timer_enemy_s
+   ; .db #10
+   ; .db #0
+   ; .db #0                                  ; anim. counter
+   ; .dw #enemy_no_shoot                               ; input_behaviour
+   ; .db #0x00                                 ; e_ai_aim_x
+   ; .db #0x00                                 ; e_ai_aim_y
+   ; .db #0                                    ; e_ai_aux_l
+   ; .db #0                                    ; e_ai_aux_h
+   ; .dw #0                                    ; patrol_step
 
 t_enemy_seeknpatrol:
    .db #e_type_enemy                                 ; type
@@ -509,7 +533,7 @@ t_axe_player2:
 ;; la bullet del enemey
 t_bullet_enemy_sp:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x7B                                 ; cmp
+   .db #0x6B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #02                                 ; width
@@ -560,7 +584,7 @@ t_bullet_enemy_l:
 
 t_bullet_enemy_l_f:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x7B                                 ; cmp
+   .db #0x6B                                 ; cmp
    .db #50
    .db #150
    .db #02                                 ; width
@@ -976,25 +1000,22 @@ t_item_heart:
    .db #50                                 ; y
    .db #7                                 ; width
    .db #16                                 ; heigth
-   .db #0x00                                 ; vx
+   .db #0                                 ; vx
    .db #0x00                                 ; vy
-   .dw #_heart_item_sprite                      ; sprite
+   .dw #_heart_item_free_sprite                      ; sprite
    .db #0x00                                 ; orientation   
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_beh_item_update                                    ; ai beh
-   .db #20
-   ; .dw #item_pick_heart                                  ; animator
-   .dw #00
-   .db #00                                 ; anim. counter
+   .dw #_sys_ai_beh_item_update
+   .db #item_life_time
+   .dw #item_pick_heart
+   .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
-   .db #8                                 ; e_ai_aim_y
+   .db #9                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
-   ; .dw #0                                    ; e_patrol_step
-   ; .dw #item_pick_heart                                  ; animator
-
+   .dw #0                                    ; e_patrol_step
 
 t_item_heart_free:
    .db #e_type_item                                 ; type
@@ -1012,7 +1033,7 @@ t_item_heart_free:
    .dw #_sys_ai_beh_item_update
    .db #item_life_time
    .dw #item_pick_heart
-   .db #entity_blink_time                                 ; anim. counter
+   .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
    .db #free_item                                 ; e_ai_aim_y
@@ -1020,7 +1041,9 @@ t_item_heart_free:
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
 
-; TODO cambiar el price en release!
+; TODO UPDATE resto items
+
+
 t_item_shield:
    .db #e_type_item                                 ; type
    .db #0x21                                 ; cmp
@@ -1041,54 +1064,6 @@ t_item_shield:
    .dw #0                                    ; input_behaviour
    .db #i_id_shield                                 ; e_ai_aim_x
    .db #0                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
-
-t_item_skip:
-   .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #7                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_skip_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_skip                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0                                    ; input_behaviour
-   .db #i_id_skip                                 ; e_ai_aim_x
-   .db #10                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
-
-t_item_skip_to_boss:
-   .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #7                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_skip_to_boss_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_skip                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0                                    ; input_behaviour
-   .db #i_id_skip                                 ; e_ai_aim_x
-   .db #free_item                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
