@@ -103,6 +103,7 @@
 
 .globl _ovni_bullet_0
 .globl _ovni_bullet_1
+.globl _ovni_bullet_2
 
 .globl _heart_item_sprite
 .globl _heart_item_free_sprite

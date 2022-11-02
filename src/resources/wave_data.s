@@ -23,14 +23,6 @@ wave_01:
    ; ==============================================================================
    ; Wave 1
    ; ==============================================================================
-   ; .dw 10
-   ; .dw #t_final_boss
-   ; .db 48, 56
-   ; .dw #ia_no_move
-   ; .db 0                                 ; e_ai_aux_l
-   ; .db 0
-   ; .dw #patrol_02
-   ; .dw #enemy_no_shoot
 
    .dw 22
    .dw #t_e_patrol_blue
@@ -49,7 +41,7 @@ wave_01:
    .db 0                                 ; e_ai_aux_l
    .db 0
    .dw #patrol_01
-   .dw #_sys_ai_beh_shoot_y
+   .dw #_sys_ai_beh_shoot_y_f
    ;
    .dw 24
    .dw #t_e_patrol_blue
@@ -67,7 +59,7 @@ wave_01:
    .db 0                                 ; e_ai_aux_l
    .db 0
    .dw #patrol_01
-   .dw #_sys_ai_beh_shoot_y
+   .dw #_sys_ai_beh_shoot_seekplayer
    ;
    ;
    .dw 43

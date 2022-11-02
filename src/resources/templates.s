@@ -451,11 +451,11 @@ t_bullet_enemy_sp:
    .db #0x6B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
-   .db #02                                 ; width
-   .db #06                                 ; heigth
+   .db #01                                 ; width
+   .db #04                                 ; heigth
    .db #0x01                                 ; vx
    .db #0x01                                 ; vy
-   .dw #_ovni_bullet_0                     ; sprite
+   .dw #_ovni_bullet_2                     ; sprite
    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
    .dw #0x0000                               ; prevptr
    .db #0x00                                 ; prev. orientation
@@ -502,11 +502,11 @@ t_bullet_enemy_l_f:
    .db #0x6B                                 ; cmp
    .db #50
    .db #150
-   .db #02                                 ; width
-   .db #06                                 ; heigth
+   .db #01                                 ; width
+   .db #04                                 ; heigth
    .db #0x00                                 ; vx
    .db #0x00                                 ; vy
-   .dw #_ovni_bullet_0                     ; sprite
+   .dw #_ovni_bullet_1                     ; sprite
    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
    .dw #0x0000                               ; prevptr
    .db #0x00                                 ; prev. orientation
@@ -521,6 +521,9 @@ t_bullet_enemy_l_f:
    .db #t_bullet_vel_y_f                                 ; e_ai_aux_h
    .db #0x00                                 ; e_patrol_step_l
    .db #0x00                                 ; e_patrol_step_h
+
+
+
 
 ;=====================================================================
 ; ENEMY TEMPLATES FOR SPAWNER
