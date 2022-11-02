@@ -252,7 +252,7 @@ call _m_game_restart_level_counter
 ;==================
 restartLevel:
 di
-SET_TILESET _tileset_00
+; SET_TILESET _tileset_00
 ld hl, #_m_enemyCounter
 ld (hl), #0x00
 call _man_entityInit

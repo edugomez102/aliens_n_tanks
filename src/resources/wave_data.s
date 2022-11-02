@@ -51,23 +51,23 @@ wave_01:
    .dw #patrol_01
    .dw #_sys_ai_beh_shoot_y
    ;
-   ; .dw 24
-   ; .dw #t_e_patrol_blue
-   ; .db 24, 56
-   ; .dw #ia_no_move
-   ; .db 0                                 ; e_ai_aux_l
-   ; .db 0
-   ; .dw #patrol_01
-   ; .dw #_sys_ai_beh_shoot_y
-   ;
-   ; .dw 25
-   ; .dw #t_e_patrol_blue
-   ; .db 32, 56
-   ; .dw #ia_no_move
-   ; .db 0                                 ; e_ai_aux_l
-   ; .db 0
-   ; .dw #patrol_01
-   ; .dw #_sys_ai_beh_shoot_y
+   .dw 24
+   .dw #t_e_patrol_blue
+   .db 24, 56
+   .dw #ia_no_move
+   .db 0                                 ; e_ai_aux_l
+   .db 0
+   .dw #patrol_01
+   .dw #_sys_ai_beh_shoot_y
+
+   .dw 25
+   .dw #t_e_patrol_blue
+   .db 32, 56
+   .dw #ia_no_move
+   .db 0                                 ; e_ai_aux_l
+   .db 0
+   .dw #patrol_01
+   .dw #_sys_ai_beh_shoot_y
    ;
    ;
    .dw 43
@@ -244,6 +244,12 @@ wave_01:
    .db #0
    .dw #patrol_06
    .dw #enemy_no_shoot
+
+   .dw 140
+   .dw #t_item_heart
+   .db 55, 171
+   .dw #_sys_ai_beh_item_update
+   ITEM_WAVE_ZEROS
 
    ; .dw 200
    ; .dw #t_item_heart

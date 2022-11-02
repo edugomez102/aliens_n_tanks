@@ -157,7 +157,7 @@ t_e_patrol_blue:
    .db #8                                   ; heigth
    .db #0                                    ; vx
    .db #0                                    ; vy
-   .dw #_a_patrol_blue                      ; sprite
+   .dw #_a_letter                      ; sprite
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
@@ -741,63 +741,6 @@ t_es_09:
    .db #t_follow_timer                                 ; e_ai_aux_h
    .dw #patrol_seeknpatrol_01
 
-;=====================================================================
-; TESTING
-;=====================================================================
-; t_enemy_testing:
-;    .db #e_type_enemy                                 ; type
-;    .db #0x2b                                 ; cmp
-;    .db #50                                 ; x
-;    .db #50                                 ; y
-;    .db #4                                   ; width
-;    .db #12                                   ; heigth
-;    .db #0x00                                 ; vx
-;    .db #0x00                                 ; vy
-;    .dw #_sprite_enemy01                      ; sprite
-;    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-;    .db #0x00                                 ; prev. orientation
-;    .dw #0x0000                               ; prevptr
-;    .dw #_sys_ai_beh_follow_player_x
-;    .db #t_shoot_timer_enemy_s
-;    .dw #0x0                                  ; animator
-;    .db #0x0A                                 ; anim. counter
-;    .dw #_sys_ai_beh_shoot_x                              ; input_behaviour
-;    .db #0x00                                 ; e_ai_aim_x
-;    .db #0x00                                 ; e_ai_aim_y
-;    .db #t_follow_timer                                 ; e_ai_aux_l
-;    .db #0x00                                 ; e_ai_aux_h
-;    .dw #patrol_x_50_20                            ; e_patrol_step
-
-
-;; simula un escudo !! poner en ai_aux coordenadas iniciales
-; t_enemy_patrol_relative_02:
-;    .db #e_type_enemy                                 ; type
-;    .db #0x2b                                 ; cmp
-;    .db #100                                    ; x
-;    .db #100                                    ; y
-;    .db #4                                   ; width
-;    .db #12                                   ; heigth
-;    .db #0x00                                 ; vx
-;    .db #0x00                                 ; vy
-;    .dw #_sprite_enemy01                      ; sprite
-;    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-;    .db #0x00                                 ; prev. orientation
-;    .dw #0x0000                               ; prevptr
-;    .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
-;    .db #1
-;    ; .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
-;    ; .db #1
-;    .dw #0x0                                  ; animator
-;    .db #0x0A                                 ; anim. counter
-;    .dw #0x0000                               ; input_behaviour
-;    .db #0x00                                 ; e_ai_aim_x
-;    .db #0x00                                 ; e_ai_aim_y
-;    ;; poner en e_ai_aux mismo valor que position
-;    ;; para que funcione patrol relativo
-;    .db #62
-;    .db #64                                 ; e_ai_aux_h
-;    .dw #patrol_relative_around_01
-;
 
 ;====================================================================
 ; Pickable items
@@ -815,7 +758,7 @@ t_item_heart:
    .db #16                                 ; heigth
    .db #0                                 ; vx
    .db #0x00                                 ; vy
-   .dw #_heart_item_free_sprite                      ; sprite
+   .dw #_heart_item_sprite                      ; sprite
    .db #0x00                                 ; orientation   
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
@@ -825,7 +768,7 @@ t_item_heart:
    .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
-   .db #9                                 ; e_ai_aim_y
+   .db #10                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
@@ -854,7 +797,34 @@ t_item_heart_free:
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
 
+t_item_speed_bullet:
+   .db #e_type_item                                 ; type
+   .db #0x29                                 ; cmp
+   .db #50                                 ; x
+   .db #50                                 ; y
+   .db #7                                 ; width
+   .db #16                                 ; heigth
+   .db #0                                 ; vx
+   .db #0x00                                 ; vy
+   .dw #_speed_b_item_sprite
+   .db #0x00                                 ; oriee ntation   
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #_sys_ai_beh_item_update
+   .db #item_life_time
+   .dw #item_pick_speed_bullet
+   .db #0                                 ; anim. counter
+   .dw #0                                    ; input_behaviour
+   .db #0                                 ; e_ai_aim_x
+   .db #35                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0x00                                 ; e_ai_aux_h
+   .dw #0                                    ; e_patrol_step
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; old items
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 t_item_shield:
    .db #e_type_item                                 ; type
    .db #0x21                                 ; cmp
@@ -874,31 +844,6 @@ t_item_shield:
    .db #0x0A                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #i_id_shield                                 ; e_ai_aim_x
-   .db #0                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
-
-t_item_speed_bullet:
-   .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #7                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_speed_b_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_speed_bullet                                  ; animator
-   ; todo price
-   .db #0                                 ; anim. counter
-   .dw #0                                    ; input_behaviour
-   .db #i_id_speed_bullet                                 ; e_ai_aim_x
    .db #0                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h

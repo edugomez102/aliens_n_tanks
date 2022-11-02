@@ -42,4 +42,4 @@
 ; Tilesets Declaration
 ;=====================================================================
 ; .globl _tileset_0
-.globl _tileset_00
+; .globl _tileset_00
