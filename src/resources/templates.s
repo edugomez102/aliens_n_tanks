@@ -157,7 +157,295 @@ t_e_patrol_blue:
    .db #8                                   ; heigth
    .db #0                                    ; vx
    .db #0                                    ; vy
-   .dw #_a_letter                      ; sprite
+   .dw #_a_patrol_blue
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_patrol_pink:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_patrol_pink
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_patrol_orange:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_patrol_orange
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+
+t_e_patrol_red:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_patrol_red
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_letter:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_patrol_red
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+t_e_follow_blue:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_follow_blue
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_follow_pink:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_follow_pink
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_follow_orange:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_follow_orange
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_follow_red:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_follow_orange
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_seek_blue:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_seek_blue
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_seek_pink:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_seek_pink
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_seek_orange:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_seek_orange
+   .db #0x00                                 ; orientation
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #ia_no_move                                    ; ai_behaviour
+   .db #t_shoot_timer_enemy_s
+   .dw #_man_anim_enemy_green                                  ; animator
+   .db #0                                  ; anim. counter
+   .dw #enemy_no_shoot                               ; input_behaviour
+   .db #0x00                                 ; e_ai_aim_x
+   .db #0x00                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                    ; e_ai_aux_h
+   .dw #0                                    ; patrol_step
+
+t_e_seek_red:
+   .db #e_type_enemy                         ; type
+   .db #0x6b                                 ; cmp
+   .db #0                                    ; x
+   .db #0                                    ; y
+   .db #3                                   ; width
+   .db #8                                   ; heigth
+   .db #0                                    ; vx
+   .db #0                                    ; vy
+   .dw #_a_seek_red
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr

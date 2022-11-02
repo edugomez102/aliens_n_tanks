@@ -91,3 +91,18 @@
 .globl t_ingame_shield
 .globl t_ingame_rotator
 
+.globl t_e_letter
+
+.globl t_e_patrol_pink
+.globl t_e_patrol_orange
+.globl t_e_patrol_red
+
+.globl t_e_follow_blue
+.globl t_e_follow_pink
+.globl t_e_follow_orange
+.globl t_e_follow_red
+
+.globl t_e_seek_blue
+.globl t_e_seek_pink
+.globl t_e_seek_orange
+.globl t_e_seek_red

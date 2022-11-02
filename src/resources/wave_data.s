@@ -25,7 +25,7 @@ wave_01:
    ; ==============================================================================
 
    .dw 22
-   .dw #t_e_patrol_blue
+   .dw #t_e_patrol_red
    .db 8, 56
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
@@ -35,7 +35,7 @@ wave_01:
 
 
    .dw 23
-   .dw #t_e_patrol_blue
+   .dw #t_e_patrol_pink
    .db 16, 56
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
