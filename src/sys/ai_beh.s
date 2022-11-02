@@ -102,53 +102,40 @@ sys_ai_beh_axe_pickup:
 
    call _sys_ai_aim_to_entity
 
-   ;; Margen
-   ld a, e_orient(iy)
+   ;;Check the x axis
+   ld  a, e_xpos(ix)
+   add a, e_width(ix)
+   sub e_xpos(iy)
+   jr c, check_y_axis_axe_pickup
+   
+   ld  a, e_xpos(iy)
+   add a, e_width(iy)
+   sub e_xpos(ix)
+   jr c, check_y_axis_axe_pickup
 
-   cp #0
-   jr z, righOrientation_axe_pickup ;; Si es 0 va a la derecha
+   ld a, e_xpos(ix)
+   ld e_ai_aim_x(ix), a
 
-   cp #1
-   jr z, downOrientation_axe_pickup ;; Si es 0 va a la abajo
+   check_y_axis_axe_pickup:
+      ;;Check the y axis
+      ld a, e_ypos(ix)
+      add e_heigth(ix)
+      sub e_ypos(iy)
+      jr c, margin_made_axe_pickup
 
-   cp #2
-   jr z, leftOrientation_axe_pickup ;; Si es 0 va a la izquierda
+      ld a, e_ypos(iy)
+      add e_heigth(iy)
+      sub e_ypos(ix)
+      jr c, margin_made_axe_pickup
 
-   cp #3
-   jr z, upOrientation_axe_pickup ;; Si es 0 va a la arriba
-
-   righOrientation_axe_pickup:
-      ld a, e_ai_aim_y(ix)
-      add #3
+      ld a, e_ypos(ix)
       ld e_ai_aim_y(ix), a
-      jp margin_made_axe_pickup
-
-   downOrientation_axe_pickup:
-      ld a, e_ai_aim_x(ix)
-      add #1
-      ld e_ai_aim_x(ix), a
-      jp margin_made_axe_pickup
-
-   leftOrientation_axe_pickup:
-      ld a, e_ai_aim_y(ix)
-      add #3
-      ld e_ai_aim_y(ix), a
-      jp margin_made_axe_pickup
-
-   upOrientation_axe_pickup:
-      ld a, e_ai_aim_x(ix)
-      add #1
-      ld e_ai_aim_x(ix), a
-      jp margin_made_axe_pickup
    
    margin_made_axe_pickup:
       ld d, #4
       call _sys_ai_seekCoords_y
       ld d, #2
       call _sys_ai_seekCoords_x
-
-   ; TODO use collision 
-   ;CHECK_VX_VY_ZERO sys_ai_axe_set_follow
 
    ret
 

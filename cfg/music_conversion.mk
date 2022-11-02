@@ -37,7 +37,7 @@
 $(eval $(call AKS2DATA, SET_FOLDER   , src/assets/music ))
 $(eval $(call AKS2DATA, SET_OUTPUTS  , hs s ))
 # $(eval $(call AKS2DATA, CONVERT      , assets/auxSong.aks , gameSong , 0x40 ))
-$(eval $(call AKS2DATA, CONVERT      , assets/ArcadeGameSong.aks , gameSong , 0x40 ))
+$(eval $(call AKS2DATA, CONVERT      , assets/paedu.aks , gameSong , 0x40 ))
 
 
 

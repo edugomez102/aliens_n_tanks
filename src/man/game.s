@@ -28,7 +28,7 @@
 .include "resources/sprites.h.s"
 .include "resources/levels.h.s"
 .include "man/interruptions.h.s"
-.include "assets/music/ArcadeGameSong.h.s"
+.include "assets/music/paedu.h.s"
 .include "assets/compress/screenmenu.h.s"
 .include "assets/compress/screenend.h.s"
 .include "assets/compress/screenvictory.h.s"

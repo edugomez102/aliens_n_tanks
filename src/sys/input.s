@@ -56,6 +56,14 @@ player1_keys:
     .dw Key_D
     .dw 0
 
+player1_joy:
+    .dw Joy0_Fire1
+    .dw Joy0_Up
+    .dw Joy0_Left
+    .dw Joy0_Down
+    .dw Joy0_Right
+    .dw 0
+
 player2_keys:
     .dw Key_M
     .dw Key_I
@@ -64,7 +72,16 @@ player2_keys:
     .dw Key_L
     .dw 0
 
+player2_joy:
+    .dw Joy1_Fire1
+    .dw Joy1_Up
+    .dw Joy1_Left
+    .dw Joy1_Down
+    .dw Joy1_Right
+    .dw 0
+
 current_player_input: .db 0
+current_player_joy_checked: .db 0
 
 ;===================================================================================================================================================
 ; FUNCION _sys_input_update
@@ -73,6 +90,7 @@ current_player_input: .db 0
 ;===================================================================================================================================================
 _sys_input_update:
     call _sys_input_checkInput
+    call _sys_input_checkJoy
 ret
 
 ;===================================================================================================================================================
@@ -81,9 +99,9 @@ ret
 ; HL : Entidad a updatear
 ;===================================================================================================================================================
 _sys_input_checkInput:
-    
     ld a, #0
     ld (#current_player_input), a
+    ld (#current_player_joy_checked), a
     
     GET_PLAYER1_ENTITY ix
     ld iy, #player1_keys
@@ -233,4 +251,158 @@ _sys_input_checkInput:
         pop hl
         jp (hl)
 
+ret
+
+_sys_input_checkJoy:
+    ld a, #0
+    ld (#current_player_input), a
+    ld (#current_player_joy_checked), a
+    
+    GET_PLAYER1_ENTITY ix
+    ld iy, #player1_joy
+
+    loop_input_inputJoy:
+        ;EN caso de no pulsar nada se queda quieto
+        ;ld a, #0x00
+        ;ld e_vx(ix), a
+        ;ld e_vy(ix), a
+
+        ;;FIRE BUTTON
+        ld  l, 0(iy)
+	    ld  h, 1(iy)
+
+        ;;Check key Space behaviour
+        call cpct_isKeyPressed_asm
+        ld hl, #after_space_pressed
+        jp NZ, spacePressed_inputJoy
+
+        ;;UP BUTTON
+        after_space_pressed_inputJoy:
+        INCREMENT_REGISTER_2_BYTES iy, 2
+        ld  l, 0(iy)
+	    ld  h, 1(iy)
+
+        call cpct_isKeyPressed_asm
+        ld hl, #after_up_pressed
+        jp NZ, upPressed_inputJoy
+
+        ;;LEFT BUTTON
+        after_up_pressed_inputJoy:
+        INCREMENT_REGISTER_2_BYTES iy, 2
+        ld  l, 0(iy)
+	    ld  h, 1(iy)
+
+        call cpct_isKeyPressed_asm
+        ld hl, #after_left_pressed
+        jp NZ, leftPressed_inputJoy
+
+        ;;DOWN BUTTON
+        after_left_pressed_inputJoy:
+        INCREMENT_REGISTER_2_BYTES iy, 2
+        ld  l, 0(iy)
+	    ld  h, 1(iy)
+
+        call cpct_isKeyPressed_asm
+        ld hl, #after_down_pressed
+        jp NZ, downPressed_inputJoy
+
+        ;;RIGHT BUTTON
+        after_down_pressed_inputJoy:
+        INCREMENT_REGISTER_2_BYTES iy, 2
+        ld  l, 0(iy)
+	    ld  h, 1(iy)
+
+        call cpct_isKeyPressed_asm
+        ld hl, #after_right_pressed
+        jp NZ, rightPressed_inputJoy
+
+        after_right_pressed_inputJoy:
+
+        ;;If there is multiplayer gamemode check the second player
+        ld a, (#_m_gameMode)
+        cp #0
+        jp nz, check_player2_inputJoy
+
+        ret
+
+    check_player2_inputJoy:
+        ;;Check if we've already checked the second player input
+        ld a, (#current_player_input)
+        cp #1
+        ret z
+
+        ;;Set the current player input checking to the second player
+        ld a, #1
+        ld (#current_player_input), a
+
+        ;;Set the values to check the second player input
+        GET_PLAYER2_ENTITY ix
+        ld iy, #player2_joy
+        jp loop_input_inputJoy
+
+    upPressed_inputJoy:
+        ;; Cambiamos la posicion
+        ld a, #player_vel_y
+        NEGATE_NUMBER a
+
+        ;; Meto dos dec para que avance byte y no pixels
+        ld e_vy(ix), a
+        ld a, #0
+        ld e_vx(ix), a
+
+        ;; Actualizamos la orientación
+        ld a, #0x03
+        ld e_orient(ix), a
+        jp (hl)
+
+    leftPressed_inputJoy:
+        ;; Cambiamos la posicion
+        ld a, #player_vel_x
+        NEGATE_NUMBER a
+
+        ld e_vx(ix), a
+        ld a, #0
+        ld e_vy(ix), a
+
+        ;; Actualizamos la orientación
+        ld a, #0x02
+        ld e_orient(ix), a
+        jp (hl)
+
+    downPressed_inputJoy:
+        ;; Cambiamos la posicion
+        ld a, #player_vel_y
+        ld e_vy(ix), a
+        ld a, #0
+        ld e_vx(ix), a
+
+        ;; Actualizamos la orientación
+        ld a, #0x01
+        ld e_orient(ix), a
+        jp (hl)
+
+    rightPressed_inputJoy:
+        ;; Cambiamos la posicion
+        ld a, #player_vel_x
+        ld e_vx(ix), a
+        ld a, #0
+        ld e_vy(ix), a
+
+        ;; Actualizamos la orientación
+        ld a, #0x00
+        ld e_orient(ix), a
+        jp (hl)
+
+    spacePressed_inputJoy:
+        ld a, #0x00
+        ld e_vx(ix), a
+        ld a, #0x00
+        ld e_vy(ix), a
+        push hl
+        push iy
+        ld__iy_ix
+        call _m_game_playerFire
+        pop iy
+        pop hl
+        jp (hl)
 ret
