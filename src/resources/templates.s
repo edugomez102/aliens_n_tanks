@@ -98,7 +98,7 @@ entity_blink_time = 41
 ; e_anim2 indica tiempo invencible
 t_player:
    .db #e_type_player
-   .db #0x27                                 ; cmp
+   .db #0x67                                 ; cmp
    .db #0x26                                 ; x
    .db #0xa0                                 ; y
    .db #0x04                                 ; width
@@ -123,7 +123,7 @@ t_player:
 
 t_player2:
    .db #e_type_player
-   .db #0x27                                 ; cmp
+   .db #0x67                                 ; cmp
    .db #0x26                                 ; x
    .db #0xa0                                 ; y
    .db #0x04                                 ; width
@@ -150,7 +150,7 @@ t_player2:
 ; h 16 ;16
 t_enemy_basic_green:
    .db #e_type_enemy                         ; type
-   .db #0x3b                                 ; cmp
+   .db #0x7b                                 ; cmp
    .db #0                                    ; x
    .db #0                                    ; y
    .db #3                                   ; width
@@ -509,7 +509,7 @@ t_axe_player2:
 ;; la bullet del enemey
 t_bullet_enemy_sp:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x3B                                 ; cmp
+   .db #0x7B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #02                                 ; width
@@ -535,7 +535,7 @@ t_bullet_enemy_sp:
 
 t_bullet_enemy_l:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x3B                                 ; cmp
+   .db #0x7B                                 ; cmp
    .db #50
    .db #150
    .db #01                                 ; width
@@ -560,7 +560,7 @@ t_bullet_enemy_l:
 
 t_bullet_enemy_l_f:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x3B                                 ; cmp
+   .db #0x7B                                 ; cmp
    .db #50
    .db #150
    .db #02                                 ; width

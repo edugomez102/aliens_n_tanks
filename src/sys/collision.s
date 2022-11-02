@@ -35,6 +35,8 @@
 .include "man/HUD.h.s"
 .include "resources/templates.h.s"
 .include "sys/ai.h.s"
+.include "sys/ai_beh.h.s"
+
 
 ;;Math
 .include "macros/math.h.s"
@@ -108,7 +110,7 @@ _sys_checkColissionBwTile:
     ld hl, #_sys_collision_updateOneEntity
     ld (_m_functionMemory), hl
     ld hl , #_m_signatureMatch 
-    ld (hl), #0x20  ; e_cmp_collider = #0x20
+    ld (hl), #0x40  ; e_cmp_collider_tilemap = #0x40
     call _man_entityForAllMatching
 ret
 
@@ -137,6 +139,9 @@ check_player_collision:
         IS_ENTITY_GIVEN_TYPE_IY e_type_item
         jr nz, check_colliding_to_item_player_collision
 
+        IS_ENTITY_GIVEN_TYPE_IY e_type_bullet
+        jr nz, check_colliding_to_axe_player_collision
+
         jr increment_next_entity_player_collision
 
     check_colliding_to_death_player_collision:
@@ -153,6 +158,38 @@ check_player_collision:
 
         call _man_game_getItem
         jr increment_next_entity_player_collision
+    
+    check_colliding_to_axe_player_collision:
+        ;;Check if we can get the axe
+        ld a, e_ai_aux_l(ix)
+        cp #2
+        jp nz, increment_next_entity_player_collision
+
+        ;;Check if the high value of the player's axe is the same as the iy axe
+        ld b, e_patrol_step_h(ix)
+        ld__a_iyh
+        cp b
+        jp nz, increment_next_entity_player_collision
+
+        ;;Check if the low value of the player's axe is the same as the iy axe
+        ld b, e_patrol_step_l(ix)
+        ld__a_iyl
+        cp b
+        jp nz, increment_next_entity_player_collision
+
+        ;;If is the same we can get the axe so we check the collision
+        call _sys_collisionEntity_check
+        jp c, increment_next_entity_player_collision
+
+        ;;Make the axe return to the player
+        push ix
+        push iy
+        ld__hl_ix
+        ld__ix_iy
+        ld__iy_hl
+        call sys_ai_axe_set_follow
+        pop iy
+        pop ix
 
     increment_next_entity_player_collision:
         ld bc, #0x0000
@@ -166,7 +203,7 @@ check_player_collision:
         or a, a
         ret z
 
-        jr loop_entities_player_collision
+        jp loop_entities_player_collision
 ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -368,6 +405,9 @@ _sys_collision_updateOneEntity:
         IS_ENTITY_GIVEN_TYPE_IX e_type_enemy_bullet
         jr nz, delete_bullet
 
+        IS_ENTITY_GIVEN_TYPE_IX e_type_bullet
+        jr nz, quit_colliderTilemap_cmp
+
         jp check_y_axis
 
     set_vy_zero:
@@ -377,8 +417,22 @@ _sys_collision_updateOneEntity:
         IS_ENTITY_GIVEN_TYPE_IX e_type_enemy_bullet
         jr nz, delete_bullet
 
+        IS_ENTITY_GIVEN_TYPE_IX e_type_bullet
+        jr nz, quit_colliderTilemap_cmp
+
         ret
     
+    quit_colliderTilemap_cmp:
+        ;;Quit the collider tilemap cmp so we don't check it
+        ld a, e_cmp(ix)
+        sub #e_cmp_colliderTilemap
+        ld e_cmp(ix), a
+
+        ;;Set the left time to the axe to zero
+        ld e_aictr(ix), #1
+
+        ret
+
     delete_bullet:
         call _m_game_destroyEntity
 ret
