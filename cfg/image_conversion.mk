@@ -94,6 +94,7 @@ $(eval $(call IMG2SP, CONVERT         , assets/alien_seek_red.png , 6, 8, a_seek
 $(eval $(call IMG2SP, CONVERT         , assets/alien_letter.png , 6, 8, a_letter,,))
 
 $(eval $(call IMG2SP, CONVERT         , assets/spawn_warn.png , 6, 8, spawn_warn,,))
+
 $(eval $(call IMG2SP, CONVERT         , assets/points_20.png , 6, 8, points_20,,))
 $(eval $(call IMG2SP, CONVERT         , assets/points_100.png , 20, 22, points_100,,))
 
@@ -131,6 +132,8 @@ $(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_2.png , 4, 6, avocado
 
 ## ========== HUD new ========== 
 $(eval $(call IMG2SP, CONVERT         , assets/next_wave.png , 72, 14, next_wave_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/game_over.png , 72, 14, game_over,,))
+$(eval $(call IMG2SP, CONVERT         , assets/press_enter.png , 72, 14, press_enter,,))
 
 
 ## ========== PNG ENTEROS ========== 

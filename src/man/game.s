@@ -320,17 +320,44 @@ ei
       jr testIr
 
    endGame:
+   ; muerte player
 
    ;TODO : Hacer una pantalla de endgame bonica y cargarla aquí
-   ld hl, #_screenend_end
-   ld de, #0xFFFF
-   call cpct_zx7b_decrunch_s_asm
+   ; ld hl, #_screenend_end
+   ; ld de, #0xFFFF
+   ; call cpct_zx7b_decrunch_s_asm
+   ;
+   ; ld a, #0x00
+   ; call _m_HUD_renderScore
+   ;
+   ; call _m_game_inc_level_counter
+   ; call _sys_render_level_counter_end
 
-   ld a, #0x00
-   call _m_HUD_renderScore
+   ld c, #21
+   ld b, #112
 
-   call _m_game_inc_level_counter
-   call _sys_render_level_counter_end
+   ld de, #0xC000
+   call cpct_getScreenPtr_asm
+
+   ex de, hl
+
+   ld hl, #_game_over
+   ld c, #36
+   ld b, #14
+   call cpct_drawSprite_asm
+
+   ld c, #21
+   ld b, #128
+
+   ld de, #0xC000
+   call cpct_getScreenPtr_asm
+
+   ex de, hl
+
+   ld hl, #_press_enter
+   ld c, #36
+   ld b, #14
+   call cpct_drawSprite_asm
 
 
    ld hl, #Key_Return
@@ -348,12 +375,20 @@ victoryScreen:
    ;TODO : Hacer una pantalla de victoria bonica y cargarla aquí
    cpctm_clearScreen_asm 0
 
-   ld hl, #_screenvictory_end
+   ; ld hl, #_screenvictory_end
+   ; ld de, #0xFFFF
+   ; call cpct_zx7b_decrunch_s_asm
+   ;
+   ; ld a, #0x00
+   ; call _m_HUD_renderScore
+
+   ld hl, #_screenend_end
    ld de, #0xFFFF
    call cpct_zx7b_decrunch_s_asm
 
    ld a, #0x00
    call _m_HUD_renderScore
+
 
 
    ld hl, #Key_Return

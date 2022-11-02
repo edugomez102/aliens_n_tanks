@@ -140,6 +140,8 @@
 .globl update_sprite_from_list
 
 .globl _next_wave_sprite
+.globl _game_over
+.globl _press_enter
 
 .globl _spawn_warn_0
 .globl _spawn_warn_1
