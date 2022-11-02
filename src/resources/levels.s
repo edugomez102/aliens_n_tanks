@@ -64,7 +64,7 @@ _level1:
    ; .dw #enemy_no_shoot
 
    ; .db #level_new_entity
-   ; .dw #t_enemy_basic_green
+   ; .dw #t_e_patrol_blue
    ; .db #48
    ; .db #108
    ; .dw #ia_no_move
@@ -84,7 +84,7 @@ _level1:
    ; .dw #_sys_ai_beh_boss_shoot
 
    ; .db #level_new_entity
-   ; .dw #t_enemy_basic_green
+   ; .dw #t_e_patrol_blue
    ; .db #8
    ; .db #156
    ; .dw #ia_no_move
@@ -128,7 +128,7 @@ _level1:
    ; ITEM_LEVEL_ZEROS
 
    ; .db #level_new_entity
-   ; .dw #t_enemy_basic_green
+   ; .dw #t_e_patrol_blue
    ; .db #28
    ; .db #48
    ; .dw #ia_no_move
@@ -159,7 +159,7 @@ _level1:
    ; .db #176                   ;Entity Y
    ;
    ; .db #level_new_entity
-   ; .dw #t_enemy_basic_green
+   ; .dw #t_e_patrol_blue
    ; .db #24
    ; .db #156
    ; .dw #ia_no_move
@@ -230,7 +230,7 @@ _level1:
    ; ; .db #160                   ;Entity Y
    ; ;
    ; ; .db #level_new_entity
-   ; ; .dw #t_enemy_basic_green
+   ; ; .dw #t_e_patrol_blue
    ; ; .db #38
    ; ; .db #136
    ; ; .dw #ia_no_move
@@ -273,7 +273,7 @@ _level1:
    .db #160                   ;Entity Y                  ;Entity Y
 
    .db #level_new_entity
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db #8
    .db #56
    .dw #_sys_ai_behaviourPatrol
@@ -303,7 +303,7 @@ _level1:
    .dw #_sys_ai_beh_shoot_y
 
    .db #level_new_entity
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db #40
    .db #56
    .dw #_sys_ai_behaviourPatrol
@@ -341,7 +341,7 @@ _level1:
    .dw #_sys_ai_beh_shoot_x
 
    .db #level_new_entity
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db #20
    .db #56
    .dw #_sys_ai_behaviourPatrol
@@ -440,7 +440,7 @@ _level1:
    .dw #_sys_ai_beh_shoot_y
 
    .db #level_new_entity
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db #32
    .db #64
    .dw #_sys_ai_behaviourPatrolRelative
@@ -866,7 +866,7 @@ _level1:
    .dw #_sys_ai_beh_shoot_x_f
 
    .db #level_new_entity
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db #4
    .db #136
    .dw #_sys_ai_behaviourPatrolRelative

@@ -32,7 +32,7 @@
 
 ; tiempo hasta que un enemy dispara
 t_shoot_timer_enemy_s = 38
-t_shoot_timer_enemy = 70
+t_shoot_timer_enemy = 40
 ; r for range
 t_shoot_timer_enemy_r_l = 54
 t_shoot_timer_enemy_r_h = 96
@@ -124,7 +124,7 @@ t_player:
 
 ; w 12 ;6
 ; h 16 ;16
-t_enemy_basic_green:
+t_e_patrol_blue:
    .db #e_type_enemy                         ; type
    .db #0x3b                                 ; cmp
    .db #0                                    ; x
@@ -133,7 +133,7 @@ t_enemy_basic_green:
    .db #8                                   ; heigth
    .db #0                                    ; vx
    .db #0                                    ; vy
-   .dw #_alien_blue                      ; sprite
+   .dw #_a_patrol_blue                      ; sprite
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr

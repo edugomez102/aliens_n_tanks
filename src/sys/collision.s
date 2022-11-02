@@ -381,4 +381,8 @@ _sys_collision_updateOneEntity:
     
     delete_bullet:
         call _m_game_destroyEntity
+        ld h, e_patrol_step_h(ix)
+        ld l, e_patrol_step_l(ix)
+        ld__ix_hl
+        call _sys_ai_reset_shoot_aictr
 ret

@@ -48,7 +48,7 @@
 
 .globl t_player
 
-.globl t_enemy_basic_green
+.globl t_e_patrol_blue
 .globl t_enemy_basic_blue
 .globl t_enemy_basic_purple
 .globl t_enemy_basic_red

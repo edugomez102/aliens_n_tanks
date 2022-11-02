@@ -50,7 +50,21 @@
 .globl avocado_nn_p2_sprite_list
 
 
-.globl _alien_blue
+; .globl _alien_blue
+.globl _a_patrol_blue
+.globl _a_patrol_orange
+.globl _a_patrol_pink
+.globl _a_patrol_red
+
+.globl _a_follow_blue
+.globl _a_follow_orange
+.globl _a_follow_pink
+.globl _a_follow_red
+
+.globl _a_seek_blue
+.globl _a_seek_orange
+.globl _a_seek_pink
+.globl _a_seek_red
 
 
 .globl _HUDLife_0

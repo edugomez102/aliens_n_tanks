@@ -19,16 +19,16 @@ wave_01:
    ; Wave 1
    ; ==============================================================================
    .dw 10
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db 48, 56
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
    .db 0
    .dw #patrol_02
-   .dw #_sys_ai_beh_shoot_y
+   .dw #_sys_ai_beh_shoot_xy_rand_f
 
    .dw 42
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db 68, 56
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
@@ -36,11 +36,11 @@ wave_01:
    .dw #patrol_01
    .dw #enemy_no_shoot
 
-   .dw 43
-   .dw #t_item_heart_free
-   .db 55, 171
-   .dw #_sys_ai_beh_item_update
-   ITEM_WAVE_ZEROS
+   ; .dw 43
+   ; .dw #t_item_heart_free
+   ; .db 55, 171
+   ; .dw #_sys_ai_beh_item_update
+   ; ITEM_WAVE_ZEROS
 
    .dw #0x0000
    .db wave_separator 
@@ -49,7 +49,7 @@ wave_01:
    ; Wave 2
    ; ==============================================================================
    .dw 50
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db 48, 156
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
@@ -58,7 +58,7 @@ wave_01:
    .dw #enemy_no_shoot
 
    .dw 70
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db 48, 156
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
@@ -82,7 +82,7 @@ wave_01:
    .dw #_sys_ai_beh_shoot_y
 
    .dw 121
-   .dw #t_enemy_basic_green
+   .dw #t_e_patrol_blue
    .db 40, 56
    .dw #_sys_ai_behaviourPatrol
    .db #0                                 ; e_ai_aux_l

@@ -76,7 +76,21 @@ $(eval $(call IMG2SP, CONVERT         , assets/ovniExplosion.png , 8, 12, ovni_e
 
 ## ========== ENEMIES ========== 
 
-$(eval $(call IMG2SP, CONVERT         , assets/alien_03.png , 6, 8, alien_blue,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_patrol_blue.png , 6, 8, a_patrol_blue,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_patrol_orange.png , 6, 8, a_patrol_orange,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_patrol_pink.png , 6, 8, a_patrol_pink,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_patrol_red.png , 6, 8, a_patrol_red,,))
+
+$(eval $(call IMG2SP, CONVERT         , assets/alien_follow_blue.png , 6, 8, a_follow_blue,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_follow_orange.png , 6, 8, a_follow_orange,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_follow_pink.png , 6, 8, a_follow_pink,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_follow_red.png , 6, 8, a_follow_red,,))
+
+$(eval $(call IMG2SP, CONVERT         , assets/alien_seek_blue.png  , 6, 8, a_seek_blue,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_seek_orange.png  , 6, 8, a_seek_orange,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_seek_pink.png  , 6, 8, a_seek_pink,,))
+$(eval $(call IMG2SP, CONVERT         , assets/alien_seek_red.png , 6, 8, a_seek_red,,))
+
 
 $(eval $(call IMG2SP, CONVERT         , assets/spawn_warn.png , 6, 8, spawn_warn,,))
 $(eval $(call IMG2SP, CONVERT         , assets/points_20.png , 6, 8, points_20,,))
