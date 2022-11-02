@@ -79,7 +79,10 @@ _sys_ai_behaviourBullet:
 sys_ai_beh_axe_throw:
    call sys_ai_beh_axe_common
 
-   CHECK_DOUBLE_ZERO_RET e_vx(ix) e_vy(ix)
+   ;CHECK_DOUBLE_ZERO_RET e_vx(ix) e_vy(ix)
+   ld a, e_ai_aux_l(iy)
+   cp #0
+   ret nz
 
    dec e_aictr(ix)
    jr z, ai_axe_stop
@@ -92,32 +95,60 @@ sys_ai_beh_axe_throw:
       ld e_ai_aux_l(iy), #2
       ld e_aictr(ix), #t_bullet_timer_player
 
-    ret 
+ret
 
 sys_ai_beh_axe_pickup:
    call sys_ai_beh_axe_common
 
    call _sys_ai_aim_to_entity
 
-   ;; Margen 
+   ;; Margen
+   ld a, e_orient(iy)
 
-   ; ld a, e_ai_aim_y(ix)
-   ; add #3
-   ; ld e_ai_aim_y(ix), a
+   cp #0
+   jr z, righOrientation_axe_pickup ;; Si es 0 va a la derecha
 
-   ; ld a, e_ai_aim_x(ix)
-   ; add #1
-   ; ld e_ai_aim_x(ix), a
+   cp #1
+   jr z, downOrientation_axe_pickup ;; Si es 0 va a la abajo
 
-   ld d, #4
-   call _sys_ai_seekCoords_y
-   ld d, #2
-   call _sys_ai_seekCoords_x
+   cp #2
+   jr z, leftOrientation_axe_pickup ;; Si es 0 va a la izquierda
 
+   cp #3
+   jr z, upOrientation_axe_pickup ;; Si es 0 va a la arriba
+
+   righOrientation_axe_pickup:
+      ld a, e_ai_aim_y(ix)
+      add #3
+      ld e_ai_aim_y(ix), a
+      jp margin_made_axe_pickup
+
+   downOrientation_axe_pickup:
+      ld a, e_ai_aim_x(ix)
+      add #1
+      ld e_ai_aim_x(ix), a
+      jp margin_made_axe_pickup
+
+   leftOrientation_axe_pickup:
+      ld a, e_ai_aim_y(ix)
+      add #3
+      ld e_ai_aim_y(ix), a
+      jp margin_made_axe_pickup
+
+   upOrientation_axe_pickup:
+      ld a, e_ai_aim_x(ix)
+      add #1
+      ld e_ai_aim_x(ix), a
+      jp margin_made_axe_pickup
+   
+   margin_made_axe_pickup:
+      ld d, #4
+      call _sys_ai_seekCoords_y
+      ld d, #2
+      call _sys_ai_seekCoords_x
 
    ; TODO use collision 
-   CHECK_VX_VY_ZERO sys_ai_axe_set_follow
-   ; CHECK_DOUBLE_ZERO_CALL e_vx(ix) e_vy(ix) sys_ai_axe_set_follow
+   ;CHECK_VX_VY_ZERO sys_ai_axe_set_follow
 
    ret
 
@@ -127,6 +158,8 @@ sys_ai_axe_set_follow:
 
    ld e_ai_aux_l(iy), #1
    ld e_cmp(ix), #0x0
+
+   call _sys_render_erasePrevPtr
 
    call _sys_ai_reset_aim
    ret
@@ -161,7 +194,7 @@ _sys_ai_behaviourBulletSeektoPlayer:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    CHECK_NO_AIM_XY _sys_ai_aim_to_entity
 
    ; mira la verdad no se como esto funciona
@@ -288,7 +321,7 @@ _sys_ai_behaviourSeekAndPatrol:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    CHECK_NO_AIM_XY _sys_ai_aim_to_entity
 
    dec e_ai_aux_l(ix)
@@ -310,7 +343,7 @@ _sys_ai_behaviourSeekAndPatrol_f:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    CHECK_NO_AIM_XY _sys_ai_aim_to_entity
 
    dec e_ai_aux_l(ix)
@@ -356,7 +389,7 @@ _sys_ai_beh_follow_player_y_f:
 _sys_ai_beh_follow_player:
    push bc
    pop ix
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    call _sys_ai_aim_to_entity
    dec e_ai_aux_l(ix)
    ret
@@ -705,7 +738,7 @@ _sys_ai_beh_ingame_shield:
    push bc
    pop ix
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    ld a, e_xpos(iy)
    sub #1
    ld e_xpos(ix), a
@@ -720,7 +753,7 @@ _sys_ai_beh_ingame_rotator:
    push bc
    pop ix
 
-   ; GET_PLAYER_ENTITY iy
+   ; GET_PLAYER1_ENTITY iy
    ; ld a, e_xpos(iy)
    ; ; add #2
    ; ld e_xpos(ix), a
@@ -729,7 +762,7 @@ _sys_ai_beh_ingame_rotator:
    ; ; add #1
    ; ld e_ypos(ix), a
 
-   GET_PLAYER_ENTITY iy
+   GET_PLAYER1_ENTITY iy
    ld a, e_xpos(iy)
    ld e_ai_aux_l(ix), a
 

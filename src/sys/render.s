@@ -177,7 +177,7 @@ _sys_render_erasePrevPtr:
         ld  a, #render_erase_color
 
         call cpct_drawSolidBox_asm
-    ret
+ret
 
 
 ;====================================================================

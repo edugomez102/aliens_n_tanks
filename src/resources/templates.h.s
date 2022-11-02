@@ -31,6 +31,7 @@
 .globl player_max_bullets
 
 .globl t_axe_player
+.globl t_axe_player2
 
 .globl t_bullet_enemy_sp
 .globl t_bullet_enemy_l
@@ -47,6 +48,7 @@
 ;=====================================================================
 
 .globl t_player
+.globl t_player2
 
 .globl t_e_patrol_blue
 .globl t_enemy_basic_blue

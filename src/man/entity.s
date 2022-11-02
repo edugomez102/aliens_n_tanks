@@ -27,6 +27,7 @@
 .include "resources/animations.h.s"
 .include "cpct_globals.h.s"
 .include "man/entity.h.s"
+.include "man/game.h.s"
 
 ;====================================================================
 ; Manager data   
@@ -277,7 +278,7 @@ ret
 _man_entityUpdate:
     call _man_entitiesUpdate
     call _man_playerUpdateOrientation
-    ret
+ret
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -286,30 +287,61 @@ _man_entityUpdate:
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _man_playerUpdateOrientation:
-   ; TODO player por parametro
-   ; TODO comprobar si player 1 o 2
-   GET_PLAYER_ENTITY iy
+    call _man_update_player1_orientation
     
-   ld a,   e_orient(iy)
-   ld e_prorient(iy), a
+    ;;If is individual mode return
+    ld a, (#_m_gameMode)
+    cp #0
+    ret z
 
-   ld a, e_ai_aux_l(iy)
-   cp #1
-   jp z, player_axe_yes
-   jp nz, player_axe_no
+    call _man_update_player2_orientation
+ret
 
-   player_axe_yes:
-      ld a, e_orient(iy)
-      ld hl, #avocado_p1_sprite_list
-      call update_sprite_from_list
-      ret
+_man_update_player1_orientation::
+    GET_PLAYER1_ENTITY iy
 
-   player_axe_no:
-      ld a, e_orient(iy)
-      ld hl, #avocado_nn_p1_sprite_list
-      call update_sprite_from_list
+    ld a, e_orient(iy)
+    ld e_prorient(iy), a
 
-   ret
+    ld a, e_ai_aux_l(iy)
+    cp #1
+    jp z, player1_axe_yes
+    jp nz, player1_axe_no
+
+    player1_axe_yes:
+        ld a, e_orient(iy)
+        ld hl, #avocado_p1_sprite_list
+        call update_sprite_from_list
+        ret
+
+    player1_axe_no:
+        ld a, e_orient(iy)
+        ld hl, #avocado_nn_p1_sprite_list
+        call update_sprite_from_list
+ret
+
+_man_update_player2_orientation::
+    GET_PLAYER2_ENTITY iy
+
+    ld a, e_orient(iy)
+    ld e_prorient(iy), a
+
+    ld a, e_ai_aux_l(iy)
+    cp #1
+    jp z, player2_axe_yes
+    jp nz, player2_axe_no
+
+    player2_axe_yes:
+        ld a, e_orient(iy)
+        ld hl, #avocado_p2_sprite_list
+        call update_sprite_from_list
+        ret
+
+    player2_axe_no:
+        ld a, e_orient(iy)
+        ld hl, #avocado_nn_p2_sprite_list
+        call update_sprite_from_list
+ret
 
 _man_getEntityArray:
       ld hl, #_m_entities

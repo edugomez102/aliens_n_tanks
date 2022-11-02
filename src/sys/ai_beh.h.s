@@ -21,6 +21,7 @@
 .globl sys_ai_beh_axe_follow
 .globl sys_ai_beh_axe_throw
 .globl sys_ai_beh_axe_pickup
+.globl sys_ai_axe_set_follow
 
 .globl _sys_ai_behaviourBullet
 
