@@ -16,6 +16,8 @@ wave_separator = 0xFF
 ; 6 disparando
 ; tema item
 
+init_wave_time = 80
+
 wave_01:
 
    ; ==============================================================================
@@ -208,7 +210,8 @@ wave_01:
    ; .dw #patrol_02
    ; .dw #enemy_no_shoot
 
-   .dw 70
+   .dw init_wave_time
+
    .dw #t_e_patrol_blue
    .db 48, 156
    .dw #ia_no_move
@@ -223,7 +226,8 @@ wave_01:
    ; ==============================================================================
    ; Wave 3
    ; ==============================================================================
-   .dw 50
+   .dw init_wave_time
+
    .dw #t_e_patrol_blue
    .db 16, 168
    .dw #_sys_ai_behaviourPatrolRelative

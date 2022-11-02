@@ -348,22 +348,6 @@ _sys_render_box_on_coord:
    call cpct_drawSolidBox_asm
    ret
 
-_sys_render_next_wave:
-
-   ; base
-   ld de, #0xC000
-   ld c, #0x0
-   ld b, #0x0
-   call cpct_getScreenPtr_asm
-
-   ex de, hl
-
-   ld hl, #_next_wave_sprite
-   ld c, #36
-   ld b, #7
-   call cpct_drawSprite_asm
-
-   ret
 
 lvl_ctr_x = #0x24
 lvl_ctr_y = #0x38

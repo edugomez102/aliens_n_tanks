@@ -1041,8 +1041,6 @@ t_item_heart_free:
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
 
-; TODO UPDATE resto items
-
 
 t_item_shield:
    .db #e_type_item                                 ; type
@@ -1193,3 +1191,31 @@ t_ingame_rotator:
    .db #0                                    ; e_ai_aux_l
    .db #0                                    ; e_ai_aux_h
    .dw #patrol_relative_around_03            ; patrol_step
+
+next_wave_life_time = 51
+t_next_wave_anim:
+   .db #e_type_item                                 ; type
+   .db #0x09                                 ; cmp
+   .db #0                                 ; x
+   .db #50                                 ; y
+   .db #36                                 ; width
+   .db #7                                 ; heigth
+   .db #0                                 ; vx
+   .db #0x00                                 ; vy
+   .dw #_next_wave_sprite                      ; sprite
+   .db #0x00                                 ; orientation   
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #_sys_ai_beh_item_update
+   .db #next_wave_life_time
+   .dw #0
+   .db #0                                 ; anim. counter
+   .dw #0                                    ; input_behaviour
+   .db #0                                 ; e_ai_aim_x
+   .db #0                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                 ; e_ai_aux_h
+   .dw #0                                    ; e_patrol_step
+
+; TODO UPDATE resto items
+

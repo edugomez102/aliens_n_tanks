@@ -87,6 +87,7 @@ man_wave_check_if_reset:
 
    ret
 
+.globl t_next_wave_anim
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Cuando se ha spawneado toda la wave y el jugador la ha matado toda
 ;;
@@ -110,8 +111,8 @@ man_wave_reset_local:
    ld hl, #wave_counter
    inc (hl)
 
-   ; TODO render next wave
-   call _sys_render_next_wave
+   ld bc, #t_next_wave_anim
+   call _m_game_createInitTemplate
 
    ret
 

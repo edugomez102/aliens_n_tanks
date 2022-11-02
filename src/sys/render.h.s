@@ -37,8 +37,6 @@
 .globl lvl_ctr_sprite_1
 .globl lvl_ctr_sprite_2
 
-.globl _sys_render_next_wave
-
 .globl _sys_render_box_on_coord
 
 

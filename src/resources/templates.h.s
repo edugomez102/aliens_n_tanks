@@ -101,3 +101,4 @@
 
 .globl t_ingame_shield
 .globl t_ingame_rotator
+
