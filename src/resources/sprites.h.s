@@ -20,9 +20,6 @@
 ;=====================================================================
 ; Sprite Labels
 ;=====================================================================
-.globl _sprite_player01
-.globl _sprite_player02
-
 .globl _avocado_p1_sprite_0
 .globl _avocado_p1_sprite_1
 .globl _avocado_p1_sprite_2
@@ -66,6 +63,7 @@
 .globl _a_seek_pink
 .globl _a_seek_red
 
+.globl _a_letter
 
 .globl _HUDLife_0
 .globl _HUDLife_1
@@ -80,9 +78,6 @@
 .globl _spriteScore_07
 .globl _spriteScore_08
 .globl _spriteScore_09
-
-.globl _sprite_bullet01
-.globl _sprite_enemy01
 
 .globl _ovni_green_0
 .globl _ovni_green_1
@@ -150,4 +145,5 @@
 .globl _spawn_warn_2
 
 .globl _points_20
+.globl _points_100
 

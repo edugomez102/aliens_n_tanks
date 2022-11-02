@@ -537,16 +537,53 @@ _sys_ai_prepare_enemy_die:
    ld a, e_cmp(ix)
    sub a, #e_cmp_collider
    ld e_cmp(ix), a
+ret
 
+_sys_ai_beh_boss_die:
+   push bc
+   pop ix
+
+   dec e_aictr(ix)
+   jr z, boss_set_4_destroy
+   ret
+   boss_set_4_destroy:
+      push ix
+      pop hl
+      call _m_game_destroyEntity
+      call man_game_boss_die
+   ret
+
+_sys_ai_prepare_boss_die:
+   ld e_aictr(ix), #10
+   ld e_vx(ix), #0
+   ld e_vy(ix), #0
+
+   ld hl, #enemy_no_shoot
+   ld e_inputbeh1(ix), l
+   ld e_inputbeh2(ix), h
+
+   ld hl, #_sys_ai_beh_boss_die
+   call _sys_ai_changeBevaviour
+
+   ld hl, #_points_100
+   ld e_sprite1(ix), l
+   ld e_sprite2(ix), h
+
+   ; ld e_width(ix), #3
+   ; ld e_heigth(ix), #8
+
+   ld a, e_cmp(ix)
+   sub a, #e_cmp_collider
+   ld e_cmp(ix), a
 ret
 
 _sys_ai_beh_boss_move:
    push bc
    pop ix
 
-   ld a, #66
-   cp e_xpos(ix)
-   call z, boss_in_x_66
+   ; ld a, #66
+   ; cp e_xpos(ix)
+   ; call z, boss_in_x_66
 
    ld a, #4
    cp e_xpos(ix)
@@ -555,7 +592,7 @@ _sys_ai_beh_boss_move:
 
    change_boss_velocity:
    ld a, #6
-   cp e_animctr(ix)
+   cp e_anim1(ix)
 
    push ix
    pop bc
@@ -566,22 +603,10 @@ _sys_ai_beh_boss_move:
 
    ret
 
-boss_in_x_66:
-   ld a, #168
-   cp e_ypos(ix)
-   call z, boss_in_x_66_y_170
-   ret
-
-boss_in_x_66_y_170:
-   ld bc, #t_spawner_from_plist_01
-   call _m_game_createInitTemplate
-   push hl
-   pop iy
-   ld e_xpos(iy), #66
-   ld e_ypos(iy), #170
-
-   ld hl, #_m_enemyCounter
-   inc (hl)
+boss_in_x_65:
+   ; ld a, #167
+   ; cp e_ypos(ix)
+   ; call z, boss_in_x_65_y_170
    ret
 
 boss_in_x_4:
@@ -591,15 +616,15 @@ boss_in_x_4:
    ret
 
 boss_in_x_4_y_168:
-   ld bc, #t_es_09
-   call _m_game_createInitTemplate
-   push hl
-   pop iy
-   ld e_xpos(iy), #4
-   ld e_ypos(iy), #168
+   ; ld bc, #t_es_09
+   ; call _m_game_createInitTemplate
+   ; push hl
+   ; pop iy
+   ; ld e_xpos(iy), #4
+   ; ld e_ypos(iy), #168
 
-   ld hl, #_m_enemyCounter
-   inc (hl)
+   ; ld hl, #_m_enemyCounter
+   ; inc (hl)
    ret
 
 _sys_ai_beh_boss_shoot:
@@ -614,7 +639,7 @@ boss_multi_shoot:
    pop bc
 
    push bc
-   call _sys_ai_shoot_bullet_l_d_f
+   call _sys_ai_shoot_bullet_l_d
    pop bc
 
    push ix
@@ -702,19 +727,24 @@ _sys_ai_beh_shoot_d_f:
 _sys_ai_beh_item_update:
    ld__bc_ix
    dec e_aictr(ix)
-   ; dec e_vx(ix)
    jr z, ai_destroy_item
+
+   ld a, e_aictr(ix)
+   sub a, #entity_blink_time
+   jr z, ai_set_blink
    ret
 
-   ai_destroy_item:
-      ; ld hl, #_sys_anim_blink
-      ; call _sys_ai_changeBevaviour
-      ; TODO destroy
+   ai_set_blink:
+      ld e_animctr(ix), #entity_blink_time
 
       ld a, e_cmp(ix)
       add #e_cmp_animated
       ld e_cmp(ix), a
-
+      ret
+      
+   ai_destroy_item:
+      ld__hl_ix
+      call _m_game_destroyEntity
 ret
 
 ;;--------------------------------------------------------------------------------

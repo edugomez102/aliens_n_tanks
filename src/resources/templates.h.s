@@ -59,16 +59,8 @@
 .globl t_enemy_patrol_game_zone
 .globl t_enemy_patrol_game_zone_i
 
-.globl t_enemy_patrol_relative_01
-.globl t_enemy_patrol_relative_02
 .globl t_enemy_seeknpatrol
 .globl t_enemy_seeknpatrol_02
-.globl t_enemy_patrol_01
-.globl t_enemy_patrol_x_shoot_y
-
-.globl t_spawner_from_template_01
-.globl t_spawner_from_template_02
-.globl t_spawner_from_plist_01
 
 
 .globl t_bullet_vel_x
@@ -89,17 +81,13 @@
 .globl t_es_08
 .globl t_es_09
 
-.globl t_enemy_testing
-.globl t_enemy_testing2
-
 .globl t_item_heart
 .globl t_item_heart_free
 .globl t_item_shield
-.globl t_item_skip
-.globl t_item_skip_to_boss
 .globl t_item_speed_bullet
 .globl t_item_rotator
 .globl t_item_sharp_bullet
 
 .globl t_ingame_shield
 .globl t_ingame_rotator
+

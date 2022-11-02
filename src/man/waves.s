@@ -87,6 +87,7 @@ man_wave_check_if_reset:
 
    ret
 
+.globl t_next_wave_anim
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Cuando se ha spawneado toda la wave y el jugador la ha matado toda
 ;;
@@ -110,8 +111,8 @@ man_wave_reset_local:
    ld hl, #wave_counter
    inc (hl)
 
-   ; TODO render next wave
-   call _sys_render_next_wave
+   ld bc, #t_next_wave_anim
+   call _m_game_createInitTemplate
 
    ret
 
@@ -268,17 +269,23 @@ man_wave_pick_warn_sprite:
 
    cp #0
    jr z, warn_anim_frame_0
-
    cp #1
-   jr z, warn_anim_frame_1
+   jr z, warn_anim_frame_0
 
    cp #2
+   jr z, warn_anim_frame_1
+   cp #3
+   jr z, warn_anim_frame_1
+
+   cp #4
+   jr z, warn_anim_frame_2
+   cp #5
    jr z, warn_anim_frame_2
 
    ret
 
    restart_warn_anim:
-      ld (hl), #3
+      ld (hl), #5
       ret
 
    warn_anim_frame_0:

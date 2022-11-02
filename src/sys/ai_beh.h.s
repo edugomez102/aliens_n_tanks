@@ -62,7 +62,6 @@
 .globl _sys_ai_beh_shoot_d
 .globl _sys_ai_beh_shoot_d_f
 
-.globl _sys_ai_prepare_enemy_die
 .globl _sys_ai_restore_spawn
 
 .globl _sys_ai_beh_ingame_shield

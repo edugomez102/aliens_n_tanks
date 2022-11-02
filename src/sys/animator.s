@@ -92,10 +92,11 @@ ret
       cp #4
       jr z, blink_reset_render_ai
 
+      ; TODO BUG
       cp #2
       jr z, blink_no_render_ai
-      cp #0
-      jr z, blink_reset_render_ai
+      ; cp #0
+      ; jr z, blink_reset_render_ai
 
       ret
 
@@ -115,8 +116,5 @@ ret
          sub #e_cmp_animated
          add #e_cmp_render
          ld e_cmp(ix), a
-
-         ; TODO variable
-         ; cae ll _m_game_destroyEntity
 
       ret

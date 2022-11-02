@@ -109,8 +109,7 @@ player_max_rotators = 2
 ; TODO pasar a t_player
 player_has_shot: .db #0
 
-
-player_blink_time = 20
+entity_blink_time = 41
 
 
 ;====================================================================
@@ -146,6 +145,24 @@ _m_game_init:
 
    call _man_int_setIntHandler
    
+ret
+
+;====================================================================
+; FUNCION _man_game_updateGameStatus   
+; Función encargada de updatear el estado del juego y nivel
+; NO llega ningun dato
+;====================================================================
+_man_game_updateGameStatus:
+
+   ;; Se checkea si el jugador ha perdido las 3 vidas
+   ld hl , #_m_lifePlayer
+   inc (hl)
+   dec (hl)
+   jr NZ, game_continues
+   pop hl
+   jp  endGame
+   game_continues:
+
 ret
 
 ;====================================================================
@@ -593,117 +610,12 @@ _man_game_loadLevel:
    call _m_game_createAxe
 ret
 
-
-; TODO  FINISH
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; IY: player
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-_man_game_player_blink:
-   ; ld a, (player_blink_time)
-   ; cp e_anim2(iy)
-   ; jr nc, is_blinking
-   ; ret
-   ;
-   ; is_blinking:
-   ;    ld e_cmp(iy), #0x07
-   ;    ret
-   
-   ret
-
-;====================================================================
-; FUNCION _man_game_updateGameStatus   
-; Función encargada de updatear el estado del juego y nivel
-; NO llega ningun dato
-;====================================================================
-_man_game_updateGameStatus:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ; GET_PLAYER1_ENTITY iy
-   ;
-   ; ld a, e_anim1(iy)
-   ; cp #1
-   ; call z, _man_game_player_blink
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-   ; /
-   ; ; | Se checkea si el jugador ha perdido las 3 vidas
-   ; \
-   ld hl , #_m_lifePlayer
-   inc (hl)
-   dec (hl)
-   jr NZ, checkEnemy
-   ; call _m_HUD_resetLevelScore
-   pop hl
-   jp  endGame
-   checkEnemy:
-
-   ; /
-   ; | Se checkea si el jugador ha acabado con los enemigos y pasa de nivel
-   ; \
-   ; ld hl, #_m_enemyCounter
-   ; inc (hl)
-   ; dec (hl)
-   jr NZ, dontPassLevel
-
-   ld ix, #_m_nextLevel
-   
-   ;/
-   ;| Llegados a este punto vamos a cargar el siguiente nivel o la pantalla de victoria 
-   ;| entonces al hacer jp hay que desacerse del ret de la pila
-   ;\
-   pop hl 
-
-   ld a, 0(ix)
-   ld l, a
-   ld a, 1(ix)
-   ld h, a
-
-   ld a, (hl)
-
-   inc a
-   dec a
-   jr NZ, nextLevel
-   
-   jp victoryScreen
-   
-   nextLevel:
-   call _m_game_inc_level_counter
-
-   ;TODO : Meter aquñi el sprite de " Ready?" 
-   call _m_HUD_saveScore
-   ld ix, #_m_nextLevel
-   ld hl, #_m_gameLevel
-   ld a, (ix)  
-   ld (hl), a
-   inc hl
-   ld a, 1(ix)
-   ld (hl), a
-
-   ;; Dibujamos el sprite para pasar de lvl
-   LOAD_PNG_TO_SCREEN #0x09, #0x48, #0x3E, #0x2C, #_nextStage
-
-   call _sys_render_level_counter_next
-
-   ld hl, #Key_Return
-   call waitKeyPressed
-   
-   jp restartLevel
-
-   dontPassLevel:
-ret
-
-; .globl _sys_anim_blink
-
 ;====================================================================
 ; FUNCION _man_game_decreasePlayerLife   
 ; Función encargada de decrementar la vida del jugador
 ; NO llega ningun dato
 ;====================================================================
 _man_game_decreasePlayerLife:
-   ; GET_PLAYER1_ENTITY iy
-
    ld a, e_animctr(iy)
    or a
    ret nz
@@ -714,21 +626,13 @@ _man_game_decreasePlayerLife:
    call _m_HUD_renderLifes
    ld hl, #_m_lifePlayer
    ld a,(hl)
-   dec a
-   inc a
-   jr Z, dontResetScore
-   call _m_HUD_resetLevelScore
-   dontResetScore:
-   ; pop hl ;Aqui quitamos lo ultimo de la pila pues no vamos a hacer un ret
-   ; jp restartLevel
 
-   ld e_animctr(iy), #41
+   ld e_animctr(iy), #entity_blink_time
    ld a, e_cmp(iy)
    add #e_cmp_animated
    ld e_cmp(iy), a
 
 ret
-
 
 _man_game_increasePlayerLife:
    ld hl, #_m_lifePlayer
@@ -836,6 +740,15 @@ man_game_enemy_die:
    ld hl, #_m_enemyCounter
    dec (hl)
    ld bc, #0x0002
+   call _m_HUD_addPoints
+   ld a, #0x01
+   call _m_HUD_renderScore
+ret
+
+man_game_boss_die:
+   ld hl, #_m_enemyCounter
+   dec (hl)
+   ld bc, #0x000A
    call _m_HUD_addPoints
    ld a, #0x01
    call _m_HUD_renderScore

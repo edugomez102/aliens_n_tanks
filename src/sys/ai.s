@@ -157,12 +157,12 @@ _sys_ai_shootBulletSeek:
 
 shoot_from_enemy_center:
    ; ld a, e_width(ix)
-   ld a, #2
+   ld a, #1
    add a, b
    ld b, a
 
    ; ld a, e_heigth(ix)
-   ld a, #4
+   ld a, #2
    add a, c
    ld c, a
 
@@ -433,46 +433,38 @@ _sys_ai_spawner_has_to_die:
 
 ; iy: entity
 decrease_boss_hp:
-   dec e_animctr(ix)
 
-   ld a, #0
-   cp e_animctr(ix)
+   dec e_anim1(ix)
+
+   ld a, e_anim1(ix)
+   cp #0
    jp z, boss_has_0_hp
 
-   ld a, #1
-   cp e_animctr(ix)
+   cp #1
    jp z, boss_has_1_hp
 
-   ld a, #2
-   cp e_animctr(ix)
+   cp #2
    jp z, boss_has_2_hp
 
-   ld a, #3
-   cp e_animctr(ix)
+   cp #3
    jp z, boss_has_3_hp
 
-   ld a, #4
-   cp e_animctr(ix)
+   cp #4
    jp z, boss_has_4_hp
 
-   ld a, #5
-   cp e_animctr(ix)
+   cp #5
    jp z, boss_has_5_hp
 
-   ld a, #6
-   cp e_animctr(ix)
+   cp #6
    jp z, boss_has_6_hp
 
-   ld a, #7
-   cp e_animctr(ix)
+   cp #7
    jp z, boss_has_7_hp
 
-   ld a, #8
-   cp e_animctr(ix)
+   cp #8
    jp z, boss_has_8_hp
 
-   ld a, #9
-   cp e_animctr(ix)
+   cp #9
    jp z, boss_has_9_hp
 
    ret
@@ -526,8 +518,10 @@ decrease_boss_hp:
    boss_has_0_hp:
       push ix
       pop hl
-      call _m_game_destroyEntity
-      call man_game_enemy_die
+      ; call _sys_ai_prepare_enemy_die
+      call _sys_ai_prepare_boss_die
+      ; call _m_game_destroyEntity
+      ; call man_game_enemy_die
 
    ret
 

@@ -164,7 +164,7 @@ t_e_patrol_blue:
    .dw #ia_no_move                                    ; ai_behaviour
    .db #t_shoot_timer_enemy_s
    .dw #_man_anim_enemy_green                                  ; animator
-   .db #0x01                                  ; anim. counter
+   .db #0                                  ; anim. counter
    .dw #enemy_no_shoot                               ; input_behaviour
    .db #0x00                                 ; e_ai_aim_x
    .db #0x00                                 ; e_ai_aim_y
@@ -247,29 +247,53 @@ t_enemy_basic_red:
 
 ; anim counter : life
 t_final_boss:
-   .db #e_type_enemy                         ; type
-   .db #0x2b                                 ; cmp
-   .db #0                                    ; x
-   .db #0                                    ; y
-   .db #10                                    ; width
-   .db #22                                   ; heigth
-   .db #0                                    ; vx
-   .db #0                                    ; vy
-   ; .dw #_final_boss                      ; sprite
-   .dw #_final_boss_09                      ; sprite
-   .db #0x00                                 ; orientation
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #ia_no_move                                    ; ai_behaviour
-   .db #t_shoot_timer_enemy_s
-   .dw #0                                  ; animator
-   .db #10                                  ; anim. counter
-   .dw #enemy_no_shoot                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0                                    ; e_ai_aux_h
-   .dw #0                                    ; patrol_step
+.db #e_type_enemy                         ; type
+.db #0x6b                                 ; cmp
+.db #0                                    ; x
+.db #0                                    ; y
+.db #10                                   ; width
+.db #22                                   ; heigth
+.db #0                                    ; vx
+.db #0                                    ; vy
+.dw #_final_boss_09                      ; sprite
+.db #0x00                                 ; orientation
+.db #0x00                                 ; prev. orientation
+.dw #0x0000                               ; prevptr
+.dw #ia_no_move                                    ; ai_behaviour
+.db #t_shoot_timer_enemy_s
+.db #10                                  ; animator1
+.db #00                                  ; animator2
+.db #00                                  ; anim. counter
+.dw #enemy_no_shoot                               ; input_behaviour
+.db #0x00                                 ; e_ai_aim_x
+.db #0x00                                 ; e_ai_aim_y
+.db #0                                    ; e_ai_aux_l
+.db #0                                    ; e_ai_aux_h
+.dw #0                                    ; patrol_step
+
+   ; .db #e_type_enemy                         ; type
+   ; .db #0x6b                                 ; cmp
+   ; .db #0                                    ; x
+   ; .db #0                                    ; y
+   ; .db #10                                    ; width
+   ; .db #22                                   ; heigth
+   ; .db #0                                    ; vx
+   ; .db #0                                    ; vy
+   ; .dw #_final_boss_09                      ; sprite
+   ; .db #0x00                                 ; orientation
+   ; .db #0x00                                 ; prev. orientation
+   ; .dw #0x0000                               ; prevptr
+   ; .dw #ia_no_move                                    ; ai_behaviour
+   ; .db #t_shoot_timer_enemy_s
+   ; .db #10
+   ; .db #0
+   ; .db #0                                  ; anim. counter
+   ; .dw #enemy_no_shoot                               ; input_behaviour
+   ; .db #0x00                                 ; e_ai_aim_x
+   ; .db #0x00                                 ; e_ai_aim_y
+   ; .db #0                                    ; e_ai_aux_l
+   ; .db #0                                    ; e_ai_aux_h
+   ; .dw #0                                    ; patrol_step
 
 t_enemy_seeknpatrol:
    .db #e_type_enemy                                 ; type
@@ -368,91 +392,6 @@ t_enemy_patrol_game_zone_i:
    .dw #patrol_all_game_zone_0m_i                                    ; patrol_step
 
 ;=====================================================================
-; SPAWNER
-;=====================================================================
-
-; es como un enemy raealmente
-; template porque genera entidades de un template !!
-t_spawner_from_template_01:
-   .db #e_type_spawner
-   .db #0x0b                                 ; cmp
-   .db #0                                    ; x
-   .db #0                                    ; y
-   .db #6                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_ovni_portal_0                      ; sprite
-   .db #t_spawner_max_hp                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourSpawner_template             ; ai_behaviour
-   .db #0x32                                 ; ai_counter
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #40                                    ; e_ai_aux_l
-   .db #80                                 ; e_ai_aux_h
-   .dw #t_enemy_patrol_relative_02
-
-; 36 18
-; 16 16
-t_spawner_from_template_02:
-   .db #e_type_spawner
-   .db #0x0b                                 ; cmp
-   .db #0                                    ; x
-   .db #0                                    ; y
-   .db #6                                   ; width
-   .db #16                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_ovni_portal_0                      ; sprite
-   .db #t_spawner_max_hp                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourSpawner_template             ; ai_behaviour
-   .db #0x16                                 ; ai_counter
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0                                 ; e_ai_aux_h
-   .dw #t_enemy_patrol_relative_01
-   ; .db #0x00                                 ; e_patrol_step_l
-   ; .db #0x00                                 ; e_patrol_step_h
-
-t_spawner_from_plist_01:
-   .db #e_type_spawner
-   .db #0x0b                                 ; cmp
-   .db #16                                    ; x
-   .db #50                                    ; y
-   .db #6                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_ovni_portal_0                      ; sprite
-   .db #t_spawner_max_hp                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourSpawner_plist             ; ai_behaviour
-   .db #0x16                                 ; ai_counter
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0                                 ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #spawner_plist_01
-   ; .db #0x00                                 ; e_patrol_step_l
-   ; .db #0x00                                 ; e_patrol_step_h
-
-
-;=====================================================================
 ; BULLETS
 ;=====================================================================
 
@@ -509,7 +448,7 @@ t_axe_player2:
 ;; la bullet del enemey
 t_bullet_enemy_sp:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x7B                                 ; cmp
+   .db #0x6B                                 ; cmp
    .db #0x00                                 ; x
    .db #0x00                                 ; y
    .db #02                                 ; width
@@ -560,7 +499,7 @@ t_bullet_enemy_l:
 
 t_bullet_enemy_l_f:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x7B                                 ; cmp
+   .db #0x6B                                 ; cmp
    .db #50
    .db #150
    .db #02                                 ; width
@@ -805,162 +744,60 @@ t_es_09:
 ;=====================================================================
 ; TESTING
 ;=====================================================================
-t_enemy_testing:
-   .db #e_type_enemy                                 ; type
-   .db #0x2b                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_sprite_enemy01                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_beh_follow_player_x
-   .db #t_shoot_timer_enemy_s
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #_sys_ai_beh_shoot_x                              ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #t_follow_timer                                 ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #patrol_x_50_20                            ; e_patrol_step
+; t_enemy_testing:
+;    .db #e_type_enemy                                 ; type
+;    .db #0x2b                                 ; cmp
+;    .db #50                                 ; x
+;    .db #50                                 ; y
+;    .db #4                                   ; width
+;    .db #12                                   ; heigth
+;    .db #0x00                                 ; vx
+;    .db #0x00                                 ; vy
+;    .dw #_sprite_enemy01                      ; sprite
+;    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
+;    .db #0x00                                 ; prev. orientation
+;    .dw #0x0000                               ; prevptr
+;    .dw #_sys_ai_beh_follow_player_x
+;    .db #t_shoot_timer_enemy_s
+;    .dw #0x0                                  ; animator
+;    .db #0x0A                                 ; anim. counter
+;    .dw #_sys_ai_beh_shoot_x                              ; input_behaviour
+;    .db #0x00                                 ; e_ai_aim_x
+;    .db #0x00                                 ; e_ai_aim_y
+;    .db #t_follow_timer                                 ; e_ai_aux_l
+;    .db #0x00                                 ; e_ai_aux_h
+;    .dw #patrol_x_50_20                            ; e_patrol_step
 
-t_enemy_testing2:
-   .db #e_type_enemy                                 ; type
-   .db #0x2b                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_sprite_enemy01                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourPatrol             ; ai_behaviour
-   .db #0x1                                 ; ai_counter
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0x00                                 ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #patrol_x_50_20                            ; e_patrol_step
-
-t_enemy_patrol_relative_01:
-   .db #e_type_enemy                                 ; type
-   .db #0x2b                                 ; cmp
-   .db #100                                    ; x
-   .db #100                                    ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_sprite_enemy01                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
-   .db #1
-   ; .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
-   ; .db #1
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   ;; poner en e_ai_aux mismo valor que position
-   ;; para que funcione patrol relativo
-   .db #45
-   .db #90                                 ; e_ai_aux_h
-   .dw #patrol_relative_03
-   ; .dw #patrol_relative_x_24
 
 ;; simula un escudo !! poner en ai_aux coordenadas iniciales
-t_enemy_patrol_relative_02:
-   .db #e_type_enemy                                 ; type
-   .db #0x2b                                 ; cmp
-   .db #100                                    ; x
-   .db #100                                    ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_sprite_enemy01                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
-   .db #1
-   ; .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
-   ; .db #1
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   ;; poner en e_ai_aux mismo valor que position
-   ;; para que funcione patrol relativo
-   .db #62
-   .db #64                                 ; e_ai_aux_h
-   .dw #patrol_relative_around_01
-
-
-t_enemy_patrol_01:
-   .db #e_type_enemy                                 ; type
-   .db #0x2b                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_sprite_enemy01                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourPatrol; ai_behaviour
-   .db #0x1                                 ; ai_counter
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0x00                                 ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #patrol_02                            ; e_patrol_step
-
-
-;; e_ai_aux_l para decir si dispara en x o en y
-t_enemy_patrol_x_shoot_y:
-   .db #e_type_enemy                                 ; type
-   .db #0x2b                                 ; cmp
-   .db #40                                 ; x
-   .db #40                                 ; y
-   .db #4                                   ; width
-   .db #12                                   ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_sprite_enemy01                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_behaviourPatrol              ; ai_behaviour
-   .db #t_shoot_timer_enemy_s                                 ; ai_counter
-   .dw #0x0                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0x0000                               ; input_behaviour
-   .db #0x00                                 ; e_ai_aim_x
-   .db #0x00                                 ; e_ai_aim_y
-   .db #0x02                                 ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #patrol_03                            ; e_patrol_step
+; t_enemy_patrol_relative_02:
+;    .db #e_type_enemy                                 ; type
+;    .db #0x2b                                 ; cmp
+;    .db #100                                    ; x
+;    .db #100                                    ; y
+;    .db #4                                   ; width
+;    .db #12                                   ; heigth
+;    .db #0x00                                 ; vx
+;    .db #0x00                                 ; vy
+;    .dw #_sprite_enemy01                      ; sprite
+;    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
+;    .db #0x00                                 ; prev. orientation
+;    .dw #0x0000                               ; prevptr
+;    .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
+;    .db #1
+;    ; .dw #_sys_ai_behaviourPatrolRelative        ; ai_behaviour
+;    ; .db #1
+;    .dw #0x0                                  ; animator
+;    .db #0x0A                                 ; anim. counter
+;    .dw #0x0000                               ; input_behaviour
+;    .db #0x00                                 ; e_ai_aim_x
+;    .db #0x00                                 ; e_ai_aim_y
+;    ;; poner en e_ai_aux mismo valor que position
+;    ;; para que funcione patrol relativo
+;    .db #62
+;    .db #64                                 ; e_ai_aux_h
+;    .dw #patrol_relative_around_01
+;
 
 ;====================================================================
 ; Pickable items
@@ -976,25 +813,22 @@ t_item_heart:
    .db #50                                 ; y
    .db #7                                 ; width
    .db #16                                 ; heigth
-   .db #0x00                                 ; vx
+   .db #0                                 ; vx
    .db #0x00                                 ; vy
-   .dw #_heart_item_sprite                      ; sprite
+   .dw #_heart_item_free_sprite                      ; sprite
    .db #0x00                                 ; orientation   
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_beh_item_update                                    ; ai beh
-   .db #20
-   ; .dw #item_pick_heart                                  ; animator
-   .dw #00
-   .db #00                                 ; anim. counter
+   .dw #_sys_ai_beh_item_update
+   .db #item_life_time
+   .dw #item_pick_heart
+   .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
-   .db #8                                 ; e_ai_aim_y
+   .db #9                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
-   ; .dw #0                                    ; e_patrol_step
-   ; .dw #item_pick_heart                                  ; animator
-
+   .dw #0                                    ; e_patrol_step
 
 t_item_heart_free:
    .db #e_type_item                                 ; type
@@ -1012,7 +846,7 @@ t_item_heart_free:
    .dw #_sys_ai_beh_item_update
    .db #item_life_time
    .dw #item_pick_heart
-   .db #entity_blink_time                                 ; anim. counter
+   .db #0                                 ; anim. counter
    .dw #0                                    ; input_behaviour
    .db #0                                 ; e_ai_aim_x
    .db #free_item                                 ; e_ai_aim_y
@@ -1020,7 +854,7 @@ t_item_heart_free:
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
 
-; TODO cambiar el price en release!
+
 t_item_shield:
    .db #e_type_item                                 ; type
    .db #0x21                                 ; cmp
@@ -1041,54 +875,6 @@ t_item_shield:
    .dw #0                                    ; input_behaviour
    .db #i_id_shield                                 ; e_ai_aim_x
    .db #0                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
-
-t_item_skip:
-   .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #7                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_skip_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_skip                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0                                    ; input_behaviour
-   .db #i_id_skip                                 ; e_ai_aim_x
-   .db #10                                 ; e_ai_aim_y
-   .db #0                                    ; e_ai_aux_l
-   .db #0x00                                 ; e_ai_aux_h
-   .dw #0                                    ; e_patrol_step
-
-t_item_skip_to_boss:
-   .db #e_type_item                                 ; type
-   .db #0x21                                 ; cmp
-   .db #50                                 ; x
-   .db #50                                 ; y
-   .db #7                                 ; width
-   .db #16                                 ; heigth
-   .db #0x00                                 ; vx
-   .db #0x00                                 ; vy
-   .dw #_skip_to_boss_item_sprite                      ; sprite
-   .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
-   .db #0x00                                 ; prev. orientation
-   .dw #0x0000                               ; prevptr
-   .dw #0
-   .db #0
-   .dw #item_pick_skip                                  ; animator
-   .db #0x0A                                 ; anim. counter
-   .dw #0                                    ; input_behaviour
-   .db #i_id_skip                                 ; e_ai_aim_x
-   .db #free_item                                 ; e_ai_aim_y
    .db #0                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .dw #0                                    ; e_patrol_step
@@ -1218,3 +1004,31 @@ t_ingame_rotator:
    .db #0                                    ; e_ai_aux_l
    .db #0                                    ; e_ai_aux_h
    .dw #patrol_relative_around_03            ; patrol_step
+
+next_wave_life_time = 51
+t_next_wave_anim:
+   .db #e_type_item                                 ; type
+   .db #0x09                                 ; cmp
+   .db #0                                 ; x
+   .db #50                                 ; y
+   .db #36                                 ; width
+   .db #7                                 ; heigth
+   .db #0                                 ; vx
+   .db #0x00                                 ; vy
+   .dw #_next_wave_sprite                      ; sprite
+   .db #0x00                                 ; orientation   
+   .db #0x00                                 ; prev. orientation
+   .dw #0x0000                               ; prevptr
+   .dw #_sys_ai_beh_item_update
+   .db #next_wave_life_time
+   .dw #0
+   .db #0                                 ; anim. counter
+   .dw #0                                    ; input_behaviour
+   .db #0                                 ; e_ai_aim_x
+   .db #0                                 ; e_ai_aim_y
+   .db #0                                    ; e_ai_aux_l
+   .db #0                                 ; e_ai_aux_h
+   .dw #0                                    ; e_patrol_step
+
+; TODO UPDATE resto items
+

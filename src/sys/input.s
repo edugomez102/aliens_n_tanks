@@ -233,7 +233,4 @@ _sys_input_checkInput:
         pop hl
         jp (hl)
 
-      .globl nextLevel
-      NPressed:
-         call nextLevel
 ret
