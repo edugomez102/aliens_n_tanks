@@ -49,7 +49,7 @@ $(eval $(call IMG2SP, SET_PALETTE_FW  , $(PALETTE)         ))
 $(eval $(call IMG2SP, CONVERT_PALETTE , $(PALETTE), g_palette ))
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/maps  ))
 $(eval $(call IMG2SP, SET_IMG_FORMAT  , zgtiles  ))
-$(eval $(call IMG2SP, CONVERT         , assets/tileset.png , 8, 8, tileset,,))
+# $(eval $(call IMG2SP, CONVERT         , assets/tileset.png , 8, 8, tileset,,))
 
 ## ========== TANQUE Y BALAS ========== 
 $(eval $(call IMG2SP, SET_FOLDER      , src/assets/sprites               ))
@@ -130,7 +130,7 @@ $(eval $(call IMG2SP, CONVERT         , assets/avocado_axe_2.png , 4, 6, avocado
 
 
 ## ========== HUD new ========== 
-$(eval $(call IMG2SP, CONVERT         , assets/next_wave.png , 72, 7, next_wave_sprite,,))
+$(eval $(call IMG2SP, CONVERT         , assets/next_wave.png , 72, 14, next_wave_sprite,,))
 
 
 ## ========== PNG ENTEROS ========== 

@@ -1009,10 +1009,10 @@ next_wave_life_time = 51
 t_next_wave_anim:
    .db #e_type_item                                 ; type
    .db #0x09                                 ; cmp
-   .db #0                                 ; x
-   .db #50                                 ; y
+   .db #22                                 ; x
+   .db #112                                 ; y
    .db #36                                 ; width
-   .db #7                                 ; heigth
+   .db #14                                 ; hee igth
    .db #0                                 ; vx
    .db #0x00                                 ; vy
    .dw #_next_wave_sprite                      ; sprite

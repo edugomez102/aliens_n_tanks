@@ -188,21 +188,21 @@ ret
 ;====================================================================
 _sys_render_renderTileMap:
 
-    ld  hl, #_m_render_tileset  ; Tileset to draw with
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ex de, hl
-    ld  bc, #0x1914             ; Height & Width of screen in bytes
-    ld  de, #0x14               ; Width of the Tilemap in bytes
-    call cpct_etm_setDrawTilemap4x8_ag_asm
-
-    ld  hl, #_m_render_tilemap  ; Tileset to draw with
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
-    ld hl, #0xC000             ; Video mem. to draw tilemap
-    call cpct_etm_drawTilemap4x8_ag_asm
+    ; ld  hl, #_m_reender_tileset  ; Tileset to draw with
+    ; ld e, (hl)
+    ; inc hl
+    ; ld d, (hl)
+    ; ex de, hl
+    ; ld  bc, #0x1914             ; Height & Width of screen in bytes
+    ; ld  de, #0x14               ; Width of the Tilemap in bytes
+    ; call cpct_etm_setDrawTilemap4x8_ag_asm
+    ;
+    ; ld  hl, #_m_render_tilemap  ; Tileset to draw with
+    ; ld e, (hl)
+    ; inc hl
+    ; ld d, (hl)
+    ; ld hl, #0xC000             ; Video mem. to draw tilemap
+    ; call cpct_etm_drawTilemap4x8_ag_asm
 
     ret
 
