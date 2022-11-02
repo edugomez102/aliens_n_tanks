@@ -131,3 +131,6 @@
 
 .globl _next_wave_sprite
 
+.globl _spawn_warn_0
+.globl _spawn_warn_1
+.globl _spawn_warn_2

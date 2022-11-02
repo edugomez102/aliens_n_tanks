@@ -206,6 +206,11 @@ call _man_entityInit
 call man_wave_init
 call _man_game_loadLevel
 ; call _sys_render_renderTileMap
+
+ld hl, #_screenvictory_end
+ld de, #0xFFFF
+call cpct_zx7b_decrunch_s_asm
+
 call _m_HUD_renderLifes
 
 ld a, #0x01
