@@ -134,3 +134,6 @@
 .globl _spawn_warn_0
 .globl _spawn_warn_1
 .globl _spawn_warn_2
+
+.globl _points_20
+

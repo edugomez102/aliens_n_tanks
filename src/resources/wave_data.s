@@ -10,6 +10,9 @@ wave_separator = 0xFF
 ; todo posicines randomn a veces
 ; todo spawn warning
 
+; EL TIMER DE EL SIGUEINTE ENEMIGIO TIENE QUE SER SIEMPRE
+; MAYOR QUE EL DEL ANTERIOR
+
 wave_01:
 
    ; ==============================================================================
@@ -45,13 +48,22 @@ wave_01:
    ; ==============================================================================
    ; Wave 2
    ; ==============================================================================
-   .dw 100
+   .dw 80
    .dw #t_enemy_basic_green
    .db 48, 156
    .dw #ia_no_move
    .db 0                                 ; e_ai_aux_l
    .db 0
    .dw #patrol_02
+   .dw #enemy_no_shoot
+
+   .dw 101
+   .dw #t_enemy_basic_green
+   .db 48, 156
+   .dw #ia_no_move
+   .db 0                                 ; e_ai_aux_l
+   .db 0
+   .dw #patrol_03
    .dw #enemy_no_shoot
 
    .dw #0x0000
@@ -77,6 +89,12 @@ wave_01:
    .db #0
    .dw #patrol_06
    .dw #enemy_no_shoot
+
+   .dw 200
+   .dw #t_item_heart
+   .db 55, 171
+   .dw #_sys_ai_beh_item_update
+   ITEM_WAVE_ZEROS
 
    ; ==============================================================================
    ; END GAME
