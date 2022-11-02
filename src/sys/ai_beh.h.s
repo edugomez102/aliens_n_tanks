@@ -70,4 +70,3 @@
 .globl _sys_ai_beh_boss_move
 .globl _sys_ai_beh_boss_shoot
 
-.globl _sys_ai_beh_blink

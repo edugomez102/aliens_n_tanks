@@ -236,8 +236,8 @@ ei
       cpctm_setBorder_asm HW_RED
       call _sys_input_update
 
-      ;cpctm_setBorder_asm HW_GREEN
-      ;;call _sys_animator_update
+      cpctm_setBorder_asm HW_GREEN
+      call _sys_animator_update
 
       cpctm_setBorder_asm HW_WHITE
       call _sys_ai_update
@@ -742,12 +742,19 @@ _man_game_updateGameStatus:
    dontPassLevel:
 ret
 
+; .globl _sys_anim_blink
+
 ;====================================================================
 ; FUNCION _man_game_decreasePlayerLife   
 ; Función encargada de decrementar la vida del jugador
 ; NO llega ningun dato
 ;====================================================================
 _man_game_decreasePlayerLife:
+   GET_PLAYER_ENTITY iy
+
+   ld a, e_animctr(iy)
+   or a
+   ret nz
 
    ld hl, #_m_lifePlayer
    dec (hl)
@@ -763,11 +770,11 @@ _man_game_decreasePlayerLife:
    ; pop hl ;Aqui quitamos lo ultimo de la pila pues no vamos a hacer un ret
    ; jp restartLevel
 
-   ; TODO blink
-   ; GET_PLAYER_ENTITY iy
-   ; ld e_anim1(iy), #1
-   ; ld a, (player_blink_time)
-   ; ld e_anim2(iy), a
+
+   ld e_animctr(iy), #41
+   ld a, e_cmp(iy)
+   add #e_cmp_animated
+   ld e_cmp(iy), a
 
 ret
 

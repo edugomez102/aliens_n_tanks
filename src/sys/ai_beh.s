@@ -687,76 +687,15 @@ _sys_ai_beh_item_update:
    ret
 
    ai_destroy_item:
-      ld hl, #_sys_ai_beh_blink
-      call _sys_ai_changeBevaviour
+      ; ld hl, #_sys_anim_blink
+      ; call _sys_ai_changeBevaviour
+      ; TODO destroy
+
+      ld a, e_cmp(ix)
+      add #e_cmp_animated
+      ld e_cmp(ix), a
 
 ret
-
-.globl render_erase_sprite
-.globl cpct_drawSolidBox_asm
-.globl cpct_getScreenPtr_asm
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; si e_anim1 es 1, se renderiza, sino no
-;; duracion e_anim2
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-_sys_ai_beh_blink:
-   ld__bc_ix
-   dec e_animctr(ix)
-   jr z, destroy_blinking_entity
-
-   ld a, e_animctr(ix)
-
-   ; TODO se podria mejorar pero cuando >?>
-   cp #40
-   jr z, blink_no_render
-   cp #36
-   jr z, blink_reset_render
-
-   cp #32
-   jr z, blink_no_render
-   cp #28
-   jr z, blink_reset_render
-
-   cp #24
-   jr z, blink_no_render
-   cp #20
-   jr z, blink_reset_render
-
-   cp #16
-   jr z, blink_no_render
-   cp #12
-   jr z, blink_reset_render
-
-   cp #8
-   jr z, blink_no_render
-   cp #4
-   jr z, blink_reset_render
-
-   cp #2
-   jr z, blink_no_render
-   cp #0
-   jr z, blink_reset_render
-
-   ret
-
-   blink_reset_render:
-      inc e_cmp(ix)
-      ret
-
-   blink_no_render:
-      dec e_cmp(ix)
-
-      ld c, e_xpos(ix)
-      ld b, e_ypos(ix)
-      call _sys_render_box_on_coord
-      ret
-
-   destroy_blinking_entity:
-      ld__hl_ix
-      ; TODO variable
-      call _m_game_destroyEntity
-
-   ret
 
 ;;--------------------------------------------------------------------------------
 ;; AI INGAME ITEMS

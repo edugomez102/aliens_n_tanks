@@ -110,14 +110,14 @@ t_player:
    .db #0x00                                 ; orientation   0 = Right // 1 = Down // 2 = Left // 3 = Up
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
-   .dw #_sys_ai_beh_blink                               ; ai_behaviour
+   .dw #0000
    .db #0x00                                 ; ai_counter
-   .db #41                                   ; anim1 
-   .db #41                                   ; anim1 
+   .db #0                                   ; anim1 
+   .db #0                                   ; anim1 
    .db #0                                   ; anim. counter
    .dw #0x0000                               ; input_behaviour
    .dw #0x0000                               ; ai_aim_position
-   .db #1                                 ; e_ai_aux_l
+   .db #1                                    ; e_ai_aux_l
    .db #0x00                                 ; e_ai_aux_h
    .db #0x00                                 ; e_patrol_step_l
    .db #0x00                                 ; e_patrol_step_h
@@ -126,7 +126,7 @@ t_player:
 ; h 16 ;16
 t_e_patrol_blue:
    .db #e_type_enemy                         ; type
-   .db #0x3b                                 ; cmp
+   .db #0x2b                                 ; cmp
    .db #0                                    ; x
    .db #0                                    ; y
    .db #3                                   ; width
@@ -487,7 +487,7 @@ t_bullet_enemy_sp:
 
 t_bullet_enemy_l:
    .db #e_type_enemy_bullet                                 ; type
-   .db #0x3B                                 ; cmp
+   .db #0x2B                                 ; cmp
    .db #50
    .db #150
    .db #01                                 ; width

@@ -140,6 +140,10 @@ check_player_collision:
         jr increment_next_entity_player_collision
 
     check_colliding_to_death_player_collision:
+      ; si esta blink jr a increment_next_entity_player_collision
+      ld a, e_animctr(ix)
+      or a
+      jr nz, increment_next_entity_player_collision
 
         call _sys_collisionEntity_check
         jr c, increment_next_entity_player_collision

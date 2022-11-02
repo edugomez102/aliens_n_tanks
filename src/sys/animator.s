@@ -25,6 +25,7 @@
 .include "man/entity.h.s"
 .include "resources/animations.h.s"
 .include "animator.h.s"
+.include "sys/render.h.s"
 
 ;====================================================================
 ; FUNCION _sys_animator_update   
@@ -48,87 +49,74 @@ _sys_animator_update:
 ; HL : Entidad a updatear
 ;====================================================================
 _sys_animator_updateOneEntity:    
-    ;/
-    ;|Comprobamos comprobamos y decrementamos el valor de anim. counter
-    ;\
-    push hl
-    pop ix
-    dec e_animctr(ix)
-    ret NZ
-    push hl
+   push hl
+   pop ix
 
-    ;/
-    ;| Cargamos en DE el valor de la animacion de la entidad en este momento
-    ;\
-    ld d, e_anim2(ix)
-    ld e, e_anim1(ix)
+   call _sys_anim_blink
 
-    ;/
-    ;| Hacemos que DE apunte a la siguiente parte de la animacion
-    ;\
-    inc de
-    inc de
-    inc de
 
-    ;/
-    ;| Guardamos en la entidad la nueva parte de la animacion
-    ;\
-    ld e_anim1(ix), e
-    ld e_anim2(ix), d
+ret
 
-    ex de,hl  ;HL tiene la direccion de la anim
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   _sys_anim_blink:
+      dec e_animctr(ix)
+      jr z, destroy_blinking_entity
 
-    ;/
-    ;| En caso que el valor de la duracion de esta parte de la animacion sea 0,
-    ;| cargaremos de nuevo la animacion en la entidad desde el principio
-    ;\
-    dec (hl)
-    inc (hl)
-    jr NZ, noRepeatAnim
+      ld a, e_animctr(ix)
 
-    ;/
-    ;| HL llega apuntando a la nueva parte de la animacion que sabemos que se acaba.
-    ;| Así que cargamos el inicio de la animacion en la animacion de la entity
-    ;\
-    inc hl
-    ld e, (hl)
-    inc hl
-    ld d, (hl)
+      ; TODO se podria mejorar pero cuando >?>
+      cp #40
+      jr z, blink_no_render_ai
+      cp #36
+      jr z, blink_reset_render_ai
 
-    ld e_anim2(ix),d
-    ld e_anim1(ix),e
+      cp #32
+      jr z, blink_no_render_ai
+      cp #28
+      jr z, blink_reset_render_ai
 
-    ;/
-    ;| Aqui ya está en la Entity asignado el inicio de la anim
-    ;\
-    noRepeatAnim:
-    ;pop hl   ;;Aqui en HL está el inicio de la animacion en la memoria de la entity
+      cp #24
+      jr z, blink_no_render_ai
+      cp #20
+      jr z, blink_reset_render_ai
 
-    ;/
-    ;| Aqui seteamos los valores de la entidad con los 
-    ;| valores de la nueva parte de la animacion
-    ;\    
-    ld h, e_anim2(ix)
-    ld l, e_anim1(ix)
+      cp #16
+      jr z, blink_no_render_ai
+      cp #12
+      jr z, blink_reset_render_ai
 
-    ;/
-    ;| El valor del tiempo
-    ;\    
-    ld a, (hl) ; a = newTIME
-    ld e_animctr(ix),a
+      cp #8
+      jr z, blink_no_render_ai
+      cp #4
+      jr z, blink_reset_render_ai
 
-    ;/
-    ;| El valor del sprite
-    ;\    
-    inc hl
-    ld a,(hl)
-    ld e_sprite1(ix),a
-    inc hl
-    ld a,(hl)
-    ld e_sprite2(ix),a
+      cp #2
+      jr z, blink_no_render_ai
+      cp #0
+      jr z, blink_reset_render_ai
 
-    ;/
-    ;| Devolvemos el valor de Hl del inicio
-    ;\    
-    pop hl
-   ret
+      ret
+
+      blink_reset_render_ai:
+         inc e_cmp(ix)
+         ret
+
+      blink_no_render_ai:
+         dec e_cmp(ix)
+
+         call _sys_render_erasePrevPtr
+         ret
+
+      destroy_blinking_entity:
+
+         ld a, e_cmp(ix)
+         sub #e_cmp_animated
+         add #e_cmp_render
+         ld e_cmp(ix), a
+
+         ; TODO variable
+         ; cae ll _m_game_destroyEntity
+
+      ret

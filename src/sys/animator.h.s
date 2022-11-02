@@ -23,3 +23,5 @@
 .globl _sys_animator_update
 .globl _sys_animator_updateOneEntity
 
+.globl _sys_anim_blink
+
