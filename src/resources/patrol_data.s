@@ -188,7 +188,7 @@ patrol_boss:
    .db  25, 88
 
    .db  4, 48
-   .db  68, 48
+   .db  62, 48
 
    .db  33, 88
    .db  41, 88
@@ -197,7 +197,7 @@ patrol_boss:
    ; .db  4, 48
    ; .db  66, 48
 
-   .db  66, 168
+   .db  60, 168
 
    .db  66, 170
    .db  4, 170
@@ -207,7 +207,7 @@ patrol_boss:
    .dw #patrol_boss_2
 
 patrol_boss_2:
-   .db  66, 48
+   .db  60, 48
    .db  4, 48
 
    .db  25, 88
@@ -218,7 +218,7 @@ patrol_boss_2:
    .db  4, 168
    .db  6, 88
 
-   .db  66, 48
+   .db  60, 48
    .db  4, 48
 
    .db  25, 88
@@ -226,7 +226,7 @@ patrol_boss_2:
    .db  33, 88
 
    .db  44, 48
-   .db  68, 48
+   .db  62, 48
    .db  4, 48
 
    .db #patrol_invalid_move
@@ -236,25 +236,25 @@ patrol_boss_3:
    .db  4, 48
 
    .db  4, 56
-   .db  64, 56
+   .db  62, 56
 
-   .db  64, 64
+   .db  62, 64
    .db  4, 64
 
    .db  4, 72
-   .db  64, 72
+   .db  62, 72
 
-   .db  64, 80
+   .db  62, 80
    .db  4, 80
 
    .db  4, 96
-   .db  64, 96
+   .db  62, 96
 
-   .db  64, 112
+   .db  62, 112
    .db  4, 112
 
    .db  4, 144
-   .db  64, 144
+   .db  62, 144
 
    .db #patrol_invalid_move
    .dw #patrol_boss_3
