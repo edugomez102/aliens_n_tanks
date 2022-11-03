@@ -254,7 +254,7 @@ t_e_letter:
    .db #8                                   ; heigth
    .db #0                                    ; vx
    .db #0                                    ; vy
-   .dw #_a_patrol_red
+   .dw #_a_letter
    .db #0x00                                 ; orientation
    .db #0x00                                 ; prev. orientation
    .dw #0x0000                               ; prevptr
@@ -268,6 +268,7 @@ t_e_letter:
    .db #0                                    ; e_ai_aux_l
    .db #0                                    ; e_ai_aux_h
    .dw #0                                    ; patrol_step
+
 t_e_follow_blue:
    .db #e_type_enemy                         ; type
    .db #0x6b                                 ; cmp
