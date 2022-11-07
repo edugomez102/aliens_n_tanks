@@ -315,6 +315,7 @@ man_wave_prepare_next_entity:
    inc hl
    ld b, (hl)
 
+   ; TODO guardar posicion
    ld de, #0xC000
    call cpct_getScreenPtr_asm
 
@@ -360,16 +361,16 @@ man_wave_spawn_next_entity:
    inc hl
    ld a, (hl)
    ld e_xpos(ix), a
+   ld c, a
 
    inc hl
    ld a, (hl)
    ld e_ypos(ix), a
-   ; ld b, a
+   ld b, a
 
    inc hl
    ld a, (hl)
    ld e_aibeh1(ix), a
-   ; ld c, a
 
    inc hl
    ld a, (hl)
@@ -398,6 +399,10 @@ man_wave_spawn_next_entity:
    inc hl
    ld a, (hl)
    ld e_inputbeh2(ix), a
+
+   push hl
+   call _sys_render_box_on_coord
+   pop hl
 
    inc hl
    call man_wave_set_next_entity_time
